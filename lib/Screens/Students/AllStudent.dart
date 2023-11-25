@@ -1,9 +1,13 @@
-
+import 'dart:convert';
+import 'package:dhuroil/Screens/Students/EditStudent.dart';
+import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
+import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
+import 'package:dhuroil/Screens/Students/StudentProfile.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +35,8 @@ class AllStudents extends StatefulWidget {
 class _AllStudentsState extends State<AllStudents> {
 
 TextEditingController StudentOTPController = TextEditingController();
+
+TextEditingController StudentSendController = TextEditingController();
 
 
 bool loading = false;
@@ -588,7 +594,7 @@ Future<void> getData() async {
                     DataCell(
                     TextButton(onPressed: (){
 
-                              //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShowTeacherAttendance(TeacherEmail: AllData[index]["TeacherEmail"])));
+                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentProfile(StudentEmail: "")));
       
                                       }, child: Text("Profile", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
                                        
@@ -607,18 +613,574 @@ Future<void> getData() async {
                                   // your logic
                                 },
                                 itemBuilder: (BuildContext bc) {
-                                  return const [
+                                  return [
                                     PopupMenuItem(
                                       child: Text("Change Class"),
                                       value: '/hello',
-                                    ),
+                                      onTap: () {
+
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                    String SelectedClass ="";
+                    String SelectedDepartment ="";
+
+
+
+                      return StatefulBuilder(
+                      builder: (context, setState) {
+                        return AlertDialog(
+                        title: Text("Are You Sure? You Want to Change The Class."),
+                        content:  Container(
+                                              height: 170,
+                                              child: Column(
+                                                children: [
+
+
+                                                  DropdownButton(
+                                                  
+                                                                    
+                                                  
+                                                    hint:  SelectedClass == ""
+                                                        ? Text('Class')
+                                                        : Text(
+                                                          SelectedClass,
+                                                            style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                                          ),
+                                                    isExpanded: true,
+                                                    iconSize: 30.0,
+                                                    style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                                    items: ["0",'1', '2', '3', "4","5","6","7","8", "9","10", "ssc"].map(
+                                                      (val) {
+                                                        return DropdownMenuItem<String>(
+                                                          value: val,
+                                                          child: Text(val),
+                                                        );
+                                                      },
+                                                    ).toList(),
+                                                    onChanged: (val) {
+                                                      setState(
+                                                        () {
+                                                          SelectedClass = val!;
+
+                                                          print(val);
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
+
+
+
+                                            
+                                            SizedBox(height: 20,),
+
+
+
+
+                                              SelectedClass=="9"||SelectedClass=="10"||SelectedClass=="ssc"? DropdownButton(
+                                                  
+                                                                    
+                                                  
+                                                    hint:  SelectedDepartment == ""
+                                                        ? Text('Department')
+                                                        : Text(
+                                                          SelectedDepartment,
+                                                            style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                                          ),
+                                                    isExpanded: true,
+                                                    iconSize: 30.0,
+                                                    style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                                    items: ["বিজ্ঞান",'মানবিক', 'ব্যবসা',].map(
+                                                      (val) {
+                                                        return DropdownMenuItem<String>(
+                                                          value: val,
+                                                          child: Text(val),
+                                                        );
+                                                      },
+                                                    ).toList(),
+                                                    onChanged: (val) {
+                                                      setState(
+                                                        () {
+                                                          SelectedDepartment = val!;
+
+                                                          print(val);
+                                                        },
+                                                      );
+                                                    },
+                                                  ):Text(""),
+
+
+
+
+
+                                                ],
+                                              ),
+                                            ),
+
+
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("Cancel"),
+                          ),
+
+
+                        SelectedClass==""? Text(""):  TextButton(
+                            onPressed: () async{
+
+
+                    //           var updateData ={
+
+                    //                               "Category":SelectedClass.toString().toLowerCase()
+
+                    //                             };
+
+
+                    // final StudentInfo =
+                    //   FirebaseFirestore.instance.collection('StudentInfo').doc(AllData[index]["StudentEmail"]);
+
+                                                
+                    //                         StudentInfo.update(updateData).then((value) => setState((){
+
+                                        
+                    //                     getData();
+
+
+                    //                     Navigator.pop(context);
+
+
+
+
+
+                    //                             final snackBar = SnackBar(
+                                  
+                    //                   elevation: 0,
+                    //                   behavior: SnackBarBehavior.floating,
+                    //                   backgroundColor: Colors.transparent,
+                    //                   content: AwesomeSnackbarContent(
+                    //                     title: 'Successfull',
+                    //                     message:
+                    //                         'Hey Thank You. Good Job',
+                          
+                    //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                    //                     contentType: ContentType.success,
+                    //                   ),
+                    //                 );
+                          
+                    //                 ScaffoldMessenger.of(context)
+                    //                   ..hideCurrentSnackBar()
+                    //                   ..showSnackBar(snackBar);
+
+                                
+
+
+                                
+                            
+
+
+
+                    //                       setState(() {
+                    //                           loading = false;
+                    //                         });
+
+
+
+
+
+                    //                         })).onError((error, stackTrace) => setState((){
+
+
+
+
+                    //                             final snackBar = SnackBar(
+                    //                   /// need to set following properties for best effect of awesome_snackbar_content
+                    //                   elevation: 0,
+                    //                   behavior: SnackBarBehavior.floating,
+                    //                   backgroundColor: Colors.transparent,
+                    //                   content: AwesomeSnackbarContent(
+                    //                     title: 'Something Wrong!!!!',
+                    //                     message:
+                    //                         'Try again later...',
+                          
+                    //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                    //                     contentType: ContentType.failure,
+                    //                   ),
+                    //                 );
+                          
+                    //                 ScaffoldMessenger.of(context)
+                    //                   ..hideCurrentSnackBar()
+                    //                   ..showSnackBar(snackBar);
+
+
+
+
+
+
+                    //                 setState(() {
+                    //                           loading = false;
+                    //                         });
+
+
+                    //                         }));
+                        
+                            },
+                            child: Text("Change"),
+                          ),
+                          ],
+                        );
+                      },
+                    );
+                    },
+                  );
+                                        
+                    },
+                     ),
+
+
+
+
                                     PopupMenuItem(
                                       child: Text("Set Old"),
                                       value: '/about',
-                                    ),
+
+                                      onTap: () async{
+
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                    String SelectedStudentStatus ="";
+                    
+
+
+
+                      return StatefulBuilder(
+                      builder: (context, setState) {
+                        return AlertDialog(
+                        title: Text("Are You Sure? You Want to Change The Student Status."),
+                        content:  Container(
+                                              height: 70,
+                                              child: Column(
+                                                children: [
+
+
+                                                  DropdownButton(
+                                                  
+                                                                    
+                                                  
+                                                    hint:  SelectedStudentStatus == ""
+                                                        ? Text('Change Student Status')
+                                                        : Text(
+                                                          SelectedStudentStatus,
+                                                            style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                                          ),
+                                                    isExpanded: true,
+                                                    iconSize: 30.0,
+                                                    style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                                    items: ["New",'Old'].map(
+                                                      (val) {
+                                                        return DropdownMenuItem<String>(
+                                                          value: val,
+                                                          child: Text(val),
+                                                        );
+                                                      },
+                                                    ).toList(),
+                                                    onChanged: (val) {
+                                                      setState(
+                                                        () {
+                                                          SelectedStudentStatus = val!;
+
+                                                          print(val);
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
+
+
+
+                                            
+                                            SizedBox(height: 20,),
+
+
+
+
+                                            
+
+
+                                                ],
+                                              ),
+                                            ),
+
+
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("Cancel"),
+                          ),
+
+
+                        SelectedStudentStatus==""? Text(""):  TextButton(
+                            onPressed: () async{
+
+
+                    //           var updateData ={
+
+                    //                               "Category":SelectedClass.toString().toLowerCase()
+
+                    //                             };
+
+
+                    // final StudentInfo =
+                    //   FirebaseFirestore.instance.collection('StudentInfo').doc(AllData[index]["StudentEmail"]);
+
+                                                
+                    //                         StudentInfo.update(updateData).then((value) => setState((){
+
+                                        
+                    //                     getData();
+
+
+                    //                     Navigator.pop(context);
+
+
+
+
+
+                    //                             final snackBar = SnackBar(
+                                  
+                    //                   elevation: 0,
+                    //                   behavior: SnackBarBehavior.floating,
+                    //                   backgroundColor: Colors.transparent,
+                    //                   content: AwesomeSnackbarContent(
+                    //                     title: 'Successfull',
+                    //                     message:
+                    //                         'Hey Thank You. Good Job',
+                          
+                    //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                    //                     contentType: ContentType.success,
+                    //                   ),
+                    //                 );
+                          
+                    //                 ScaffoldMessenger.of(context)
+                    //                   ..hideCurrentSnackBar()
+                    //                   ..showSnackBar(snackBar);
+
+                                
+
+
+                                
+                            
+
+
+
+                    //                       setState(() {
+                    //                           loading = false;
+                    //                         });
+
+
+
+
+
+                    //                         })).onError((error, stackTrace) => setState((){
+
+
+
+
+                    //                             final snackBar = SnackBar(
+                    //                   /// need to set following properties for best effect of awesome_snackbar_content
+                    //                   elevation: 0,
+                    //                   behavior: SnackBarBehavior.floating,
+                    //                   backgroundColor: Colors.transparent,
+                    //                   content: AwesomeSnackbarContent(
+                    //                     title: 'Something Wrong!!!!',
+                    //                     message:
+                    //                         'Try again later...',
+                          
+                    //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                    //                     contentType: ContentType.failure,
+                    //                   ),
+                    //                 );
+                          
+                    //                 ScaffoldMessenger.of(context)
+                    //                   ..hideCurrentSnackBar()
+                    //                   ..showSnackBar(snackBar);
+
+
+
+
+
+
+                    //                 setState(() {
+                    //                           loading = false;
+                    //                         });
+
+
+                    //                         }));
+                        
+                            },
+                            child: Text("Change"),
+                          ),
+                          ],
+                        );
+                      },
+                    );
+                    },
+                  );
+                                        
+                   },
+
+            ),
+
+
+
+
                                     PopupMenuItem(
                                       child: Text("Send SMS"),
                                       value: '/contact',
+                                      onTap: () {
+
+                                        showDialog(
+                    context: context,
+                    builder: (context) {
+                    String SelectedStudentStatus ="";
+                    
+
+
+
+                      return StatefulBuilder(
+                      builder: (context, setState) {
+                        return AlertDialog(
+                        title: Text("Send SMS"),
+                        content:  Container(
+                                              height: 200,
+                                              child: Column(
+                                                children: [
+
+
+
+                   TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Enter Message',
+                           labelStyle: TextStyle(
+              color: myFocusNode.hasFocus ? Theme.of(context).primaryColor: Colors.black
+                  ),
+                          hintText: 'Enter Your Message',
+                          //  enabledBorder: OutlineInputBorder(
+                          //     borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //   ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                            ),
+                          
+                          
+                          ),
+                      controller: StudentSendController,
+                    ),
+            
+                    SizedBox(
+                      height: 10,
+                    ),
+            
+            
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(width: 150, child:TextButton(onPressed: () async{
+
+
+                            setState(() {
+                              loading = true;
+                            });
+
+
+                            String StudentPhoneNumber="";
+
+
+
+
+                          Future SendSMSToCustomer(context, msg) async {
+
+
+                            final response = await http
+                                .get(Uri.parse('https://api.greenweb.com.bd/api.php?token=1024519252916991043295858a1b3ac3cb09ae52385b1489dff95&to=${StudentPhoneNumber}&message=${msg}'));
+
+                                    Navigator.pop(context);
+
+                            if (response.statusCode == 200) {
+                              // If the server did return a 200 OK response,
+                              // then parse the JSON.
+                              print(jsonDecode(response.body));
+                              setState(() {
+                                // msgSend = "success";
+                                loading = false;
+                              });
+                            
+                            } else {
+
+                               setState(() {
+                                // msgSend = "fail";
+                                loading = false;
+                              });
+                              // If the server did not return a 200 OK response,
+                              // then throw an exception.
+                              throw Exception('Failed to load album');
+                            }
+                          }
+
+
+                          SendSMSToCustomer(context,StudentSendController.text);
+
+
+
+                        }, child: Text("Send", style: TextStyle(color: Colors.white),), style: ButtonStyle(
+                         
+                backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
+              ),),),
+
+
+
+                    
+
+
+
+
+                      ],
+                    )
+            
+            
+                                                ],
+                                              ),
+                                            ),
+
+
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("Cancel"),
+                          ),
+
+
+                          
+
+
+
+                          ],
+                        );
+                      },
+                    );
+                    },
+                  );
+                                        
+                                      },
+
+
+
                                     ),
 
                                     PopupMenuItem(
@@ -634,11 +1196,18 @@ Future<void> getData() async {
                                     PopupMenuItem(
                                       child: Text("Exam Fee History"),
                                       value: '/contact',
+                                      onTap: () {
+              
+                              Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => ExamFeeHistory(StudentEmail: "")),
+                                    );
+                                      },
                                     ),
 
                                     PopupMenuItem(
                                       child: Text("Monthly Fee History"),
                                       value: '/contact',
+
                                     ),
 
                                     PopupMenuItem(
@@ -654,6 +1223,12 @@ Future<void> getData() async {
                                     PopupMenuItem(
                                       child: Text("Edit"),
                                       value: '/contact',
+                                      onTap: () {
+              
+                              Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => EditStudent(Religion: "", Department: "", FatherName: "", FatherPhoneNo: "", MotherName: "", ClassName: "", StudentAddress: "", StudentBirthCertificateNo: "", StudentDateOfBirth: "", StudentNID: "", StudentName: "", StudentEmail: "", SSCResult: "", Gender: "", JSCResult: "", PSCResult: "")),
+                                    );
+                                      },
                                     ),
                                   ];
                                 },

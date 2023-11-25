@@ -47,6 +47,9 @@ dependencies:
   firebase_core: ^2.17.0
   cloud_firestore: ^4.9.3
   data_table_2: ^2.5.9
+  image_picker: ^1.0.4
+  lottie: ^2.7.0
+  flutter_native_splash: ^2.3.6
 
 dev_dependencies:
   flutter_test:
