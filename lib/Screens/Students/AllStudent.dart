@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dhuroil/Screens/Students/CreateNewExamResult.dart';
 import 'package:dhuroil/Screens/Students/EditStudent.dart';
 import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
 import 'package:http/http.dart' as http;
@@ -34,7 +35,7 @@ class AllStudents extends StatefulWidget {
 
 class _AllStudentsState extends State<AllStudents> {
 
-TextEditingController StudentOTPController = TextEditingController();
+TextEditingController StudentRollNumberController = TextEditingController();
 
 TextEditingController StudentSendController = TextEditingController();
 
@@ -44,18 +45,26 @@ bool loading = false;
 var DataLoad = "";
 
 
+ String SelectedYear ="Select Year";
+//  String SelectedDate ="Select Exam Year";
+
+
 
 
 
     final List<String> items = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-    'Item5',
-    'Item6',
-    'Item7',
-    'Item8',
+    "0",
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    "9",
+    "10",
+    "ssc"
   ];
   String? selectedValue;
 
@@ -312,187 +321,288 @@ Future<void> getData() async {
        
         iconTheme: IconThemeData(color: Color.fromRGBO(92, 107, 192, 1)),
         leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.chevron_left)),
-        title: Row(
-
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-          children: [
-
+        title: Container(
+          width: MediaQuery.of(context).size.width*0.75,
+          child: Row(
         
-        Text("All Students"),
-
-
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
         
-        Container(
-          width: 200,
-          child: TextField(
-                    
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Enter Roll No',
-              
-                        hintText: 'Enter Roll No',
-                
-                        //  enabledBorder: OutlineInputBorder(
-                        //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                        //     ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                            ),
-                        
-                        
-                        ),
-                    controller: StudentOTPController,
-                  ),
-        ),
-
-
-
-        Container(
-          width: 200,
-          child: TextField(
-                    
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Enter Phone No',
-              
-                        hintText: 'Enter Phone No',
-                
-                        //  enabledBorder: OutlineInputBorder(
-                        //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                        //     ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                            ),
-                        
-                        
-                        ),
-                    controller: StudentOTPController,
-                  ),
-        ),
-
-
-
-        DropdownButtonHideUnderline(
-        child: DropdownButton2<String>(
-          isExpanded: true,
-          hint: Row(
             children: [
-              Icon(
-                Icons.list,
-                size: 16,
-                color: Colors.white,
-              ),
-              SizedBox(
-                width: 4,
-              ),
-              Expanded(
-                child: Text(
-                  'Select Section',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+        
+          
+          Text("All Students"),
+        
+        
+          
+          Container(
+            width: 200,
+            child: TextField(
+                      onChanged: (value) {
+                        
+                      },
+                      
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Enter Roll No',
+                
+                          hintText: 'Enter Roll No',
+                  
+                          //  enabledBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //     ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                              ),
+                          
+                          
+                          ),
+                      controller: StudentRollNumberController,
+                    ),
+          ),
+        
+        
+        
+          // Container(
+          //   width: 200,
+          //   child: TextField(
+                      
+          //             keyboardType: TextInputType.number,
+          //             decoration: InputDecoration(
+          //                 border: OutlineInputBorder(),
+          //                 labelText: 'Enter Phone No',
+                
+          //                 hintText: 'Enter Phone No',
+                  
+          //                 //  enabledBorder: OutlineInputBorder(
+          //                 //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+          //                 //     ),
+          //                     focusedBorder: OutlineInputBorder(
+          //                       borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+          //                     ),
+          //                     errorBorder: OutlineInputBorder(
+          //                       borderSide: BorderSide(
+          //                           width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+          //                     ),
+                          
+                          
+          //                 ),
+          //             controller: StudentRollNumberController,
+          //           ),
+          // ),
+        
+        
+        
+          DropdownButtonHideUnderline(
+          child: DropdownButton2<String>(
+            isExpanded: true,
+            hint: Row(
+              children: [
+                Icon(
+                  Icons.list,
+                  size: 16,
+                  color: Colors.white,
                 ),
+                SizedBox(
+                  width: 4,
+                ),
+                Expanded(
+                  child: Text(
+                    'Select Class',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+            items: items
+                .map((String item) => DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ))
+                .toList(),
+            value: selectedValue,
+            onChanged: (value) {
+              setState(() {
+                selectedValue = value;
+              });
+            },
+            buttonStyleData: ButtonStyleData(
+              height: 50,
+              width: 160,
+              padding: const EdgeInsets.only(left: 14, right: 14),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: Colors.black26,
+                ),
+                color: ColorName().appColor,
               ),
+              elevation: 2,
+            ),
+            iconStyleData: IconStyleData(
+              icon: Icon(
+                Icons.arrow_forward_ios_outlined,
+              ),
+              iconSize: 14,
+              iconEnabledColor: ColorName().appColor,
+              iconDisabledColor: Colors.grey,
+            ),
+            dropdownStyleData: DropdownStyleData(
+              maxHeight: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                color: ColorName().appColor,
+              ),
+              offset: const Offset(-20, 0),
+              scrollbarTheme: ScrollbarThemeData(
+                radius: const Radius.circular(40),
+                thickness: MaterialStateProperty.all(6),
+                thumbVisibility: MaterialStateProperty.all(true),
+              ),
+            ),
+            menuItemStyleData: const MenuItemStyleData(
+              height: 40,
+              padding: EdgeInsets.only(left: 14, right: 14),
+            ),
+          ),
+              ),
+        
+        
+        
+        
+
+
+
+
+        
+        
+             Container(
+              height: 50,
+              width: 160,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromRGBO(255, 143, 158, 1),
+                    Color.fromRGBO(255, 188, 143, 1),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(25.0),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.2),
+                    spreadRadius: 4,
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
+                  )
+                ]
+              ),
+               child: TextButton(onPressed: (){
+             
+                                  showDatePicker(
+                                    context: context,
+                                    
+                                    initialDatePickerMode: DatePickerMode.year,
+                                    initialDate: DateTime(2000,1,1),
+                                    firstDate: DateTime(2000,1,1),
+                                    lastDate: DateTime(2090,1,1),
+                                  ).then((pickedDate) {
+                                    print(pickedDate);
+
+
+                                    setState(() {
+
+                                      SelectedYear = "Year: ${pickedDate?.year}";
+                                      
+
+                                    });
+
+                                  
+                                  // SelectedDate = "${pickedDate}";
+                                  // SelectedDate = SelectedDate.split(" ")[0];
+
+                                  print(SelectedYear);
+                                  // print(SelectedDate.split(" ")[0]);
+
+
+
+
+                  });
+                   
+                                          }, child: Text("${SelectedYear}", style: TextStyle(color: Colors.white, fontSize: 15),), style: ButtonStyle(
+                                           
+                      backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
+                    ),),
+             ),
+
+
+
+
+
+
+          selectedValue==""||StudentRollNumberController.text.isEmpty || SelectedYear=="Select Year" || SelectedYear=="null"?Text(""):
+          
+          
+          Container(
+              height: 50,
+              width: 100,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromRGBO(255, 143, 158, 1),
+                    Color.fromRGBO(255, 188, 143, 1),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(25.0),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.2),
+                    spreadRadius: 4,
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
+                  )
+                ]
+              ),
+               child: TextButton(onPressed: (){
+             
+                             
+                   
+                                          }, child: Text("Search", style: TextStyle(color: Colors.white, fontSize: 15),), style: ButtonStyle(
+                                           
+                      backgroundColor: MaterialStatePropertyAll<Color>(Colors.pink.shade300),
+                    ),),
+             ),
+
+             
+        
+          
             ],
           ),
-          items: items
-              .map((String item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ))
-              .toList(),
-          value: selectedValue,
-          onChanged: (value) {
-            setState(() {
-              selectedValue = value;
-            });
-          },
-          buttonStyleData: ButtonStyleData(
-            height: 50,
-            width: 160,
-            padding: const EdgeInsets.only(left: 14, right: 14),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: Colors.black26,
-              ),
-              color: ColorName().appColor,
-            ),
-            elevation: 2,
-          ),
-          iconStyleData: IconStyleData(
-            icon: Icon(
-              Icons.arrow_forward_ios_outlined,
-            ),
-            iconSize: 14,
-            iconEnabledColor: ColorName().appColor,
-            iconDisabledColor: Colors.grey,
-          ),
-          dropdownStyleData: DropdownStyleData(
-            maxHeight: 200,
-            width: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              color: ColorName().appColor,
-            ),
-            offset: const Offset(-20, 0),
-            scrollbarTheme: ScrollbarThemeData(
-              radius: const Radius.circular(40),
-              thickness: MaterialStateProperty.all(6),
-              thumbVisibility: MaterialStateProperty.all(true),
-            ),
-          ),
-          menuItemStyleData: const MenuItemStyleData(
-            height: 40,
-            padding: EdgeInsets.only(left: 14, right: 14),
-          ),
-        ),
-      ),
-
-
-
-           TextButton(onPressed: (){
-
-                              showDatePicker(
-                                context: context,
-                                
-                                initialDatePickerMode: DatePickerMode.year,
-                                initialDate: DateTime(2000,1,1),
-                                firstDate: DateTime(2000,1,1),
-                                lastDate: DateTime(2040,1,1),
-                              ).then((pickedDate) {
-                                print(pickedDate);
-              });
-      
-                                      }, child: Text("Select Year", style: TextStyle(color: Colors.white, fontSize: 15),), style: ButtonStyle(
-                                       
-                  backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
-                ),),
-
-        
-          ],
         ),
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
@@ -1184,8 +1294,16 @@ Future<void> getData() async {
                                     ),
 
                                     PopupMenuItem(
-                                      child: Text("Result Add"),
+                                      child: Text("Create Exam Result"),
                                       value: '/contact',
+                                       onTap: () {
+              
+                              Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => CreateNewExamResult(RollNumber: "2424", StudentClassName: "2424", StudentEmail: "2424", StudentName: "2424", StudentPhoneNumber: "2424", FatherPhoneNo: "2424")),
+
+                                    );
+                                      },
+
                                     ),
 
                                     PopupMenuItem(
@@ -1202,6 +1320,8 @@ Future<void> getData() async {
                                             MaterialPageRoute(builder: (context) => ExamFeeHistory(StudentEmail: "")),
                                     );
                                       },
+
+
                                     ),
 
                                     PopupMenuItem(

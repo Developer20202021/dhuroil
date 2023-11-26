@@ -50,6 +50,7 @@ dependencies:
   image_picker: ^1.0.4
   lottie: ^2.7.0
   flutter_native_splash: ^2.3.6
+  uuid: ^4.2.1
 
 dev_dependencies:
   flutter_test:
