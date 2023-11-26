@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dhuroil/Screens/Students/AllExamResult.dart';
 import 'package:dhuroil/Screens/Students/CreateNewExamResult.dart';
 import 'package:dhuroil/Screens/Students/EditStudent.dart';
 import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
@@ -1309,6 +1310,19 @@ Future<void> getData() async {
                                     PopupMenuItem(
                                       child: Text("All Results"),
                                       value: '/contact',
+                                      onTap: () {
+              
+                              Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => AllExamResult(RollNumber: "", StudentClassName: "7", StudentEmail: "", StudentName: "", StudentPhoneNumber: "", FatherPhoneNo: "")),
+
+                                    );
+                                      },
+
+
+
+
+
+
                                     ),
 
                                     PopupMenuItem(

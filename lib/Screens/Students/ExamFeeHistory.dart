@@ -207,9 +207,3 @@ Future<void> getData(String StudentEmail) async {
   }
 }
 
-
-
-
-
-
-    

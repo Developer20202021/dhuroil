@@ -362,7 +362,7 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                           
                           
                           
-                        SizedBox(
+                     SizedBox(
                       height: 10,
                     ),
                           
