@@ -1,9 +1,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
-import 'package:dhuroil/Screens/Students/CourseFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/EditStudent.dart';
 import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
+import 'package:dhuroil/Screens/Students/MonthlyFeeHistory.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -902,7 +902,7 @@ Future<void> getSaleData() async {
                           Container(width: 150, child:TextButton(onPressed: (){
       
       
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => CourseFeeHistory(StudentEmail: widget.StudentEmail)));
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MonthlyFeeHistory(StudentEmail: widget.StudentEmail)));
       
       
                            
@@ -911,7 +911,7 @@ Future<void> getSaleData() async {
       
       
       
-                          }, child: Text("Course Fee", style: TextStyle(color: Colors.white),), style: ButtonStyle(
+                          }, child: Text("Monthly Fee", style: TextStyle(color: Colors.white),), style: ButtonStyle(
                            
                   backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
                 ),),),

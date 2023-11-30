@@ -51,6 +51,8 @@ dependencies:
   lottie: ^2.7.0
   flutter_native_splash: ^2.3.6
   uuid: ^4.2.1
+  pdf: ^3.10.6
+  printing: ^5.11.1
   
 
 dev_dependencies:

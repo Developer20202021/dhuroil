@@ -293,8 +293,7 @@ void ChangeClassName(){
                   Tooltip(
                     message: "যে Subject এর Marks যুক্ত করতে চান তা Select করুন",
 
-                     padding: EdgeInsets.all(20),
-                      margin: EdgeInsets.all(20),
+                     
                       
                       decoration: BoxDecoration(
                         color: Colors.pink.withOpacity(0.9),
@@ -351,7 +350,7 @@ void ChangeClassName(){
                           
                           
                      SizedBox(
-                      height: 20,
+                      height: 30,
                     ),
 
 
@@ -360,16 +359,13 @@ void ChangeClassName(){
                   Tooltip(
                      message: "Written Marks/CQ Marks যুক্ত করুন",
 
-                     padding: EdgeInsets.all(20),
-                      margin: EdgeInsets.all(20),
-                      
                       decoration: BoxDecoration(
                         color: Colors.pink.withOpacity(0.9),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                       ),
                       textStyle: TextStyle(color: Colors.white),
                       preferBelow: true,
-                      verticalOffset: 20,
+                      verticalOffset: 30,
                     child: Container(
                       width: 300,
                       child: TextField(
@@ -403,7 +399,7 @@ void ChangeClassName(){
                           
                           
                      SizedBox(
-                      height: 20,
+                      height: 30,
                     ),
 
 
@@ -411,45 +407,57 @@ void ChangeClassName(){
 
 
 
-                                                  Container(
-                                                    height: 70,
-                                                    width: 300,
-                                                    child: DropdownButton(
+                          Tooltip(
+                          message: "এই Subject এর MCQ আছে? যদি থাকে তবে Yes Click করুন। যদি না থাকে তবে No Click করুন।",
+
+                      decoration: BoxDecoration(
+                        color: Colors.pink.withOpacity(0.9),
+                        borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      ),
+                      textStyle: TextStyle(color: Colors.white),
+                      preferBelow: true,
+                      verticalOffset: 20,
+
+                                                    child: Container(
+                                                      height: 70,
+                                                      width: 300,
+                                                      child: DropdownButton(
+                                                      
+                                                                        
+                                                      
+                                                        hint:  SelectedMCQAvailable == ""
+                                                            ? Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Text('MCQ Available'),
+                                                            )
+                                                            : Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Text(
+                                                                SelectedMCQAvailable,
+                                                                  style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                                                ),
+                                                            ),
+                                                        isExpanded: true,
+                                                        iconSize: 30.0,
+                                                        style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                                        items: ["Yes",'No'].map(
+                                                          (val) {
+                                                            return DropdownMenuItem<String>(
+                                                              value: val,
+                                                              child: Text(val),
+                                                            );
+                                                          },
+                                                        ).toList(),
+                                                        onChanged: (val) {
+                                                          setState(
+                                                            () {
+                                                              SelectedMCQAvailable = val!;
                                                     
-                                                                      
-                                                    
-                                                      hint:  SelectedMCQAvailable == ""
-                                                          ? Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: Text('MCQ Available'),
-                                                          )
-                                                          : Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: Text(
-                                                              SelectedMCQAvailable,
-                                                                style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                                              ),
-                                                          ),
-                                                      isExpanded: true,
-                                                      iconSize: 30.0,
-                                                      style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                                      items: ["Yes",'No'].map(
-                                                        (val) {
-                                                          return DropdownMenuItem<String>(
-                                                            value: val,
-                                                            child: Text(val),
+                                                              print(val);
+                                                            },
                                                           );
                                                         },
-                                                      ).toList(),
-                                                      onChanged: (val) {
-                                                        setState(
-                                                          () {
-                                                            SelectedMCQAvailable = val!;
-                                                  
-                                                            print(val);
-                                                          },
-                                                        );
-                                                      },
+                                                      ),
                                                     ),
                                                   ),
 
@@ -495,47 +503,62 @@ void ChangeClassName(){
 
 
 
-                  Container(
-                               height: 70,
-                               width: 300,
-                               child: DropdownButton(
-                                                    
-                                                                      
-                                                    
-                               hint:  SelectedPracticalAvailable == ""
-                                ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('Practical Available'),
-                                )
-                                 : Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: Text(
-                                     SelectedPracticalAvailable,
-                                           style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                               ),
-                                 ),
-                                         isExpanded: true,
-                                            iconSize: 30.0,
+                  Tooltip(
+
+                  message: "এই Subject এর Practical Marks আছে? যদি থাকে তবে Yes Click করুন। যদি না থাকে তবে No Click করুন।",
+
+                      decoration: BoxDecoration(
+                        color: Colors.pink.withOpacity(0.9),
+                        borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      ),
+                      textStyle: TextStyle(color: Colors.white),
+                      preferBelow: true,
+                      verticalOffset: 20,
+
+
+
+                    child: Container(
+                                 height: 70,
+                                 width: 300,
+                                 child: DropdownButton(
+                                                      
+                                                                        
+                                                      
+                                 hint:  SelectedPracticalAvailable == ""
+                                  ? Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text('Practical Available'),
+                                  )
+                                   : Padding(
+                                     padding: const EdgeInsets.all(8.0),
+                                     child: Text(
+                                       SelectedPracticalAvailable,
                                              style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                                      items: ["Yes",'No'].map(
-                                                        (val) {
-                                                          return DropdownMenuItem<String>(
-                                                            value: val,
-                                                            child: Text(val),
+                                                 ),
+                                   ),
+                                           isExpanded: true,
+                                              iconSize: 30.0,
+                                               style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                                        items: ["Yes",'No'].map(
+                                                          (val) {
+                                                            return DropdownMenuItem<String>(
+                                                              value: val,
+                                                              child: Text(val),
+                                                            );
+                                                          },
+                                                        ).toList(),
+                                                        onChanged: (val) {
+                                                          setState(
+                                                            () {
+                                                              SelectedPracticalAvailable = val!;
+                                                    
+                                                              print(val);
+                                                            },
                                                           );
                                                         },
-                                                      ).toList(),
-                                                      onChanged: (val) {
-                                                        setState(
-                                                          () {
-                                                            SelectedPracticalAvailable = val!;
-                                                  
-                                                            print(val);
-                                                          },
-                                                        );
-                                                      },
+                                                      ),
                                                     ),
-                                                  ),
+                  ),
 
 
 

@@ -1,5 +1,6 @@
 import 'package:dhuroil/Screens/HomePage.dart';
 import 'package:dhuroil/Screens/Students/AllStudent.dart';
+import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
 import 'package:dhuroil/Screens/Teachers/AllTeachers.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,14 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+
+// AllStudents(indexNumber: "1")
+
+
+
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});

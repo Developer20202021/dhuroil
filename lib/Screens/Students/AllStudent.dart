@@ -3,6 +3,9 @@ import 'package:dhuroil/Screens/Students/AllExamResult.dart';
 import 'package:dhuroil/Screens/Students/CreateNewExamResult.dart';
 import 'package:dhuroil/Screens/Students/EditStudent.dart';
 import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
+import 'package:dhuroil/Screens/Students/MonthlyFeeHistory.dart';
+import 'package:dhuroil/Screens/Students/OtherFeeHistory.dart';
+import 'package:dhuroil/Screens/Students/Pay/AllPay.dart';
 import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
@@ -1341,17 +1344,40 @@ Future<void> getData() async {
                                     PopupMenuItem(
                                       child: Text("Monthly Fee History"),
                                       value: '/contact',
+                                      onTap: () {
+              
+                              Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => MonthlyFeeHistory(StudentEmail: "")),
+                                    );
+                                      },
 
                                     ),
 
                                     PopupMenuItem(
                                       child: Text("Other Fee History"),
                                       value: '/contact',
+                                      onTap: () {
+              
+                              Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => OtherFeeHistory(StudentEmail: "")),
+                                    );
+                                      },
+
+
                                     ),
 
                                     PopupMenuItem(
                                       child: Text("Pay"),
                                       value: '/contact',
+                                       onTap: () {
+              
+                              Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => AllPay(StudentDueAmount: "10", StudentEmail: "", StudentName: "", StudentPhoneNumber: "", FatherPhoneNo: "", StudentIDNo: "")),
+                                    );
+                                      },
+
+
+
                                     ),
 
                                     PopupMenuItem(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 
-class ExamFeeHistory extends StatefulWidget {
+class OtherFeeHistory extends StatefulWidget {
 
   
 
@@ -13,13 +13,13 @@ class ExamFeeHistory extends StatefulWidget {
 
 
 
-  const ExamFeeHistory({super.key, required this.StudentEmail});
+  const OtherFeeHistory({super.key, required this.StudentEmail});
 
   @override
-  State<ExamFeeHistory> createState() => _ExamFeeHistoryState();
+  State<OtherFeeHistory> createState() => _OtherFeeHistoryState();
 }
 
-class _ExamFeeHistoryState extends State<ExamFeeHistory> {
+class _OtherFeeHistoryState extends State<OtherFeeHistory> {
 
 
   // Firebase All Customer Data Load
@@ -135,7 +135,7 @@ Future<void> getData(String StudentEmail) async {
        
         iconTheme: IconThemeData(color: ColorName().appColor),
         leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.chevron_left)),
-        title: const Text("Exam Fee History", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),),
+        title: const Text("Other Fee History", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),),
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
         elevation: 0.0,
@@ -182,7 +182,8 @@ Future<void> getData(String StudentEmail) async {
                     
                     child: Tooltip(
 
-                      message: "আপনি ${AllData[index]["StudentName"]} এর Exam Fee History দেখছেন।",
+                      message: "আপনি ${AllData[index]["StudentName"]} এর ${AllData[index]["FeeName"]} Fee History দেখছেন।",
+                      
                       decoration: BoxDecoration(
                         color: Colors.pink.withOpacity(0.9),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
@@ -236,4 +237,3 @@ Future<void> getData(String StudentEmail) async {
       ));
   }
 }
-
