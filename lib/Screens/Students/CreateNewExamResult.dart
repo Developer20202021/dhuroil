@@ -27,18 +27,15 @@ import 'package:uuid/uuid.dart';
 class CreateNewExamResult extends StatefulWidget {
 
 
-  final StudentEmail;
-  final StudentPhoneNumber;
-  final StudentName;
+
   final StudentClassName;
-  final RollNumber;
-  final FatherPhoneNo;
 
 
 
 
 
-  const CreateNewExamResult({super.key, required this.RollNumber,required this.StudentClassName ,required this.StudentEmail, required this.StudentName, required this.StudentPhoneNumber, required this.FatherPhoneNo});
+
+  const CreateNewExamResult({super.key,required this.StudentClassName });
 
   @override
   State<CreateNewExamResult> createState() => _CreateNewExamResultState();
@@ -61,7 +58,7 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
   String SelectedExamName ="";
 
   String SelectedYear ="${DateTime.now().year}";
-  String SelectedDate ="Select Exam Year";
+  String SelectedDate ="Select Exam Year and Month";
 
 
 
@@ -86,9 +83,6 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                       final jsonData ={
 
                         "ExamID":ExamID,
-                        "StudentName":widget.StudentName,
-                        "StudentEmail":widget.StudentEmail,
-                        "StudentPhoneNumber":widget.StudentPhoneNumber, 
                         "Date":"${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
                         "month":"${DateTime.now().month}/${DateTime.now().year}",
                         "year":"${DateTime.now().year}",
@@ -101,7 +95,7 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                         "ExamTotalMarks":ExamTotalMarksController.text.trim(),
                         "OtherExamName": SelectedExamName=="Other"?OtherExamNameController.text.trim().toLowerCase():"",
                         "ClassName":widget.StudentClassName,
-                        "RollNumber":widget.RollNumber,
+
                       };
 
 
@@ -297,7 +291,7 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
               ): SingleChildScrollView(
 
         child:  Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(left: 400, right: 400, top: 60),
           child: 
           
           
@@ -321,7 +315,7 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                             ),
                           ],
                         ),
-                    width: MediaQuery.of(context).size.width*0.75,
+                    // width: MediaQuery.of(context).size.width*0.75,
                     
 
 
@@ -332,32 +326,6 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                   children: [
 
                   
-                    TextField(
-                    enabled: false,
-                     keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Phone: ${widget.StudentPhoneNumber}',
-                           labelStyle: TextStyle(
-                      color: myFocusNode.hasFocus ? Color.fromRGBO(92, 107, 192, 1): Colors.black
-                  ),
-                          hintText: 'Enter Student Phone No',
-                  
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                              ),
-                          
-                          
-                          ),
-                      controller: StudentPhoneNumberController,
-                    ),
                           
                           
                           
@@ -377,325 +345,273 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                           
                     
                           
-                    TextField(
-                     enabled: false,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Class: ${widget.StudentClassName}',
-                           labelStyle: TextStyle(
-                      color: myFocusNode.hasFocus ? Color.fromRGBO(92, 107, 192, 1): Colors.black
-                  ),
-                          hintText: 'Class',
-                  
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                              ),
-                          
-                          
-                          ),
-                      controller: FeeNameController,
-                    ),
-                          
-                          
-                          
-                  
-                    SizedBox(
-                      height: 10,
-                    ),
-                          
-                          
-                          
-                          
-                    
-                    TextField(
-                     enabled: false,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Roll No: ${widget.StudentClassName}',
-                           labelStyle: TextStyle(
-                      color: myFocusNode.hasFocus ? Color.fromRGBO(92, 107, 192, 1): Colors.black
-                  ),
-                          hintText: 'Roll No',
-                  
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                              ),
-                          
-                          
-                          ),
-                      controller: FeeNameController,
-                    ),
-                          
-                          
-                          
-                          
-                       SizedBox(
-                      height: 10,
-                    ),
-                          
-                          
-                          
-                          
-                    
-                          
-                    TextField(
-                     enabled: false,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Name: ${widget.StudentName}',
-                           labelStyle: TextStyle(
-                      color: myFocusNode.hasFocus ? Color.fromRGBO(92, 107, 192, 1): Colors.black
-                  ),
-                          hintText: 'Name',
-                  
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                              ),
-                          
-                          
-                          ),
-                      controller: FeeNameController,
-                    ),
-                  
-                  
-                  
-                  
-                    SizedBox(
-                      height: 10,
-                    ),
-
-
-
-
-                    Container(
-                              height: 70,
-                              width: 150,
-                              child: DropdownButton(
-                               
-                                                 
-                               
-                                hint:  SelectedExamName == ""
-                                    ? Text('Exam Name')
-                                    : Text(
-                                       SelectedExamName,
-                                        style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                    Padding(
+                       padding: const EdgeInsets.only(left: 18, right: 18, top: 6),
+                      child: TextField(
+                       enabled: false,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Class: ${widget.StudentClassName}',
+                             labelStyle: TextStyle(
+                        color: myFocusNode.hasFocus ? Color.fromRGBO(92, 107, 192, 1): Colors.black
                                       ),
-                                isExpanded: true,
-                                iconSize: 30.0,
-                                style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                items: ['১ম সাময়িক', '২য় সাময়িক', '৩য় সাময়িক', "অর্ধ-বার্ষিক","বার্ষিক","Other"].map(
-                                  (val) {
-                                    return DropdownMenuItem<String>(
-                                      value: val,
-                                      child: Text(val),
-                                    );
-                                  },
-                                ).toList(),
-                                onChanged: (val) {
-                                  setState(
-                                    () {
-                                       SelectedExamName = val!;
-                                    },
-                                  );
-                                },
-                              ),
+                            hintText: 'Class',
+                                      
+                            //  enabledBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                            //     ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                ),
+                            
+                            
                             ),
-                          
-                          
-                          
-                          
-
-                     SizedBox(
-                      height: 10,
+                        controller: FeeNameController,
+                      ),
                     ),
-
-
-
-
-                  SelectedExamName=="Other"?  TextField(
-                     keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Other Exam Name',
-                           labelStyle: TextStyle(
-                      color: myFocusNode.hasFocus ? Color.fromRGBO(92, 107, 192, 1): Colors.black
-                  ),
-                          hintText: 'Other Exam Name',
-                  
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                              ),
                           
-                          
-                          ),
-                      controller: OtherExamNameController,
-                    ):Text(""),
-                  
-                  
-                  
-                  
-                    SizedBox(
-                      height: 10,
-                    ),  
-
-
-
-                    TextButton(onPressed: (){
-
-                              showDatePicker(
-                                context: context,
-                                
-                                initialDatePickerMode: DatePickerMode.year,
-                                initialDate: DateTime(2000,1,1),
-                                firstDate: DateTime(2000,1,1),
-                                lastDate: DateTime(2090,1,1),
-                              ).then((pickedDate) {
-                                print(pickedDate);
-
-                              
-
-                                setState(() {
-
-                                  SelectedYear = "${pickedDate?.year}";
-                                  SelectedDate = "${pickedDate}";
-                                  SelectedDate = SelectedDate.split(" ")[0];
-
-                                  print(SelectedYear);
-                                  print(SelectedDate.split(" ")[0]);
-
-                                });
-
-
-
-              });
-      
-                                      }, child: Text("${SelectedDate}", style: TextStyle(color: Colors.white, fontSize: 15),), style: ButtonStyle(
-                                       
-                  backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
-                ),),
-
-
-
-                SizedBox(
-                      height: 20,
-                    ),  
                           
                           
                  
                           
                           
                           
-                    TextField(
-                     keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Exam Total Marks',
-                           labelStyle: TextStyle(
-                      color: myFocusNode.hasFocus ? Color.fromRGBO(92, 107, 192, 1): Colors.black
-                  ),
-                          hintText: 'Exam Total Marks',
-                  
-                          //  enabledBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //     ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                              ),
-                          
-                          
-                          ),
-                      controller: ExamTotalMarksController,
-                    ),
-                  
-                  
-                  
-                  
-                    SizedBox(
-                      height: 10,
-                    ),
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(width: 150, child:TextButton(onPressed: () async{
-                          
-                          setState(() {
-                            loading = true;
-                          });
-                          
-                          
-                      FirebaseAuth.instance
-                        .authStateChanges()
-                        .listen((User? user) async{
-                          if (user == null) {
-                          
-                            print('User is currently signed out!');
-                          } else {
-                          
-                          
-                          
-                        CreateExam(ExamID, user.email, user.displayName);
-                          
-                          }
-                          
-                        });
-                          
-                          
-                          
-                          
-                          
-                          
-                        }, child: Text("Create Exam Result", style: TextStyle(color: Colors.white),), style: ButtonStyle(
-                         
-                backgroundColor: MaterialStatePropertyAll<Color>(Color.fromRGBO(92, 107, 192, 1)),
-                      ),),),
-                          
-                          
                           
                     
+                  
+                          
+                          
+                          
+                 
+                          
+                
+                  
+                  
+                  
+                
+
+
+
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18, right: 18, top: 6),
+                      child: Container(
+                                height: 70,
+                                width: 150,
+                                child: DropdownButton(
+                                 
+                                                   
+                                 
+                                  hint:  SelectedExamName == ""
+                                      ? Text('Exam Name')
+                                      : Text(
+                                         SelectedExamName,
+                                          style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                        ),
+                                  isExpanded: true,
+                                  iconSize: 30.0,
+                                  style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+                                  items: ['১ম সাময়িক', '২য় সাময়িক', '৩য় সাময়িক', "অর্ধ-বার্ষিক","বার্ষিক","Other","ক্লাস টেস্ট"].map(
+                                    (val) {
+                                      return DropdownMenuItem<String>(
+                                        value: val,
+                                        child: Text(val),
+                                      );
+                                    },
+                                  ).toList(),
+                                  onChanged: (val) {
+                                    setState(
+                                      () {
+                                         SelectedExamName = val!;
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                    ),
                           
                           
                           
                           
-                      ],
+
+                     SizedBox(
+                      height: 10,
+                    ),
+
+
+
+
+                  SelectedExamName=="Other"?  Padding(
+                    padding: const EdgeInsets.only(left: 18, right: 18, top: 6),
+                    child: TextField(
+                       keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Other Exam Name',
+                             labelStyle: TextStyle(
+                        color: myFocusNode.hasFocus ? Color.fromRGBO(92, 107, 192, 1): Colors.black
+                    ),
+                            hintText: 'Other Exam Name',
+                    
+                            //  enabledBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                            //     ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                ),
+                            
+                            
+                            ),
+                        controller: OtherExamNameController,
+                      ),
+                  ):Text(""),
+                  
+                  
+                  
+                  
+              
+
+
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 18, right: 18),
+                      child: TextButton(onPressed: (){
+                    
+                                showDatePicker(
+                                  context: context,
+                                  
+                                  initialDatePickerMode: DatePickerMode.year,
+                                  initialDate: DateTime(2000,1,1),
+                                  firstDate: DateTime(2000,1,1),
+                                  lastDate: DateTime(2090,1,1),
+                                ).then((pickedDate) {
+                                  print(pickedDate);
+                    
+                                
+                    
+                                  setState(() {
+                    
+                                    SelectedYear = "${pickedDate?.year}";
+                                    SelectedDate = "${pickedDate}";
+                                    SelectedDate = SelectedDate.split(" ")[0];
+                    
+                                    print(SelectedYear);
+                                    print(SelectedDate.split(" ")[0]);
+                    
+                                  });
+                    
+                    
+                    
+                                  });
+                          
+                                        }, child: Text("${SelectedDate}", style: TextStyle(color: Colors.white, fontSize: 15),), style: ButtonStyle(
+                                         
+                                      backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
+                                    ),),
+                    ),
+
+
+ 
+                          
+                          
+                 
+                          
+                          
+                          
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: TextField(
+                       keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Exam Total Marks',
+                             labelStyle: TextStyle(
+                        color: myFocusNode.hasFocus ? Color.fromRGBO(92, 107, 192, 1): Colors.black
+                                      ),
+                            hintText: 'Exam Total Marks',
+                                      
+                            //  enabledBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                            //     ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                ),
+                            
+                            
+                            ),
+                        controller: ExamTotalMarksController,
+                      ),
+                    ),
+                  
+                  
+                  
+          
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(width: 150, child:TextButton(onPressed: () async{
+                            
+                            setState(() {
+                              loading = true;
+                            });
+                            
+                            
+                        FirebaseAuth.instance
+                          .authStateChanges()
+                          .listen((User? user) async{
+                            if (user == null) {
+                            
+                              print('User is currently signed out!');
+                            } else {
+                            
+                            
+                            
+                          CreateExam(ExamID, user.email, user.displayName);
+                            
+                            }
+                            
+                          });
+                            
+                            
+                            
+                            
+                            
+                            
+                          }, child: Text("Create Exam For Result", style: TextStyle(color: Colors.white),), style: ButtonStyle(
+                           
+                                    backgroundColor: MaterialStatePropertyAll<Color>(Color.fromRGBO(92, 107, 192, 1)),
+                        ),),),
+                            
+                            
+                            
+                      
+                            
+                            
+                            
+                            
+                        ],
+                      ),
                     )
                   
                   

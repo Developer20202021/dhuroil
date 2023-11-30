@@ -1,6 +1,8 @@
 import 'package:dhuroil/Screens/HomePage.dart';
 import 'package:dhuroil/Screens/Students/AllStudent.dart';
+import 'package:dhuroil/Screens/Students/AllStudentsHomePage.dart';
 import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
+import 'package:dhuroil/Screens/Students/Pay/CourseFeeInvoice.dart';
 import 'package:dhuroil/Screens/Teachers/AllTeachers.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AllStudents(indexNumber: "1"),
+      home: PdfPreviewPage(CashInDate: "Hello", StudentEmail: "Hello", StudentCashIn: "Hello", StudentIDNo: "Hello", StudentName: "Hello", StudentPhoneNumber: "Hello"),
     );
   }
 }
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
 
 // AllStudents(indexNumber: "1")
 
-
+// PdfPreviewPage(CashInDate: "Hello", StudentEmail: "Hello", StudentCashIn: "Hello", StudentIDNo: "Hello", StudentName: "Hello", StudentPhoneNumber: "Hello")
 
 
 

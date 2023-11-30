@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bijoy_helper/bijoy_helper.dart';
 import 'package:dhuroil/Screens/Students/AllExamResult.dart';
 import 'package:dhuroil/Screens/Students/CreateNewExamResult.dart';
 import 'package:dhuroil/Screens/Students/EditStudent.dart';
@@ -18,7 +19,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
-
+import 'package:universal_html/html.dart' as html;
 
 
 
@@ -48,12 +49,23 @@ bool loading = false;
 
 var DataLoad = "";
 
+bool ExamFeeCollectionSwich = false;
+bool MonthlyFeeCollectionSwitch = false;
+
 
  String SelectedYear ="Select Year";
 //  String SelectedDate ="Select Exam Year";
 
 
 
+
+
+// UniCode to Bijoy Converter
+
+void getUniData(){
+
+  print(unicodeToBijoy("উভয় পাশে ধানের শীষে বেষ্টিত পানিতে ভাসমান জাতীয় ফুল শাপলা। তার মাথায় পাটগাছের পরস্পর সংযুক্ত তিনটি পাতা এবং উভয পাশে দুটি করে তারকা।"));
+}
 
 
     final List<String> items = [
@@ -170,6 +182,7 @@ Future<void> getData() async {
     //   loading = true;
     // });
    
+   getUniData();
     // getData();
     super.initState();
   }
@@ -612,6 +625,116 @@ Future<void> getData() async {
         bottomOpacity: 0.0,
         elevation: 0.0,
         centerTitle: true,
+        actions: [
+          PopupMenuButton(
+          onSelected: (value) {
+            // your logic
+          },
+          itemBuilder: (BuildContext context) {
+            return  [
+
+              PopupMenuItem(
+                onTap: (){
+
+
+                    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllDepartment()));
+
+
+
+
+                },
+                child: ListTile(
+                  title: ExamFeeCollectionSwich? Text("Exam Fee Collection.Now ON"):Text("Exam Fee Collection.Now OFF"),
+                  trailing: Switch(
+                    trackColor: MaterialStateProperty.all(Colors.black38),
+                    activeColor: Colors.green.withOpacity(0.4),
+                    inactiveThumbColor: Colors.red.withOpacity(0.4),
+                    value: ExamFeeCollectionSwich,
+                    onChanged: (value) {
+                
+                      
+                
+                      setState(() {
+                        
+                        ExamFeeCollectionSwich = value;
+                
+                        html.window.location.reload();
+                
+                
+                      });
+                    },
+                  ),
+                ),
+                
+                padding: EdgeInsets.all(18.0),
+              ),
+
+
+
+                 PopupMenuItem(
+                onTap: (){
+
+
+                    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllDepartment()));
+
+
+
+
+                },
+                child: ListTile(
+                  title: MonthlyFeeCollectionSwitch? Text("Monthly Fee Collection.Now ON"):Text("Monthly Fee Collection.Now OFF"),
+                  trailing: Switch(
+                    trackColor: MaterialStateProperty.all(Colors.black38),
+                    activeColor: Colors.green.withOpacity(0.4),
+                    inactiveThumbColor: Colors.red.withOpacity(0.4),
+                    value: MonthlyFeeCollectionSwitch,
+                    onChanged: (value) {
+                
+                      
+                
+                      setState(() {
+                        
+                        MonthlyFeeCollectionSwitch = value;
+                
+                        html.window.location.reload();
+                
+                
+                      });
+                    },
+                  ),
+                ),
+                
+                padding: EdgeInsets.all(18.0),
+              ),
+
+
+
+
+              PopupMenuItem(
+                onTap: (){
+
+
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateNewExamResult( StudentClassName: "7", )));
+
+
+
+
+                },
+                child: ListTile(
+                  title: Text("Create Exam For Result"),
+                  trailing: Icon(Icons.arrow_forward),
+                ),
+                
+                padding: EdgeInsets.all(18.0),
+              ),
+
+
+
+              
+
+
+
+        ];})]
         
       ),
       body:loading?Center(child: CircularProgressIndicator()): DataLoad == "0"? Center(child: Text("No Data Available")): RefreshIndicator(
@@ -1297,18 +1420,18 @@ Future<void> getData() async {
 
                                     ),
 
-                                    PopupMenuItem(
-                                      child: Text("Create Exam Result"),
-                                      value: '/contact',
-                                       onTap: () {
+                              //       PopupMenuItem(
+                              //         child: Text("Create Exam For Result"),
+                              //         value: '/contact',
+                              //          onTap: () {
               
-                              Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) => CreateNewExamResult(RollNumber: "2424", StudentClassName: "2424", StudentEmail: "2424", StudentName: "2424", StudentPhoneNumber: "2424", FatherPhoneNo: "2424")),
+                              // Navigator.push(context,
+                              //               MaterialPageRoute(builder: (context) => CreateNewExamResult( StudentClassName: "7", )),
 
-                                    );
-                                      },
+                              //       );
+                              //         },
 
-                                    ),
+                              //       ),
 
                                     PopupMenuItem(
                                       child: Text("All Results"),
