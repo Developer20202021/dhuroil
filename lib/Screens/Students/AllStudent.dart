@@ -7,6 +7,7 @@ import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/MonthlyFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/OtherFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/Pay/AllPay.dart';
+import 'package:dhuroil/Screens/Students/ShowAttendance.dart';
 import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
@@ -1496,6 +1497,21 @@ Future<void> getData() async {
               
                               Navigator.push(context,
                                             MaterialPageRoute(builder: (context) => AllPay(StudentDueAmount: "10", StudentEmail: "", StudentName: "", StudentPhoneNumber: "", FatherPhoneNo: "", StudentIDNo: "")),
+                                    );
+                                      },
+
+
+
+                                    ),
+
+
+                                     PopupMenuItem(
+                                      child: Text("Show Attendance"),
+                                      value: '/contact',
+                                       onTap: () {
+              
+                              Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => ShowAttendance(StudentEmail: "")),
                                     );
                                       },
 

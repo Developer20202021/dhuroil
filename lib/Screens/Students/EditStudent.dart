@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -76,6 +77,8 @@ class _EditStudentState extends State<EditStudent> {
 
   String SelectedRegionValue ="";
 
+  String UploadImageURl = "";
+
 
 
 
@@ -93,13 +96,32 @@ class _EditStudentState extends State<EditStudent> {
   final ImagePicker _picker = ImagePicker();
 
   Future imgFromGallery(BuildContext context) async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    //old
+    // final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
+
+     var pickedFile = await FilePicker.platform.pickFiles();
+
+        if (pickedFile != null) {
+          print(pickedFile.files.first.name);
+        }
+
+
+
+
+
+
+
+
+    //old
     setState(() {
       if (pickedFile != null) {
-        _photo = File(pickedFile.path);
+        // _photo = File(pickedFile.path);
 
-        final bytes = File(pickedFile.path).readAsBytesSync();
+        // final bytes = File(pickedFile.path).readAsBytesSync();
+
+        final bytes = Uint8List.fromList(pickedFile.files.first.bytes as List<int>);
+
 
         setState(() {
           image64 = base64Encode(bytes);
@@ -110,6 +132,10 @@ class _EditStudentState extends State<EditStudent> {
         print('No image selected.');
       }
     });
+
+
+
+
   }
 
 
@@ -137,19 +163,19 @@ class _EditStudentState extends State<EditStudent> {
 
   
   Future uploadFile(BuildContext context) async {
-    if (_photo == null) return;
+    // if (_photo == null) return;
     
-    final fileName = basename(_photo!.path);
-    final destination = 'files/$fileName';
+    // final fileName = basename(_photo!.path);
+    // final destination = 'files/$fileName';
 
-    print(_photo!.path);
+    // print(_photo!.path);
 
     try {
 
 
-      setState(() {
-        loading = true;
-      });
+      // setState(() {
+      //   loading = true;
+      // });
 
 
 
@@ -166,9 +192,13 @@ class _EditStudentState extends State<EditStudent> {
 
           var serverImageUrl = serverData["data"]["url"];
 
+          setState(() {
+            UploadImageURl = serverImageUrl;
+          });
+
           print(serverImageUrl);
 
-          updateData(serverImageUrl,context);
+          // updateData(serverImageUrl,context);
 
 
 
@@ -462,11 +492,11 @@ class _EditStudentState extends State<EditStudent> {
                     child: CircleAvatar(
                       radius: 100,
                       backgroundColor: Theme.of(context).primaryColor,
-                      child: _photo != null
+                      child: UploadImageURl.isNotEmpty
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(5),
-                              child: Image.file(
-                                _photo!,
+                              child: Image.network(
+                                "${UploadImageURl}",
                                 width: 200,
                                 height: 200,
                                 fit: BoxFit.fitHeight,
@@ -1058,7 +1088,7 @@ class _EditStudentState extends State<EditStudent> {
                                 isExpanded: true,
                                 iconSize: 30.0,
                                 style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                items: ['বিজ্ঞান', 'মানবিক', 'ব্যবসা'].map(
+                                items: ['None','বিজ্ঞান', 'মানবিক', 'ব্যবসা'].map(
                                   (val) {
                                     return DropdownMenuItem<String>(
                                       value: val,

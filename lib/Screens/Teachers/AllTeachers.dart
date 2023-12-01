@@ -1,13 +1,20 @@
 
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
+import 'package:dhuroil/Screens/Students/ShowAttendance.dart';
+import 'package:dhuroil/Screens/Teachers/Attendance/AllTeacherAttendance.dart';
+import 'package:dhuroil/Screens/Teachers/EditTeacher.dart';
+import 'package:dhuroil/Screens/Teachers/ShowAttendance.dart';
+import 'package:dhuroil/Screens/Teachers/TeacherProfile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
-
+import 'package:intl/intl.dart';
 
 
 
@@ -29,6 +36,9 @@ class AllTeachers extends StatefulWidget {
 class _AllTeachersState extends State<AllTeachers> {
 
 
+
+
+TextEditingController StudentSendController = TextEditingController();
 
 
 bool loading = false;
@@ -330,11 +340,53 @@ Future<void> getData() async {
                                   // your logic
                                 },
                                 itemBuilder: (BuildContext bc) {
-                                  return const [
+                                  return [
+                                    PopupMenuItem(
+                                      child: Text("Give Attendance"),
+                                      value: '/hello',
+                                      onTap: () {
+
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllTeacherAttendance(indexNumber: "", DepartmentName: "", SemisterName: "",)));
+                                        
+                                      },
+                                    ),
+
+                                    PopupMenuItem(
+                                      child: Text("Show Attendance"),
+                                      value: '/hello',
+                                      onTap: () {
+
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ShowTeacherAttendance(StudentEmail: "")));
+                                        
+                                      },
+                                    ),
+
                                     PopupMenuItem(
                                       child: Text("Set Routine"),
                                       value: '/hello',
+                                      onTap: () {
+                                        showTimePicker(
+                                        context: context,
+                                        initialTime: TimeOfDay(hour: 7, minute: 15),
+
+                                      ).then((value) => setState((){
+                                        
+                                        print("${value?.hour}:${value?.minute} ${value?.period.toString().split('.')[1]}");
+
+
+
+
+                                         DateTime tempDate = DateFormat("hh:mm").parse(
+                                              value!.hour.toString() +
+                                                  ":" + value!.minute.toString());
+                                          var dateFormat = DateFormat("h:mm a"); // you can change the format here
+                                          print(dateFormat.format(tempDate));
+
+    
+                                      }));
+                                      },
                                     ),
+
                                     PopupMenuItem(
                                       child: Text("View Routine"),
                                       value: '/about',
@@ -342,6 +394,151 @@ Future<void> getData() async {
                                     PopupMenuItem(
                                       child: Text("Send SMS"),
                                       value: '/contact',
+                                      onTap: () {
+
+                                        showDialog(
+                    context: context,
+                    builder: (context) {
+                    String SelectedStudentStatus ="";
+                    
+
+
+
+                      return StatefulBuilder(
+                      builder: (context, setState) {
+                        return AlertDialog(
+                        title: Text("Send SMS"),
+                        content:  Container(
+                                              height: 200,
+                                              child: Column(
+                                                children: [
+
+
+
+                   TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Enter Message',
+                           labelStyle: TextStyle(
+              color: myFocusNode.hasFocus ? Theme.of(context).primaryColor: Colors.black
+                  ),
+                          hintText: 'Enter Your Message',
+                          //  enabledBorder: OutlineInputBorder(
+                          //     borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                          //   ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                            ),
+                          
+                          
+                          ),
+                      controller: StudentSendController,
+                    ),
+            
+                    SizedBox(
+                      height: 10,
+                    ),
+            
+            
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(width: 150, child:TextButton(onPressed: () async{
+
+
+                            setState(() {
+                              loading = true;
+                            });
+
+
+                            String StudentPhoneNumber="";
+
+
+
+
+                          Future SendSMSToCustomer(context, msg) async {
+
+
+                            final response = await http
+                                .get(Uri.parse('https://api.greenweb.com.bd/api.php?token=1024519252916991043295858a1b3ac3cb09ae52385b1489dff95&to=${StudentPhoneNumber}&message=${msg}'));
+
+                                    Navigator.pop(context);
+
+                            if (response.statusCode == 200) {
+                              // If the server did return a 200 OK response,
+                              // then parse the JSON.
+                              print(jsonDecode(response.body));
+                              setState(() {
+                                // msgSend = "success";
+                                loading = false;
+                              });
+                            
+                            } else {
+
+                               setState(() {
+                                // msgSend = "fail";
+                                loading = false;
+                              });
+                              // If the server did not return a 200 OK response,
+                              // then throw an exception.
+                              throw Exception('Failed to load album');
+                            }
+                          }
+
+
+                          SendSMSToCustomer(context,StudentSendController.text);
+
+
+
+                        }, child: Text("Send", style: TextStyle(color: Colors.white),), style: ButtonStyle(
+                         
+                backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
+              ),),),
+
+
+
+                    
+
+
+
+
+                      ],
+                    )
+            
+            
+                                                ],
+                                              ),
+                                            ),
+
+
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("Cancel"),
+                          ),
+
+
+                          
+
+
+
+                          ],
+                        );
+                      },
+                    );
+                    },
+                  );
+                                        
+                                      },
+
+
+
                                     ),
 
                                     PopupMenuItem(
@@ -362,6 +559,11 @@ Future<void> getData() async {
                                     PopupMenuItem(
                                       child: Text("Edit"),
                                       value: '/contact',
+                                      onTap: () {
+
+                                         Navigator.of(context).push(MaterialPageRoute(builder: (context) =>EditTeacher(TeacherEmail: "", DepartmentName: "", SubjectName: "", TeacherAddress: "", TeacherName: "", TeacherPhoneNumber: "")));
+                                        
+                                      },
                                     ),
                                   ];
                                 },
@@ -435,7 +637,7 @@ Future<void> getData() async {
 
 
 
-                              //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => TeacherProfile(TeacherEmail:  AllData[index]["TeacherEmail"])));
+                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => TeacherProfile(TeacherEmail:  AllData[index]["TeacherEmail"])));
 
       
       

@@ -1,4 +1,6 @@
 import 'package:dhuroil/Screens/HomePage.dart';
+import 'package:dhuroil/Screens/Registration/StudentReg.dart';
+import 'package:dhuroil/Screens/Registration/TeacherReg.dart';
 import 'package:dhuroil/Screens/Students/AllStudent.dart';
 import 'package:dhuroil/Screens/Students/AllStudentsHomePage.dart';
 import 'package:dhuroil/Screens/Students/Attendance/AllStudents.dart';
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ShowAttendance(StudentEmail: ""),
+      home: AllTeachers(indexNumber: "1"),
     );
   }
 }

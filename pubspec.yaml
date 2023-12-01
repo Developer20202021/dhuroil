@@ -58,6 +58,8 @@ dependencies:
   flutter_slidable: ^3.0.1
   syncfusion_flutter_datepicker: ^22.1.39
   percent_indicator: ^4.2.3
+  file_picker: ^6.1.1
+  intl: ^0.18.1
   
 
 dev_dependencies:
