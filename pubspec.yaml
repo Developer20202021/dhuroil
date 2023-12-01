@@ -60,6 +60,7 @@ dependencies:
   percent_indicator: ^4.2.3
   file_picker: ^6.1.1
   intl: ^0.18.1
+  weekday_selector: ^1.1.0
   
 
 dev_dependencies:

@@ -8,6 +8,7 @@ import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/MarksSheet/MarkssheetInvoice.dart';
 import 'package:dhuroil/Screens/Students/Pay/AdmitCardInvoice.dart';
 import 'package:dhuroil/Screens/Students/ShowAttendance.dart';
+import 'package:dhuroil/Screens/Students/ViewPerStudentResult.dart';
 import 'package:dhuroil/Screens/Teachers/AllTeachers.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AllTeachers(indexNumber: "1"),
+      home: PerStudentViewResult(StudentEmail: ""),
     );
   }
 }

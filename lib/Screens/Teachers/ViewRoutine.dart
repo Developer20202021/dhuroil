@@ -1,6 +1,5 @@
 
 import 'dart:convert';
-import 'package:dhuroil/Screens/Teachers/ViewRoutine.dart';
 import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
@@ -20,7 +19,7 @@ import 'package:weekday_selector/weekday_selector.dart';
 
 
 
-class AllTeachers extends StatefulWidget {
+class ViewRoutine extends StatefulWidget {
 
   final indexNumber ;
 
@@ -29,13 +28,13 @@ class AllTeachers extends StatefulWidget {
 
 
 
-  const AllTeachers({super.key, required this.indexNumber,});
+  const ViewRoutine({super.key, required this.indexNumber,});
 
   @override
-  State<AllTeachers> createState() => _AllTeachersState();
+  State<ViewRoutine> createState() => _ViewRoutineState();
 }
 
-class _AllTeachersState extends State<AllTeachers> {
+class _ViewRoutineState extends State<ViewRoutine> {
 
 
 
@@ -47,9 +46,12 @@ bool loading = false;
 
 var DataLoad = "";
 
- 
 
  final values = List.filled(7, true);
+
+ 
+
+
 
 // Firebase All Customer Data Load
 
@@ -343,28 +345,10 @@ Future<void> getData() async {
                                 },
                                 itemBuilder: (BuildContext bc) {
                                   return [
-                                    PopupMenuItem(
-                                      child: Text("Give Attendance"),
-                                      value: '/hello',
-                                      onTap: () {
-
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllTeacherAttendance(indexNumber: "", DepartmentName: "", SemisterName: "",)));
-                                        
-                                      },
-                                    ),
+                            
 
                                     PopupMenuItem(
-                                      child: Text("Show Attendance"),
-                                      value: '/hello',
-                                      onTap: () {
-
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ShowTeacherAttendance(StudentEmail: "")));
-                                        
-                                      },
-                                    ),
-
-                                    PopupMenuItem(
-                                      child: Text("Create Routine"),
+                                      child: Text("Edit Routine"),
                                       value: '/hello',
                                       onTap: () async{
 
@@ -376,6 +360,8 @@ Future<void> getData() async {
                     context: context,
                     builder: (context) {
                     String SelectedClassName ="";
+
+                    String SelectDay ="";
 
                     String SelectClassStartTime ="Select Start Time";
 
@@ -393,7 +379,7 @@ Future<void> getData() async {
                       return StatefulBuilder(
                       builder: (context, setState) {
                         return AlertDialog(
-                        title: Text("Create New Routine"),
+                        title: Text("Edit Routine"),
                         content:  Container(
                                               width: 400,
                                               height: 330,
@@ -435,7 +421,7 @@ Future<void> getData() async {
 
 
                      SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
 
 
@@ -466,11 +452,13 @@ Future<void> getData() async {
                     ),
             
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
 
 
-                       Text("যে Day গুলোতে ক্লাস থাকবে তা Select করুন"),
+
+
+                  Text("যে Day গুলোতে ক্লাস থাকবে তা Select করুন"),
                   
 
                     WeekdaySelector(
@@ -494,11 +482,9 @@ Future<void> getData() async {
 
 
 
-                    SizedBox(
+                SizedBox(
                       height: 30,
                     ),
-
-
 
 
 
@@ -690,13 +676,7 @@ Future<void> getData() async {
                                       },
                                     ),
 
-                                    PopupMenuItem(
-                                      child: Text("View Routine"),
-                                      value: '/about',
-                                      onTap: () {
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewRoutine(indexNumber: "")));
-                                      },
-                                    ),
+                             
                                     PopupMenuItem(
                                       child: Text("Send SMS"),
                                       value: '/contact',
@@ -847,146 +827,7 @@ Future<void> getData() async {
 
                                     ),
 
-                                    PopupMenuItem(
-                                      child: Text("Set Work"),
-                                      value: '/contact',
-                                    ),
-
-                                    PopupMenuItem(
-                                      child: Text("Set Guide Teacher"),
-                                      value: '/contact',
-                                      onTap: () {
-
-
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                    String SelectedClassName ="";
-                    
-
-
-
-                      return StatefulBuilder(
-                      builder: (context, setState) {
-                        return AlertDialog(
-                        title: Text("Select Class For Guide Teacher"),
-                        content:  Container(
-                                              height: 200,
-                                              child: Column(
-                                                children: [
-
-
-                  
-
-                                    DropdownButton(
-                                                  
-                                                                    
-                                                  
-                                                    hint:  SelectedClassName == ""
-                                                        ? Text('Select Class')
-                                                        : Text(
-                                                          "Class: ${SelectedClassName}",
-                                                            style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                                          ),
-                                                    isExpanded: true,
-                                                    iconSize: 30.0,
-                                                    style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                                    items: ["0",'1', '2', '3', "4","5","6","7","8", "9","10", "ssc"].map(
-                                                      (val) {
-                                                        return DropdownMenuItem<String>(
-                                                          value: val,
-                                                          child: Text(val),
-                                                        );
-                                                      },
-                                                    ).toList(),
-                                                    onChanged: (val) {
-                                                      setState(
-                                                        () {
-                                                          SelectedClassName = val!;
-
-                                                          print(val);
-                                                        },
-                                                      );
-                                                    },
-                                                  ),
-
-
-                     SizedBox(
-                      height: 30,
-                    ),
-
-
-
-            
-            
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(width: 150, child:TextButton(onPressed: () async{
-
-
-
-
-                        }, child: Text("Save", style: TextStyle(color: Colors.white),), style: ButtonStyle(
-                         
-                backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-              ),),),
-
-
-
-                    
-
-
-
-
-                      ],
-                    )
-            
-            
-                                                ],
-                                              ),
-                                            ),
-
-
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text("Cancel"),
-                          ),
-
-
-                          
-
-
-
-                          ],
-                        );
-                      },
-                    );
-                    },
-                  );
-                                        
-
-
-
-                                      },
-
-                                    ),
-
-                                    PopupMenuItem(
-                                      child: Text("Total Payment Receive"),
-                                      value: '/contact',
-                                    ),
-
-                                    PopupMenuItem(
-                                      child: Text("Edit"),
-                                      value: '/contact',
-                                      onTap: () {
-
-                                         Navigator.of(context).push(MaterialPageRoute(builder: (context) =>EditTeacher(TeacherEmail: "", DepartmentName: "", SubjectName: "", TeacherAddress: "", TeacherName: "", TeacherPhoneNumber: "")));
-                                        
-                                      },
-                                    ),
+                              
                                   ];
                                 },
                               ),
@@ -1009,11 +850,15 @@ Future<void> getData() async {
                                       Text("Phone Number:${AllData[index]["TeacherPhoneNumber"]}"),
 
                                       Text("Email: ${AllData[index]["TeacherEmail"]}"),
-                                      Text("Address: ${AllData[index]["TeacherAddress"]}"),
-
-                                      Text("Department: ${AllData[index]["Department"]}"),
+                                      Text("Class: ${AllData[index]["ClassName"]}"),
 
                                      Text("Subject: ${AllData[index]["SubjectName"]}"),
+
+                                     Text("Start: ${AllData[index]["ClassStartTime"]}"),
+
+                                     Text("End: ${AllData[index]["ClassEndTime"]}"),
+
+                                     Text("Duration: ${AllData[index]["ClassDuration"]} min"),
 
 
                                     ],
@@ -1028,371 +873,22 @@ Future<void> getData() async {
 
 
                                  Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      TextButton(onPressed: (){
-      
-      
-                                              
-      
-      
-                                       
-                  // Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllPay(StudentDueAmount: AllData[index]["DueAmount"], StudentEmail: AllData[index]["StudentEmail"], StudentName: AllData[index]["StudentName"], StudentPhoneNumber: AllData[index]["StudentPhoneNumber"], FatherPhoneNo: AllData[index]["FatherPhoneNo"])));
-      
-      
-      
-      
-      
-                                      }, child: Text("Pay", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
-                                       
-                  backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
-                ),),
-
-
-                SizedBox(height: 2,),
-
-
-
-
-                             TextButton(onPressed: (){
-
-
-
-
-                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => TeacherProfile(TeacherEmail:  AllData[index]["TeacherEmail"])));
-
-      
-      
-      
-      
-      
-                                      }, child: Text("Profile", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
-                                       
-                  backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
-                ),),
-
-
-                SizedBox(height: 2,),
-
-
-
-                    TextButton(onPressed: (){
-
-
-
-
-                              //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShowTeacherAttendance(TeacherEmail: AllData[index]["TeacherEmail"])));
-
-      
-      
-      
-      
-      
-                                      }, child: Text("Show A/p", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
-                                       
-                  backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
-                ),),
-
-
-                SizedBox(height: 2,),
-
-
-
-
-
-
-
-
-
-
-
-
-                            TextButton(onPressed: () async{
-
-
-
-
-
-                        
-
-
-      AwesomeDialog(
-        width: MediaQuery.of(context).size.width*0.4,
-          showCloseIcon: true,
-            context: context,
-            dialogType: DialogType.question,
-            animType: AnimType.rightSlide,
-            title: 'Are You Sure?',
-            desc: 'আপনি কি এই Teacher কে পুরাতন Teacher এর তালিকায় দিতে চান?যদি হ্যা হয় তবে Ok button press করুন। না হলে Cancel button press করুন।',
-          
-            btnOkOnPress: () async{
-
-
-
-
-               var updateData ={
-
-                                "TeacherStatus":"old"
-
-                              };
-
-
-   final StudentInfo =
-    FirebaseFirestore.instance.collection('TeacherInfo').doc(AllData[index]["TeacherEmail"]);
-
-                              
-                          StudentInfo.update(updateData).then((value) => setState((){
-
-
-
-
-                              final snackBar = SnackBar(
-                 
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    content: AwesomeSnackbarContent(
-                      title: 'Successfull',
-                      message:
-                          'Hey Thank You. Good Job',
-        
-                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                      contentType: ContentType.success,
-                    ),
-                  );
-        
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
-
-              
-
-
-              
-          
-
-
-
-                         setState(() {
-                            loading = false;
-                          });
-
-
-
-
-
-                          })).onError((error, stackTrace) => setState((){
-
-
-
-
-                              final snackBar = SnackBar(
-                    /// need to set following properties for best effect of awesome_snackbar_content
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    content: AwesomeSnackbarContent(
-                      title: 'Something Wrong!!!!',
-                      message:
-                          'Try again later...',
-        
-                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                      contentType: ContentType.failure,
-                    ),
-                  );
-        
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
-
-
-
-
-
-
-                   setState(() {
-                            loading = false;
-                          });
-
-
-                          }));
-      
-      
-      
-      
-      
-
-
-          
-            },
-
-            btnCancelOnPress: () {
-
-
-          
-            },
-          ).show();
-
-
-
-
                              
-      
-                                      }, child: Text("old", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
-                                       
-                  backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
-                ),),
+
+
+
+
+
+
 
 
                 SizedBox(height: 2,),
 
 
 
-                             AllData[index]["AdminApprove"]=="false"?            TextButton(onPressed: ()async{
-
-
-
-
-
-
-
-
-
-                              
-      AwesomeDialog(
-         width: MediaQuery.of(context).size.width*0.4,
-            context: context,
-            dialogType: DialogType.question,
-            animType: AnimType.rightSlide,
-            title: 'Are You Sure?',
-            desc: 'আপনি কি এই Teacher কে Approve করতে চান?যদি হ্যা হয় তবে Ok button press করুন। না হলে Cancel button press করুন।',
-          
-            btnOkOnPress: () async{
-
-
-
-
-               var updateData ={
-
-                                "AdminApprove":"true"
-
-                              };
-
-
-   final StudentInfo =
-    FirebaseFirestore.instance.collection('TeacherInfo').doc(AllData[index]["TeacherEmail"]);
-
-                              
-                          StudentInfo.update(updateData).then((value) => setState((){
-
-
-
-
-                              final snackBar = SnackBar(
-                 
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    content: AwesomeSnackbarContent(
-                      title: 'Successfull',
-                      message:
-                          'Hey Thank You. Good Job',
-        
-                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                      contentType: ContentType.success,
-                    ),
-                  );
-        
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
-
-              
-
-
-              
-          
-
-
-
-                         setState(() {
-                          getData();
-                            loading = false;
-                          });
-
-
-
-
-
-                          })).onError((error, stackTrace) => setState((){
-
-
-
-
-                              final snackBar = SnackBar(
-                    /// need to set following properties for best effect of awesome_snackbar_content
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    content: AwesomeSnackbarContent(
-                      title: 'Something Wrong!!!!',
-                      message:
-                          'Try again later...',
-        
-                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                      contentType: ContentType.failure,
-                    ),
-                  );
-        
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
-
-
-
-
-
-
-                   setState(() {
-                            loading = false;
-                          });
-
-
-                          }));
-      
-      
-      
-      
-      
-
-
-          
-            },
-
-            btnCancelOnPress: () {
-
-
-          
-            },
-          ).show();
-
-
-
-
-
-
-
-
-
-
-      
-     
-      
-      
-                                      }, child: Text("Enable", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
-                                       
-                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.green.shade400),
-                ),):TextButton(onPressed: ()async{
+                TextButton(onPressed: ()async{
 
 
 
@@ -1406,7 +902,7 @@ Future<void> getData() async {
             dialogType: DialogType.question,
             animType: AnimType.rightSlide,
             title: 'Are You Sure?',
-            desc: 'আপনি কি এই Teacher কে  Disable করতে চান?যদি হ্যা হয় তবে Ok button press করুন। না হলে Cancel button press করুন।',
+            desc: 'আপনি কি এই Teacher এর Routine Delete করতে চান?যদি হ্যা হয় তবে Ok button press করুন। না হলে Cancel button press করুন।',
           
             btnOkOnPress: () async{
 
@@ -1518,39 +1014,7 @@ Future<void> getData() async {
           ).show();
 
 
-
-
-
-
-
-
-
-
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-     
-      
-      
-                                      }, child: Text("Disable", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
+                                      }, child: Text("Delete", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
                                        
                   backgroundColor: MaterialStatePropertyAll<Color>(Colors.red.shade400),
                 ),),
@@ -1572,101 +1036,6 @@ Future<void> getData() async {
                           
 
                           SizedBox(height: 9,),
-
-
-
-
-                //           Row(
-
-                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //             children: [
-                //                 TextButton(onPressed: (){
-      
-      
-                                              
-      
-      
-                                       
-                //   // Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentAdd(SalePrice: AllData[index]["TotalFoodPrice"], CustomerPhoneNumber: AllData[index]["CustomerPhoneNumber"], OrderID: AllData[index]["OrderID"], CustomerID: getCustomerID[0]["CustomerID"])));
-      
-      
-      
-      
-      
-                //                       }, child: Text("Attandance", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
-                                       
-                //   backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
-                // ),),
-
-
-                // SizedBox(height: 2,),
-
-
-
-
-
-                //                              TextButton(onPressed: (){
-      
-      
-                                              
-      
-      
-                                       
-                //   // Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentAdd(SalePrice: AllData[index]["TotalFoodPrice"], CustomerPhoneNumber: AllData[index]["CustomerPhoneNumber"], OrderID: AllData[index]["OrderID"], CustomerID: getCustomerID[0]["CustomerID"])));
-      
-      
-      
-      
-      
-                //                       }, child: Text("Old", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
-                                       
-                //   backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
-                // ),),
-
-
-                // SizedBox(height: 2,),
-
-
-
-
-
-                
-                //                  AllData[index]["AdminApprove"]=="false"?            TextButton(onPressed: (){
-      
-     
-      
-      
-                //                       }, child: Text("Enable", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
-                                       
-                //   backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
-                // ),):TextButton(onPressed: (){
-      
-     
-      
-      
-                //                       }, child: Text("Disable", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
-                                       
-                //   backgroundColor: MaterialStatePropertyAll<Color>(ColorName().appColor),
-                // ),),
-
-
-                // SizedBox(height: 2,),
-
-
-
-
-
-
-                //             ],
-                //           )
-
-
-
-
-
-
-
-
 
 
 

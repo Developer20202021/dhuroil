@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
+import 'package:dhuroil/Screens/Students/Pay/AdmitCardInvoice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -190,6 +191,30 @@ Future<void> getData(String StudentEmail) async {
                  
                       verticalOffset: 50.30,
                       child: ListTile(
+
+                              trailing: 
+                                        PopupMenuButton(
+                                          tooltip: "Print Admit card",
+                                          onSelected: (value) {
+                                            // your logic
+                                          },
+                                          itemBuilder: (BuildContext bc) {
+                                            return  [
+                                              PopupMenuItem(
+                                                child: Text("Admit Card"),
+                                                value: '/hello',
+                                                onTap: () {
+
+                                                  Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => AdmitCardPdfPreviewPage(CashInDate: "", StudentEmail: "", StudentCashIn: "", StudentIDNo: "", StudentName: "", StudentPhoneNumber: "")),
+                                    );
+                                                  
+                                                },
+                                              ),
+                                         
+                                            ];
+                                          },
+                                        ),
                         
                                        
                           
