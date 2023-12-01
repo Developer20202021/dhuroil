@@ -15,7 +15,7 @@ import 'package:printing/printing.dart';
 
 
 
-class PdfPreviewPage extends StatefulWidget {
+class AdmitCardPdfPreviewPage extends StatefulWidget {
 
 
   final StudentName;
@@ -35,13 +35,13 @@ class PdfPreviewPage extends StatefulWidget {
 
 
  
-  const PdfPreviewPage({Key? key, required this.CashInDate, required this.StudentEmail, required this.StudentCashIn, required this.StudentIDNo, required this.StudentName, required this.StudentPhoneNumber, }) : super(key: key);
+  const AdmitCardPdfPreviewPage({Key? key, required this.CashInDate, required this.StudentEmail, required this.StudentCashIn, required this.StudentIDNo, required this.StudentName, required this.StudentPhoneNumber, }) : super(key: key);
 
   @override
-  State<PdfPreviewPage> createState() => _PdfPreviewPageState();
+  State<AdmitCardPdfPreviewPage> createState() => _AdmitCardPdfPreviewPageState();
 }
 
-class _PdfPreviewPageState extends State<PdfPreviewPage> {
+class _AdmitCardPdfPreviewPageState extends State<AdmitCardPdfPreviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +57,7 @@ class _PdfPreviewPageState extends State<PdfPreviewPage> {
        
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.chevron_left)),
-        title: const Text("Fee Invoice", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
+        title: const Text("Admit Card", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
         elevation: 0.0,
@@ -86,7 +86,7 @@ class _PdfPreviewPageState extends State<PdfPreviewPage> {
 
 Future<Uint8List> makePdf(StudentName, StudentIDNo, StudentPhoneNumber, StudentCashIn, StudentEmail,CashInDate) async {
 
-final netImage = await networkImage('https://i.ibb.co/jTPJtqC/Uttaron-Logo.png');
+final netImage = await networkImage('https://i.ibb.co/PYNsGBJ/bangladesh-govt-logo-A2-C7688845-seeklogo-com.png');
 
 final backImage = await networkImage('https://i.ibb.co/X4QQgpc/13783.jpg');
 
@@ -109,7 +109,7 @@ pdf.addPage(pw.Page(
   
   pageTheme: pw.PageTheme(
     pageFormat: PdfPageFormat.a4,
-    theme: pw.ThemeData.withFont(base: pw.Font.ttf(await rootBundle.load("lib/fonts/JosefinSans-BoldItalic.ttf")),),
+    theme: pw.ThemeData.withFont(base: pw.Font.ttf(await rootBundle.load("lib/fonts/Caladea-BoldItalic.ttf")),),
     buildBackground: (context)=>pw.FullPage(ignoreMargins: true,child: pw.Container(
 
        margin: const pw.EdgeInsets.all(10),
@@ -201,7 +201,7 @@ pdf.addPage(pw.Page(
 
               children: [
 
-                pw.Center(child:  pw.Image(netImage, height: 50, width: 50, ),),
+                pw.Center(child:  pw.Image(netImage, height: 70, width: 70, ),),
 
                 pw.Padding(
                   padding: pw.EdgeInsets.only(left: 90,),
@@ -314,7 +314,7 @@ pdf.addPage(pw.Page(
                 mainAxisAlignment: pw.MainAxisAlignment.start,
                 children: [
 
-                  pw.Text("Father Name:", style: pw.TextStyle(fontSize: 14,)),
+                  pw.Text("Father's Name:", style: pw.TextStyle(fontSize: 14,)),
 
                   pw.SizedBox(width: 4),
 
@@ -327,7 +327,7 @@ pdf.addPage(pw.Page(
                     child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 10),child: pw.Text("Mosta Hasan", style: pw.TextStyle(fontSize: 11,)))),
 
 
-                pw.Text("Mother Name:", style: pw.TextStyle(fontSize: 14,)),
+                pw.Text("Mother's Name:", style: pw.TextStyle(fontSize: 14,)),
 
                 pw.SizedBox(width: 4),
 
@@ -403,8 +403,69 @@ pdf.addPage(pw.Page(
 
 
 
+              pw.SizedBox(
+                      height: 30,
+                      
+                
+              ),
+
+
+              pw.Row(
+                
+                mainAxisAlignment: pw.MainAxisAlignment.start,
+                children: [
+
+                  pw.Text("Gender:", style: pw.TextStyle(fontSize: 11,)),
+
+                  pw.SizedBox(width: 4),
+
+
+                pw.Container(
+                
+                width: 100,
+                decoration:  pw.BoxDecoration(
+                border: pw.Border(bottom: pw.BorderSide(width: 1, style: pw.BorderStyle.dashed))),
+                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("Male", style: pw.TextStyle(fontSize: 11,)))),
+
+
+                pw.Text("Phone No:", style: pw.TextStyle(fontSize: 14,)),
+
+                pw.SizedBox(width: 4),
+
+                
+                pw.Container(
+                
+                width: 130,
+                decoration:  pw.BoxDecoration(
+                border: pw.Border(bottom: pw.BorderSide(width: 1, style: pw.BorderStyle.dashed))),
+                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("12314421341", style: pw.TextStyle(fontSize: 11,)))),
+
+
+              
+
+              pw.Text("Fee:", style: pw.TextStyle(fontSize: 14,)),
+
+                pw.SizedBox(width: 4),
+
+                
+                pw.Container(
+                
+                width: 130,
+                decoration:  pw.BoxDecoration(
+                border: pw.Border(bottom: pw.BorderSide(width: 1, style: pw.BorderStyle.dashed))),
+                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 10),child: pw.Text("100 tk", style: pw.TextStyle(fontSize: 14,)))),
+
+
+
+
+
+              ]),
+
+
+
+
             
-            pw.SizedBox(height: 100,),
+            pw.SizedBox(height: 70,),
             pw.Align(alignment: pw.Alignment.topLeft,child: pw.Text("Instructions for Candidates :", style: pw.TextStyle(fontSize: 16)),),
             pw.SizedBox(height: 7,),
             pw.Text("1. Candidates have to print and bring the admit card during examination and preserve the same for future use. Candidates have to use black ink ball point pen for MCQ Test"),
@@ -696,7 +757,7 @@ pdf.addPage(pw.Page(
 
 
                  pw.SizedBox(
-                      height: 110,
+                      height: 70,
                       
                 
               ),
@@ -728,7 +789,7 @@ pdf.addPage(pw.Page(
 
                     pw.Text("___________________________"),
 
-                    pw.Text("Student Signature"),
+                    pw.Text("Student's Signature"),
 
 
                   ]),

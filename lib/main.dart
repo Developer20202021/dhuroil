@@ -2,7 +2,8 @@ import 'package:dhuroil/Screens/HomePage.dart';
 import 'package:dhuroil/Screens/Students/AllStudent.dart';
 import 'package:dhuroil/Screens/Students/AllStudentsHomePage.dart';
 import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
-import 'package:dhuroil/Screens/Students/Pay/CourseFeeInvoice.dart';
+import 'package:dhuroil/Screens/Students/MarksSheet/MarkssheetInvoice.dart';
+import 'package:dhuroil/Screens/Students/Pay/AdmitCardInvoice.dart';
 import 'package:dhuroil/Screens/Teachers/AllTeachers.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: PdfPreviewPage(CashInDate: "Hello", StudentEmail: "Hello", StudentCashIn: "Hello", StudentIDNo: "Hello", StudentName: "Hello", StudentPhoneNumber: "Hello"),
+      home: MarksSheetPdfPreviewPage(CashInDate: "Hello", StudentEmail: "Hello", StudentCashIn: "Hello", StudentIDNo: "Hello", StudentName: "Hello", StudentPhoneNumber: "Hello"),
     );
   }
 }

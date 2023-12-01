@@ -122,6 +122,9 @@ flutter:
     - family: SiyamRupali
       fonts:
         - asset: lib/fonts/Siyam-Rupali-ANSI.ttf
+    - family: Caladea
+      fonts:
+        - asset: lib/fonts/Caladea-BoldItalic.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

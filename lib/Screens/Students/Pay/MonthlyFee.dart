@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
-import 'package:dhuroil/Screens/Students/Pay/CourseFeeInvoice.dart';
+import 'package:dhuroil/Screens/Students/Pay/AdmitCardInvoice.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -180,7 +180,7 @@ class _MonthlyFeeState extends State<MonthlyFee> {
 
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PdfPreviewPage(CashInDate: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}", StudentEmail: widget.StudentEmail, StudentCashIn: PaymentController.text.trim(), StudentIDNo:widget.StudentIDNo, StudentName:widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber)),
+                  MaterialPageRoute(builder: (context) => AdmitCardPdfPreviewPage(CashInDate: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}", StudentEmail: widget.StudentEmail, StudentCashIn: PaymentController.text.trim(), StudentIDNo:widget.StudentIDNo, StudentName:widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber)),
                 );
 
 
