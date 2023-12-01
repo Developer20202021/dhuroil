@@ -1,9 +1,11 @@
 import 'package:dhuroil/Screens/HomePage.dart';
 import 'package:dhuroil/Screens/Students/AllStudent.dart';
 import 'package:dhuroil/Screens/Students/AllStudentsHomePage.dart';
+import 'package:dhuroil/Screens/Students/Attendance/AllStudents.dart';
 import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/MarksSheet/MarkssheetInvoice.dart';
 import 'package:dhuroil/Screens/Students/Pay/AdmitCardInvoice.dart';
+import 'package:dhuroil/Screens/Students/ShowAttendance.dart';
 import 'package:dhuroil/Screens/Teachers/AllTeachers.dart';
 import 'package:flutter/material.dart';
 
@@ -25,12 +27,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MarksSheetPdfPreviewPage(CashInDate: "Hello", StudentEmail: "Hello", StudentCashIn: "Hello", StudentIDNo: "Hello", StudentName: "Hello", StudentPhoneNumber: "Hello"),
+      home: ShowAttendance(StudentEmail: ""),
     );
   }
 }
 
 
+// MarksSheetPdfPreviewPage(CashInDate: "Hello", StudentEmail: "Hello", StudentCashIn: "Hello", StudentIDNo: "Hello", StudentName: "Hello", StudentPhoneNumber: "Hello")
 
 // AllStudents(indexNumber: "1")
 

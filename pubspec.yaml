@@ -55,6 +55,9 @@ dependencies:
   printing: ^5.11.1
   universal_html: ^2.2.4
   bijoy_helper: ^0.0.5
+  flutter_slidable: ^3.0.1
+  syncfusion_flutter_datepicker: ^22.1.39
+  percent_indicator: ^4.2.3
   
 
 dev_dependencies:
