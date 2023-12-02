@@ -5,7 +5,7 @@ import 'package:dhuroil/Screens/Registration/StudentReg.dart';
 import 'package:dhuroil/Screens/Registration/TeacherReg.dart';
 import 'package:dhuroil/Screens/Students/AllStudent.dart';
 import 'package:dhuroil/Screens/Students/AllStudentsHomePage.dart';
-import 'package:dhuroil/Screens/Students/Attendance/AllStudents.dart';
+import 'package:dhuroil/Screens/Students/Attendance/AttendanceHomePage.dart';
 import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/MarksSheet/MarkssheetInvoice.dart';
 import 'package:dhuroil/Screens/Students/Pay/AdmitCardInvoice.dart';
@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AllRegistration(),
+      home: AllStudentsHomePage(),
     );
   }
 }

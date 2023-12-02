@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
-import 'package:dhuroil/Screens/Students/AllStudent.dart';
+import 'package:dhuroil/Screens/Students/Attendance/AllStudentAttendance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 
-class AllStudentsHomePage extends StatefulWidget {
+class AttendanceHomePage extends StatefulWidget {
 
   
 
@@ -14,13 +14,13 @@ class AllStudentsHomePage extends StatefulWidget {
 
 
 
-  const AllStudentsHomePage({super.key,});
+  const AttendanceHomePage({super.key,});
 
   @override
-  State<AllStudentsHomePage> createState() => _AllStudentsHomePageState();
+  State<AttendanceHomePage> createState() => _AttendanceHomePageState();
 }
 
-class _AllStudentsHomePageState extends State<AllStudentsHomePage> {
+class _AttendanceHomePageState extends State<AttendanceHomePage> {
 
 
   // Firebase All Customer Data Load
@@ -138,7 +138,7 @@ Future<void> getData(String StudentEmail) async {
        
         iconTheme: IconThemeData(color: ColorName().appColor),
         leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.chevron_left)),
-        title: const Text("Student Details", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),),
+        title: const Text("Attendance", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),),
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
         elevation: 0.0,
@@ -241,8 +241,12 @@ Future<void> getData(String StudentEmail) async {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(width: 150, child:TextButton(onPressed: () async{
+
+
+
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllStudentAttendance(indexNumber: "", ClassName: SelectedClass)));
                     
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllStudents(indexNumber: "", ClassName: SelectedClass)));
+                    
                     
                           }, child: Text("Search", style: TextStyle(color: Colors.white),), style: ButtonStyle(
                            

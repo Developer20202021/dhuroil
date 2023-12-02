@@ -119,15 +119,8 @@ Future<void> getPresenceData(String StudentEmail) async {
      });
 
 
-
-
        
      }
-
-
-
-
-
 
 
 

@@ -27,13 +27,14 @@ import 'package:universal_html/html.dart' as html;
 class AllStudents extends StatefulWidget {
 
   final indexNumber ;
+  final ClassName;
 
 
 
 
 
 
-  const AllStudents({super.key, required this.indexNumber,});
+  const AllStudents({super.key, required this.indexNumber,required this.ClassName});
 
   @override
   State<AllStudents> createState() => _AllStudentsState();
@@ -85,37 +86,200 @@ void getUniData(){
   ];
   String? selectedValue;
 
+
+
+
+
+
+
+
+
+
+  
+                        
+  List AllAbsenceData =[];
+  int totalAbsence = 0;
+  List  AllPresenceData = [];
+  int totalPresence =0;
+
+
+
+
+
+
+                      Future<void> getPresenceData(String StudentEmail, context) async {
+                            // Get docs from collection reference
+                            // QuerySnapshot querySnapshot = await _collectionRef.get();
+
+                                  setState(() {
+                                        loading= true;
+                                      });
+
+
+                                      CollectionReference _collectionRef =
+                            FirebaseFirestore.instance.collection('StudentAttendance');
+
+                            Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "presence").where("ClassName", isEqualTo: "${widget.ClassName}").where("year", isEqualTo: "${DateTime.now().year}");
+                            QuerySnapshot querySnapshot = await query.get();
+
+                            // Get data from docs and convert map to List
+                            AllPresenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+                          
+                            
+                            setState(() {
+                              totalPresence = AllPresenceData.length;
+
+                            });
+
+
+
+                            if (AllPresenceData.isEmpty) {
+
+                            setState(() {
+                              loading = false;
+                            });
+
+
+                            getAbsenceData(StudentEmail, context);
+
+
+
+                              
+                            } else {
+
+
+                            setState(() {
+                              AllPresenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+                              loading = false;
+                            });
+
+                            getAbsenceData(StudentEmail, context);
+
+                        
+
+
+                              
+                            }
+
+
+
+                           
+                        }
+
+                      
+
+
+
+
+
+                      
+                           
+
+                            Future<void> getAbsenceData(String StudentEmail, context) async {
+                                // Get docs from collection reference
+                                // QuerySnapshot querySnapshot = await _collectionRef.get();
+
+                                setState(() {
+                                  loading= true;
+                                });
+
+
+                              CollectionReference _collectionRef =
+                                FirebaseFirestore.instance.collection('StudentAttendance');
+
+                                Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "absence").where("ClassName", isEqualTo: "${widget.ClassName}").where("year", isEqualTo: "${DateTime.now().year}");
+                                QuerySnapshot querySnapshot = await query.get();
+
+                                // Get data from docs and convert map to List
+                                AllAbsenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+
+                                print(AllAbsenceData);
+
+                                  setState(() {
+                                        totalAbsence = AllAbsenceData.length;
+                                      });
+
+
+                                
+
+
+                                 final snackBar = SnackBar(
+
+                                      duration: Duration(seconds: 7),
+                                  
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Presence:${(totalPresence/(totalPresence+totalAbsence))*100}%||Absence:${(totalAbsence/(totalPresence+totalAbsence))*100}%',
+                                        message:
+                                            'Presence & Absence History',
+                          // Presence & Absence History
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                      ),
+                                    );
+                          
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
+
+
+
+                                if (AllAbsenceData.isEmpty) {
+
+                                setState(() {
+                                  
+                                  // Dataload ="0";
+
+                                  loading = false;
+                                });
+
+
+
+                                  
+                                } else {
+
+
+
+
+
+
+
+
+                                setState(() {
+                                  AllAbsenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+                                  loading = false;
+                                });
+
+
+                                  
+                                }
+
+
+
+                                print(AllAbsenceData);
+                            }
+
+
+
+
+                      
+
  
+
+
+
 
 
 
 // Firebase All Customer Data Load
 
-List  AllData = [
-  
-  {
-  "TeacherName":"Mahadi Hasan"
-},
-
-
-  {
-  "TeacherName":"Mahadi Hasan"
-},
-
-  {
-  "TeacherName":"Mahadi Hasan"
-},
-
-
-];
-
-
-
-
-
-
-
-
+List  AllData = [];
 
 
 
@@ -124,12 +288,15 @@ List  AllData = [
 Future<void> getData() async {
     // Get docs from collection reference
       CollectionReference _CustomerOrderHistoryCollectionRef =
-    FirebaseFirestore.instance.collection('TeacherInfo');
+    FirebaseFirestore.instance.collection('StudentInfo');
+
+
+    Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("ClassName", isEqualTo: widget.ClassName).where("StudentStatus", isEqualTo: "new");
 
   // // all Due Query Count
   //    Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("Department", isEqualTo: widget.DepartmentName).where("Semister", isEqualTo: widget.SemisterName).where("StudentStatus", isEqualTo: "new");
 
-     QuerySnapshot queryDueSnapshot = await _CustomerOrderHistoryCollectionRef.get();
+     QuerySnapshot queryDueSnapshot = await _CustomerOrderHistoryCollectionRefDueQueryCount.get();
 
     var AllDueData = queryDueSnapshot.docs.map((doc) => doc.data()).toList();
 
@@ -148,6 +315,7 @@ Future<void> getData() async {
       setState(() {
      
       AllData = queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
       loading = false;
      });
        
@@ -156,14 +324,6 @@ Future<void> getData() async {
 
     print(AllData);
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -179,12 +339,16 @@ Future<void> getData() async {
 @override
   void initState() {
     // TODO: implement initState
-    // setState(() {
-    //   loading = true;
-    // });
+    setState(() {
+      loading = true;
+    });
    
-   getUniData();
-    // getData();
+  //  getUniData();
+
+
+
+
+    getData();
     super.initState();
   }
 
@@ -198,7 +362,7 @@ Future<void> getData() async {
 
 
       
-  // getData();
+  getData();
 
     });
 
@@ -348,7 +512,7 @@ Future<void> getData() async {
             children: [
         
           
-          Text("All Students"),
+          Text("All Students class:${widget.ClassName}"),
         
         
           
@@ -747,7 +911,7 @@ Future<void> getData() async {
           
         
           headingTextStyle: TextStyle(color: Colors.white),
-          headingRowDecoration: BoxDecoration(color: ColorName().appColor),
+          headingRowDecoration: BoxDecoration(color: Colors.pink.shade300),
           columnSpacing: 12,
           horizontalMargin: 12,
           minWidth: 600,
@@ -790,12 +954,10 @@ Future<void> getData() async {
             ),
 
               DataColumn(
-              label: Text('Absent %'),
+              label: Text('A/P %'),
             ),
 
-              DataColumn(
-              label: Text('Present %'),
-            ),
+          
 
               DataColumn(
               label: Text('জরিমানা ৳'),
@@ -813,21 +975,30 @@ Future<void> getData() async {
             ),
           ],
           rows: List<DataRow>.generate(
-              100,
+              AllData.length,
               (index) => DataRow(cells: [
-                    DataCell(Text('A' * (10 - index % 10))),
-                    DataCell(Text('B' * (10 - (index + 5) % 10))),
-                    DataCell(Text('C' * (15 - (index + 5) % 10))),
-                    DataCell(Text('D' * (15 - (index + 10) % 10))),
-                    DataCell(Text(((index + 0.1) * 25.4).toString())),
-                    DataCell(Text('D' * (15 - (index + 10) % 10))),
-                    DataCell(Text('D' * (15 - (index + 10) % 10))),
-                    DataCell(Text('D' * (15 - (index + 10) % 10))),
-                    DataCell(Text('D' * (15 - (index + 10) % 10))),
-                    DataCell(Text('D' * (15 - (index + 10) % 10))),
-                    DataCell(Text('D' * (15 - (index + 10) % 10))),
-                    DataCell(Text('D' * (15 - (index + 10) % 10))),
-                    DataCell(Text('D' * (15 - (index + 10) % 10))),
+                    DataCell(Text('${AllData[index]["RollNo"]}')),
+                    DataCell(Text('${AllData[index]["StudentName"]}')),
+                    DataCell(Text('${AllData[index]["FatherName"]}')),
+                    DataCell(Text('${AllData[index]["MotherName"]}')),
+                    DataCell(Text("${AllData[index]["ClassName"]}")),
+                    DataCell(Text('${AllData[index]["StudentBirthCertificateNo"]}')),
+                    DataCell(Text('${AllData[index]["PSCResult"]}')),
+                    DataCell(Text('${AllData[index]["JSCResult"]}')),
+                    DataCell(Text('${AllData[index]["StudentPhoneNumber"]}')),
+                    DataCell(Text('${AllData[index]["FatherPhoneNo"]}')),
+                    DataCell(Text('Click Me'), onTap: () async{
+
+
+                    getPresenceData("${AllData[index]["StudentEmail"]}", context);
+
+                     getAbsenceData("${AllData[index]["StudentEmail"]}", context);
+
+
+
+                    },),
+                
+                    DataCell(Text('${AllData[index]["FineAmount"]}৳')),
 
                     DataCell(
                     TextButton(onPressed: (){

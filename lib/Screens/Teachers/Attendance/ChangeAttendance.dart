@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 
-class ChangeAttendance extends StatefulWidget {
+class ChangeTeacherAttendance extends StatefulWidget {
 
   final StudentEmail;
   final AttendanceType;
@@ -15,13 +15,13 @@ class ChangeAttendance extends StatefulWidget {
 
 
 
-  const ChangeAttendance({super.key, required this.StudentEmail, required this.AttendanceType, required this.AttendanceID});
+  const ChangeTeacherAttendance({super.key, required this.StudentEmail, required this.AttendanceType, required this.AttendanceID});
 
   @override
-  State<ChangeAttendance> createState() => _ChangeAttendanceState();
+  State<ChangeTeacherAttendance> createState() => _ChangeTeacherAttendanceState();
 }
 
-class _ChangeAttendanceState extends State<ChangeAttendance> {
+class _ChangeTeacherAttendanceState extends State<ChangeTeacherAttendance> {
 
 
 

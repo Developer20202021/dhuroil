@@ -4,6 +4,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
 import 'package:dhuroil/Screens/Students/Attendance/ChangeAttendance.dart';
+import 'package:dhuroil/Screens/Teachers/Attendance/ChangeAttendance.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -144,7 +145,7 @@ Future<void> getTodayAttendanceData(String StudentEmail, BuildContext context) a
       loading = false;
 
 
-       Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChangeAttendance(StudentEmail: StudentEmail, AttendanceType: todayAttendanceData[0]["type"] , AttendanceID: todayAttendanceData[0]["AttendanceID"])));
+       Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChangeTeacherAttendance(StudentEmail: StudentEmail, AttendanceType: todayAttendanceData[0]["type"] , AttendanceID: todayAttendanceData[0]["AttendanceID"])));
      });
        
      }
