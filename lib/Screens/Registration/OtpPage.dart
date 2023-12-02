@@ -2,6 +2,7 @@
 import 'dart:math';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
 import 'package:dhuroil/Screens/Registration/AllRegistration.dart';
+// import 'package:flutter_html/flutter_html.dart';
 import 'package:http/http.dart' as http;
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,6 +13,11 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+
+
+
+
 
 
 
@@ -37,6 +43,19 @@ class OtpPage extends StatefulWidget {
 
 class _OtpPageState extends State<OtpPage> {
   TextEditingController StudentOTPController = TextEditingController();
+
+
+
+
+  final _controller = YoutubePlayerController(
+  params: YoutubePlayerParams(
+    mute: false,
+    showControls: true,
+    showFullscreenButton: true,
+  ),
+);
+
+
  
 
 bool loading = false;
@@ -242,7 +261,7 @@ Future ResendOTPSend() async{
 
 
 
-      var OtpMsg ="Your OTP ${code} Uttaron InanSoft";
+      var OtpMsg ="Your OTP ${code} Dhuroil High School, InanSoft";
 
                   final response = await http
                       .get(Uri.parse('https://api.greenweb.com.bd/api.php?token=1024519252916991043295858a1b3ac3cb09ae52385b1489dff95&to=${widget.StudentPhoneNumber}&message=${OtpMsg}'));
@@ -360,6 +379,12 @@ Future ResendOTPSend() async{
   void initState() {
     // TODO: implement initState
     // getData(widget.CustomerNID);
+
+    _controller.loadVideoById(videoId: "KVHBNNdrUF4");
+
+
+
+
     super.initState();
   }
 
@@ -406,58 +431,78 @@ Future ResendOTPSend() async{
         centerTitle: true,
         
       ),
-      body: loading?Center(
-        child: LoadingAnimationWidget.discreteCircle(
-          color: const Color(0xFF1A1A3F),
-          secondRingColor: Theme.of(context).primaryColor,
-          thirdRingColor: Colors.white,
-          size: 100,
-        ),
-      ):Container(
-
-        child: loading?CircularProgressIndicator():SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-        
-        
-        
-                
-           Container(
-        
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 400, right: 400, top: 100),
+          child: loading?Center(child: CircularProgressIndicator(),):Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+      
+      
+      
+              
+         Center(
+           child: Container(
+               
               color: Color.fromARGB(255, 245, 201, 42),
               
               
               child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text("আপনার ${widget.StudentPhoneNumber} এ OTP পাঠানো হয়েছে", style: TextStyle(color: Colors.black),),
+                 padding: const EdgeInsets.all(8.0),
+                 child: Text("আপনার ${widget.StudentPhoneNumber} এ OTP পাঠানো হয়েছে", style: TextStyle(color: Colors.black),),
               )),
-        
-        
-        
-        
+         ),
+      
+      
+      
+      
+            
+          SizedBox(height: 15,),
+      
+      
+            
+            SizedBox(
+                height: 5,
+              ),
+            
+            
+            
+              Tooltip(
+                
+                richMessage: WidgetSpan(
+                                alignment: PlaceholderAlignment.baseline,
+                                baseline: TextBaseline.alphabetic,
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 250),
+                                  child: YoutubePlayer(
+                                            controller: YoutubePlayerController.fromVideoId(
+                                              videoId: 'j_wlCUpsBQc',
+                                              autoPlay: false,
+                                              params: const YoutubePlayerParams(showFullscreenButton: true),
+                                            ),
+                                            aspectRatio: 4 / 3,
+                                          ),
+                                )),
+                            decoration: BoxDecoration(
+                              color: Color(0XFFDFE0FF),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(4)),
+                            ),
+                            preferBelow: false,
+                            verticalOffset: 10,
               
-            SizedBox(height: 15,),
-        
-        
               
-              SizedBox(
-                  height: 5,
-                ),
-              
-              
-              
-                TextField(
+                child: TextField(
                   
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Enter OTP',
-            
+                        
                       hintText: 'Enter OTP',
-              
+                          
                       //  enabledBorder: OutlineInputBorder(
                       //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
                       //     ),
@@ -473,109 +518,114 @@ Future ResendOTPSend() async{
                       ),
                   controller: StudentOTPController,
                 ),
+              ),
+            
+            
+            
+            
+              SizedBox(
+                height: 5,
+              ),
+
               
+
+
               
-              
-              
-                SizedBox(
-                  height: 5,
-                ),
 
 
 
-              resend?Icon(Icons.check):Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(width: 80, child:TextButton(onPressed: () async{
-        
-        
-                      setState(() {
-                        loading = true;
-                      });
-        
-        
-                      ResendOTPSend();
-        
-                
-        
-        
-                 
-        
-        
-        
-        
-        
-                    }, child: Text("Resend", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
-                     
-            backgroundColor: MaterialStatePropertyAll<Color>(Colors.pink.shade400),
-          ),),),
-        
-        
-        
-        
-        
-        
-        
-        
-                  ],
-                ),
+            resend?Icon(Icons.check):Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(width: 80, child:TextButton(onPressed: () async{
+      
+      
+                    setState(() {
+                      loading = true;
+                    });
+      
+      
+                    ResendOTPSend();
+      
+              
+      
+      
+               
+      
+      
+      
+      
+      
+                  }, child: Text("Resend", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
+                   
+          backgroundColor: MaterialStatePropertyAll<Color>(Colors.pink.shade400),
+        ),),),
+      
+      
+      
+      
+      
+      
+      
+      
+                ],
+              ),
 
 
 
-                SizedBox(
-                  height: 5,
-                ),
+              SizedBox(
+                height: 5,
+              ),
+            
+            
+            
+            
+            
               
+            
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(width: 150, child:TextButton(onPressed: () async{
+      
+      
+                    setState(() {
+                      loading = true;
+                    });
+      
+      
+                    StudentVerification();
+      
               
-              
-              
-              
-                
-              
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(width: 150, child:TextButton(onPressed: () async{
-        
-        
-                      setState(() {
-                        loading = true;
-                      });
-        
-        
-                      StudentVerification();
-        
-                
-        
-        
-                 
-        
-        
-        
-        
-        
-                    }, child: Text("Verify", style: TextStyle(color: Colors.white),), style: ButtonStyle(
-                     
-            backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-          ),),),
-        
-        
-        
-        
-        
-        
-        
-        
-                  ],
-                )
-              
-              
-              
-              ],
-            ),
+      
+      
+               
+      
+      
+      
+      
+      
+                  }, child: Text("Verify", style: TextStyle(color: Colors.white),), style: ButtonStyle(
+                   
+          backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
+        ),),),
+      
+      
+      
+      
+      
+      
+      
+      
+                ],
+              )
+            
+            
+            
+            ],
           ),
         ),
-        ),
+      ),
       
       
     );

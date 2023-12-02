@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "258461402825",
+    "project_id": "dhuroil",
+    "storage_bucket": "dhuroil.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258461402825:android:dab51d66411dc54c4d2f18",
+        "android_client_info": {
+          "package_name": "com.example.dhuroil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5MUeeQOYAwUccG9KKzLn4HL42GAX4vsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
+import 'package:dhuroil/Screens/Registration/AllRegistration.dart';
 import 'package:dhuroil/Screens/Registration/OtpPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class _StudentRegistrationState extends State<StudentRegistration> {
 
   String errorTxt = "";
 
-  String RegCode ="uttaron123";
+  String RegCode ="dhuroil123";
   
   var RegCodeTextField ="";
 
@@ -1032,7 +1033,7 @@ var code = Random().nextInt(900000) + 100000;
 
                       Container(
               height: 50,
-              width: 160,
+              width: 200,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -1111,68 +1112,14 @@ var code = Random().nextInt(900000) + 100000;
 
 
 
-                    TextField(
-
-                      onChanged: (value) {
-                        checkAddressTextField();
-                        checkEmailTextField();
-                        checkNameTextField();
-                        checkPasswordTextField();
-                        checkPhoneNumberTextField();
-                        checkFatherPhoneNoTextField();
-                        checkCourseFeeTextField();
-                        checkIDTextField();
-
-                        // For Android 
-
-                        // setState(() {
-                        //   CourseFeeController.text = value;
-                        // });
-
-
-                      },
-
-
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-
-                    prefixIcon: Icon(Icons.payment, color: ColorName().appColor,),
-
-                      helperText: CourseFeeError?'Required Enter Course Fee':"",
-                      helperStyle: TextStyle(color: Colors.red.shade400),
-                    suffixText: "৳",
-
-
-                          border: OutlineInputBorder(),
-                          labelText: 'Course Fee',
-                           labelStyle: TextStyle(
-              color: myFocusNode.hasFocus ? Theme.of(context).primaryColor: Colors.black
-                  ),
-                          hintText: 'Course Fee',
-                          //  enabledBorder: OutlineInputBorder(
-                          //     borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //   ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                            ),
-                          
-                          
-                          ),
-                      controller: CourseFeeController,
-                    ),
 
 
 
 
 
-
-                           SizedBox(
-                      height: 15,
-                    ),
+                  // SizedBox(
+                  //     height: 15,
+                  //   ),
 
 
 
@@ -1513,7 +1460,7 @@ var code = Random().nextInt(900000) + 100000;
 
 // যদি Android হয় তখন নিচে RegCodeTextField change করে RegCodeController.text.trim().tolowerCase() ব্যবহার করতে হবে। 
             
-                    RegCode==RegCodeTextField&& myPassController.text.isNotEmpty && myAddressController.text.isNotEmpty && myAdminNameController.text.isNotEmpty && myPhoneNumberController.text.isNotEmpty && myEmailController.text.isNotEmpty && IDNoController.text.isNotEmpty && CourseFeeController.text.isNotEmpty && FatherPhoneNoController.text.isNotEmpty && SelectedValue.isNotEmpty?Row(
+                    RegCode==RegCodeTextField&& myPassController.text.isNotEmpty && myAddressController.text.isNotEmpty && myAdminNameController.text.isNotEmpty && myPhoneNumberController.text.isNotEmpty && myEmailController.text.isNotEmpty && IDNoController.text.isNotEmpty  && FatherPhoneNoController.text.isNotEmpty && SelectedValue.isNotEmpty?Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(width: 150, child:TextButton(onPressed: () async{
@@ -1617,7 +1564,7 @@ var code = Random().nextInt(900000) + 100000;
 
 
 
-                  var OtpMsg ="Your OTP ${code} Uttaron. InanSoft";
+                  var OtpMsg ="Your OTP ${code} Dhuroil High School. InanSoft";
 
                   final response = await http
                       .get(Uri.parse('https://api.greenweb.com.bd/api.php?token=100651104321696050272e74e099c1bc81798bc3aa4ed57a8d030&to=${myPhoneNumberController.text.trim()}&message=${OtpMsg}'));
@@ -1662,7 +1609,7 @@ var code = Random().nextInt(900000) + 100000;
 
                    Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => OtpPage(StudentPhoneNumber: myPhoneNumberController.text.trim(), StudentEmail: myEmailController.text.trim())),
+                  MaterialPageRoute(builder: (context) => AllRegistration()),
                 );
 
 

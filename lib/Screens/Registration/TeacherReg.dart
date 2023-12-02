@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
+import 'package:dhuroil/Screens/Registration/AllRegistration.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,7 +56,7 @@ String SelectedGenderValue ="";
  
 String errorTxt = "";
 
-String RegCode ="uttaron123";
+String RegCode ="dhuroil123";
 
 var RegCodeTextField ="";
 
@@ -650,7 +651,7 @@ var RegCodeTextField ="";
                             isExpanded: true,
                             iconSize: 30.0,
                             style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                            items: ["Teacher",'Admin', 'Guide Teacher', 'Head Teacher', "Ast. Head Teacher"].map(
+                            items: ["Teacher",'Admin', 'Guide Teacher', 'Head Teacher', "Ast. Head Teacher", "Staff"].map(
                               (val) {
                                 return DropdownMenuItem<String>(
                                   value: val,
@@ -991,7 +992,7 @@ var RegCodeTextField ="";
 
                     await docUser.doc(myEmailController.text.trim().toLowerCase()).set(jsonData).then((value) =>  setState(()async{
 
-                           await credential.user?.sendEmailVerification();
+                          //  await credential.user?.sendEmailVerification();
 
 
                        final snackBar = SnackBar(
@@ -1018,10 +1019,10 @@ var RegCodeTextField ="";
 
 
 
-                //    Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => NewEmailNotVerified(AdminEmail: myEmailController.text.trim().toLowerCase())),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AllRegistration()),
+                );
 
 
 
