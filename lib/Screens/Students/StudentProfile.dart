@@ -151,7 +151,7 @@ Future<void> getSaleData() async {
 
     
     
-    // getData(widget.StudentEmail);
+    getData(widget.StudentEmail);
 
     // getSaleData();
     super.initState();
@@ -380,7 +380,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("${AllData[0]["IDNo"].toString().toUpperCase()}", style: TextStyle(fontSize: 15.0),),
+                                          child: Text("${AllData[0]["RollNo"].toString().toUpperCase()}", style: TextStyle(fontSize: 15.0),),
                                         )),
                                     
                                     ]),
@@ -557,7 +557,22 @@ Future<void> getSaleData() async {
                                       )),
                                       Container(child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("${AllData[0]["Semister"]}", style: TextStyle(fontSize: 15.0),),
+                                        child: Text("${AllData[0]["Gender"]}", style: TextStyle(fontSize: 15.0),),
+                                      )),
+                                    
+                                    ]),
+
+
+
+
+                                     TableRow(decoration: BoxDecoration(color: Colors.grey[200]),children: [
+                                      Container(child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text("Religion", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),),
+                                      )),
+                                      Container(child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text("${AllData[0]["Religion"]}", style: TextStyle(fontSize: 15.0),),
                                       )),
                                     
                                     ]),
@@ -647,7 +662,7 @@ Future<void> getSaleData() async {
                                       )),
                                       Container(child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("${AllData[0]["Class"]}", style: TextStyle(fontSize: 15.0),),
+                                        child: Text("${AllData[0]["ClassName"]}", style: TextStyle(fontSize: 15.0),),
                                       )),
                                     
                                     ]),
@@ -669,32 +684,7 @@ Future<void> getSaleData() async {
                     
                     
                     
-                                               
-                                     TableRow(decoration: BoxDecoration(color: Colors.grey[200]),children: [
-                                      Container(child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Present", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),),
-                                      )),
-                                      Container(child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("${AllData[0]["Semister"]}", style: TextStyle(fontSize: 15.0),),
-                                      )),
-                                    
-                                    ]),
-
-
-
-                                      TableRow(decoration: BoxDecoration(color: Colors.grey[200]),children: [
-                                      Container(child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Absent", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),),
-                                      )),
-                                      Container(child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("${AllData[0]["Semister"]}", style: TextStyle(fontSize: 15.0),),
-                                      )),
-                                    
-                                    ]),
+                                     
 
 
 
@@ -705,7 +695,7 @@ Future<void> getSaleData() async {
                                       )),
                                       Container(child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("${AllData[0]["Semister"]}", style: TextStyle(fontSize: 15.0),),
+                                        child: Text("${AllData[0]["PSCResult"]}", style: TextStyle(fontSize: 15.0),),
                                       )),
                                     
                                     ]),
@@ -720,7 +710,7 @@ Future<void> getSaleData() async {
                                       )),
                                       Container(child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("${AllData[0]["Semister"]}", style: TextStyle(fontSize: 15.0),),
+                                        child: Text("${AllData[0]["JSCResult"]}", style: TextStyle(fontSize: 15.0),),
                                       )),
                                     
                                     ]),
@@ -736,57 +726,13 @@ Future<void> getSaleData() async {
                                       )),
                                       Container(child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("${AllData[0]["Semister"]}", style: TextStyle(fontSize: 15.0),),
+                                        child: Text("${AllData[0]["SSCResult"]}", style: TextStyle(fontSize: 15.0),),
                                       )),
                                     
                                     ]),
                     
                     
-                    
-                    
-                    
-                    
-                                    
-                                     TableRow(decoration: BoxDecoration(color: Colors.grey[200]),children: [
-                                      Container(child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Monthly Fee", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),),
-                                      )),
-                                      Container(child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("${AllData[0]["MonthlyFee"]}৳", style: TextStyle(fontSize: 15.0),),
-                                      )),
-                                    
-                                    ]),
-                    
-                    
-                    
-                    
-                                    
-                                    
-                                     TableRow(decoration: BoxDecoration(color: Colors.grey[200]),children: [
-                                      Container(child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("Due", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),),
-                                      )),
-                                      Container(child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text("${AllData[0]["DueAmount"]}৳", style: TextStyle(fontSize: 15.0),),
-                                      )),
-                                    
-                                    ]),
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+       
                                          TableRow(decoration: BoxDecoration(color: Colors.grey[200]),children: [
                                       Container(child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -810,11 +756,11 @@ Future<void> getSaleData() async {
                                TableRow(decoration: BoxDecoration(color: Colors.grey[200]),children: [
                                       Container(child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("Type", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),),
+                                        child: Text("Fine Type", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),),
                                       )),
                                       Container(child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("${AllData[0]["StudentType"]}", style: TextStyle(fontSize: 15.0),),
+                                        child: Text("${AllData[0]["StudentFineType"]}", style: TextStyle(fontSize: 15.0),),
                                       )),
                                     
                                     ]),
@@ -827,7 +773,21 @@ Future<void> getSaleData() async {
                                       )),
                                       Container(child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("${AllData[0]["StudentType"]}", style: TextStyle(fontSize: 15.0),),
+                                        child: Text("${AllData[0]["FineAmount"]}", style: TextStyle(fontSize: 15.0),),
+                                      )),
+                                    
+                                    ]),
+
+
+
+                                    TableRow(decoration: BoxDecoration(color: Colors.grey[200]),children: [
+                                      Container(child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text("Status", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),),
+                                      )),
+                                      Container(child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text("${AllData[0]["StudentStatus"]}", style: TextStyle(fontSize: 15.0),),
                                       )),
                                     
                                     ]),

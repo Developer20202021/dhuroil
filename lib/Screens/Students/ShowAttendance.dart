@@ -9,11 +9,12 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 class ShowAttendance extends StatefulWidget {
 
   final StudentEmail;
+  final ClassName;
 
 
 
 
-  const ShowAttendance({super.key, required this.StudentEmail});
+  const ShowAttendance({super.key, required this.StudentEmail, required this.ClassName});
 
   @override
   State<ShowAttendance> createState() => _ShowAttendanceState();
@@ -62,10 +63,10 @@ Future<void> getPresenceData(String StudentEmail) async {
               });
 
 
-                CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('Attendance');
+       CollectionReference _collectionRef =
+                            FirebaseFirestore.instance.collection('StudentAttendance');
 
-    Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "presence");
+                            Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "presence").where("ClassName", isEqualTo: "${widget.ClassName}").where("year", isEqualTo: "${DateTime.now().year}");
     QuerySnapshot querySnapshot = await query.get();
 
     // Get data from docs and convert map to List
@@ -74,6 +75,8 @@ Future<void> getPresenceData(String StudentEmail) async {
       setState(() {
        totalPresence = AllPresenceData.length;
      });
+
+      print("_______________${widget.ClassName}___________________Now:${AllPresenceData}");
 
 
 
@@ -157,12 +160,15 @@ Future<void> getSpecificPresenceData(String StudentEmail, String SelectedMonth) 
                 loading= true;
               });
 
+ CollectionReference _collectionRef =
+                            FirebaseFirestore.instance.collection('StudentAttendance');
 
-                CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('Attendance');
+                            Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "presence").where("ClassName", isEqualTo: "${widget.ClassName}").where("month", isEqualTo: SelectedMonth);
 
-    Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "presence").where("month", isEqualTo: SelectedMonth);
-    QuerySnapshot querySnapshot = await query.get();
+
+                            QuerySnapshot querySnapshot = await query.get();
+
+
 
     // Get data from docs and convert map to List
      AllPresenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
@@ -170,6 +176,9 @@ Future<void> getSpecificPresenceData(String StudentEmail, String SelectedMonth) 
       setState(() {
        totalPresence = AllPresenceData.length;
      });
+
+
+    
 
 
 
@@ -266,11 +275,11 @@ Future<void> getAbsenceData(String StudentEmail) async {
     });
 
 
-  CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('Attendance');
+                          CollectionReference _collectionRef =
+                                FirebaseFirestore.instance.collection('StudentAttendance');
 
-    Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "absence");
-    QuerySnapshot querySnapshot = await query.get();
+                                Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "absence").where("ClassName", isEqualTo: "${widget.ClassName}").where("year", isEqualTo: "${DateTime.now().year}");
+                                QuerySnapshot querySnapshot = await query.get();
 
     // Get data from docs and convert map to List
      AllAbsenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
@@ -354,11 +363,15 @@ Future<void> getSpecificAbsenceData(String StudentEmail, String SelectedMonth) a
     });
 
       CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('Attendance');
+                                FirebaseFirestore.instance.collection('StudentAttendance');
+
+                                Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "absence").where("ClassName", isEqualTo: "${widget.ClassName}").where("month", isEqualTo: SelectedMonth);
 
 
-    Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "absence").where("month", isEqualTo: SelectedMonth);
-    QuerySnapshot querySnapshot = await query.get();
+                                QuerySnapshot querySnapshot = await query.get();
+
+
+   
 
     // Get data from docs and convert map to List
      AllAbsenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
@@ -446,9 +459,9 @@ Future<void> getSpecificAbsenceData(String StudentEmail, String SelectedMonth) a
     // TODO: implement initState
 
 
-    // getPresenceData(widget.StudentEmail);
+    getPresenceData(widget.StudentEmail);
 
-    // getAbsenceData(widget.StudentEmail);
+    getAbsenceData(widget.StudentEmail);
 
     super.initState();
   }
@@ -482,7 +495,7 @@ Future<void> getSpecificAbsenceData(String StudentEmail, String SelectedMonth) a
               Navigator.pop(context, true);
             },
             icon: Icon(Icons.chevron_left)),
-        title: const Text(
+        title:  Text(
           "Attendance Date",
           style: TextStyle(color: Colors.black, fontSize: 15),
         ),

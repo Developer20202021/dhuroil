@@ -879,7 +879,7 @@ Future<void> getData() async {
                 onTap: (){
 
 
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateNewExamResult( StudentClassName: "7", )));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateNewExamResult( StudentClassName: "${widget.ClassName}", )));
 
 
 
@@ -1003,7 +1003,7 @@ Future<void> getData() async {
                     DataCell(
                     TextButton(onPressed: (){
 
-                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentProfile(StudentEmail: "")));
+                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentProfile(StudentEmail: AllData[index]["StudentEmail"])));
       
                                       }, child: Text("Profile", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
                                        
@@ -1138,47 +1138,48 @@ Future<void> getData() async {
                             onPressed: () async{
 
 
-                    //           var updateData ={
+                              var updateData ={
 
-                    //                               "Category":SelectedClass.toString().toLowerCase()
+                                    "ClassName":SelectedClass.toString().toLowerCase(),
+                                    "Department":SelectedClass=="9"||SelectedClass=="10"||SelectedClass=="ssc"?SelectedDepartment.toString().trim():"None"
 
-                    //                             };
+                                                };
 
 
-                    // final StudentInfo =
-                    //   FirebaseFirestore.instance.collection('StudentInfo').doc(AllData[index]["StudentEmail"]);
+                    final StudentInfo =
+                      FirebaseFirestore.instance.collection('StudentInfo').doc(AllData[index]["StudentEmail"]);
 
                                                 
-                    //                         StudentInfo.update(updateData).then((value) => setState((){
+                                            StudentInfo.update(updateData).then((value) => setState((){
 
                                         
-                    //                     getData();
+                                        getData();
 
 
-                    //                     Navigator.pop(context);
+                                        Navigator.pop(context);
 
 
 
 
 
-                    //                             final snackBar = SnackBar(
+                                                final snackBar = SnackBar(
                                   
-                    //                   elevation: 0,
-                    //                   behavior: SnackBarBehavior.floating,
-                    //                   backgroundColor: Colors.transparent,
-                    //                   content: AwesomeSnackbarContent(
-                    //                     title: 'Successfull',
-                    //                     message:
-                    //                         'Hey Thank You. Good Job',
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Student Class Change Successfull',
+                                        message:
+                                            'Hey Thank You. Good Job',
                           
-                    //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                    //                     contentType: ContentType.success,
-                    //                   ),
-                    //                 );
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                      ),
+                                    );
                           
-                    //                 ScaffoldMessenger.of(context)
-                    //                   ..hideCurrentSnackBar()
-                    //                   ..showSnackBar(snackBar);
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
 
                                 
 
@@ -1188,49 +1189,49 @@ Future<void> getData() async {
 
 
 
-                    //                       setState(() {
-                    //                           loading = false;
-                    //                         });
+                                          setState(() {
+                                              loading = false;
+                                            });
 
 
 
 
 
-                    //                         })).onError((error, stackTrace) => setState((){
+                                            })).onError((error, stackTrace) => setState((){
 
 
 
 
-                    //                             final snackBar = SnackBar(
-                    //                   /// need to set following properties for best effect of awesome_snackbar_content
-                    //                   elevation: 0,
-                    //                   behavior: SnackBarBehavior.floating,
-                    //                   backgroundColor: Colors.transparent,
-                    //                   content: AwesomeSnackbarContent(
-                    //                     title: 'Something Wrong!!!!',
-                    //                     message:
-                    //                         'Try again later...',
+                                                final snackBar = SnackBar(
+                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Something Wrong!!!!',
+                                        message:
+                                            'Try again later...',
                           
-                    //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                    //                     contentType: ContentType.failure,
-                    //                   ),
-                    //                 );
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.failure,
+                                      ),
+                                    );
                           
-                    //                 ScaffoldMessenger.of(context)
-                    //                   ..hideCurrentSnackBar()
-                    //                   ..showSnackBar(snackBar);
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
 
 
 
 
 
 
-                    //                 setState(() {
-                    //                           loading = false;
-                    //                         });
+                                    setState(() {
+                                              loading = false;
+                                            });
 
 
-                    //                         }));
+                                            }));
                         
                             },
                             child: Text("Change"),
@@ -1331,47 +1332,47 @@ Future<void> getData() async {
                             onPressed: () async{
 
 
-                    //           var updateData ={
+                              var updateData ={
 
-                    //                               "Category":SelectedClass.toString().toLowerCase()
+                                        "StudentStatus":SelectedStudentStatus.toString().toLowerCase().trim()
 
-                    //                             };
+                                                };
+                
 
-
-                    // final StudentInfo =
-                    //   FirebaseFirestore.instance.collection('StudentInfo').doc(AllData[index]["StudentEmail"]);
+                    final StudentInfo =
+                      FirebaseFirestore.instance.collection('StudentInfo').doc(AllData[index]["StudentEmail"]);
 
                                                 
-                    //                         StudentInfo.update(updateData).then((value) => setState((){
+                    StudentInfo.update(updateData).then((value) => setState((){
 
                                         
-                    //                     getData();
+                                        getData();
 
 
-                    //                     Navigator.pop(context);
+                                        Navigator.pop(context);
 
 
 
 
 
-                    //                             final snackBar = SnackBar(
+                                                final snackBar = SnackBar(
                                   
-                    //                   elevation: 0,
-                    //                   behavior: SnackBarBehavior.floating,
-                    //                   backgroundColor: Colors.transparent,
-                    //                   content: AwesomeSnackbarContent(
-                    //                     title: 'Successfull',
-                    //                     message:
-                    //                         'Hey Thank You. Good Job',
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Student Status Change Successfull',
+                                        message:
+                                            'Hey Thank You. Good Job',
                           
-                    //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                    //                     contentType: ContentType.success,
-                    //                   ),
-                    //                 );
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                      ),
+                                    );
                           
-                    //                 ScaffoldMessenger.of(context)
-                    //                   ..hideCurrentSnackBar()
-                    //                   ..showSnackBar(snackBar);
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
 
                                 
 
@@ -1381,49 +1382,49 @@ Future<void> getData() async {
 
 
 
-                    //                       setState(() {
-                    //                           loading = false;
-                    //                         });
+                                          setState(() {
+                                              loading = false;
+                                            });
 
 
 
 
 
-                    //                         })).onError((error, stackTrace) => setState((){
+                                            })).onError((error, stackTrace) => setState((){
 
 
 
 
-                    //                             final snackBar = SnackBar(
-                    //                   /// need to set following properties for best effect of awesome_snackbar_content
-                    //                   elevation: 0,
-                    //                   behavior: SnackBarBehavior.floating,
-                    //                   backgroundColor: Colors.transparent,
-                    //                   content: AwesomeSnackbarContent(
-                    //                     title: 'Something Wrong!!!!',
-                    //                     message:
-                    //                         'Try again later...',
+                                                final snackBar = SnackBar(
+                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Something Wrong!!!!',
+                                        message:
+                                            'Try again later...',
                           
-                    //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                    //                     contentType: ContentType.failure,
-                    //                   ),
-                    //                 );
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.failure,
+                                      ),
+                                    );
                           
-                    //                 ScaffoldMessenger.of(context)
-                    //                   ..hideCurrentSnackBar()
-                    //                   ..showSnackBar(snackBar);
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
 
 
 
 
 
 
-                    //                 setState(() {
-                    //                           loading = false;
-                    //                         });
+                                    setState(() {
+                                              loading = false;
+                                            });
 
 
-                    //                         }));
+                                            }));
                         
                             },
                             child: Text("Change"),
@@ -1508,7 +1509,7 @@ Future<void> getData() async {
                             });
 
 
-                            String StudentPhoneNumber="";
+                            // String StudentPhoneNumber="";
 
 
 
@@ -1516,15 +1517,46 @@ Future<void> getData() async {
                           Future SendSMSToCustomer(context, msg) async {
 
 
+
+                            try {
+
+
+
+                              
+
                             final response = await http
-                                .get(Uri.parse('https://api.greenweb.com.bd/api.php?token=1024519252916991043295858a1b3ac3cb09ae52385b1489dff95&to=${StudentPhoneNumber}&message=${msg}'));
+                                .get(Uri.parse('https://api.greenweb.com.bd/api.php?token=1024519252916991043295858a1b3ac3cb09ae52385b1489dff95&to=${AllData[index]["StudentPhoneNumber"]}&message=${msg}'));
 
                                     Navigator.pop(context);
 
                             if (response.statusCode == 200) {
                               // If the server did return a 200 OK response,
                               // then parse the JSON.
-                              print(jsonDecode(response.body));
+                              // print(jsonDecode(response.body));
+
+
+                              
+                               final snackBar = SnackBar(
+                                  
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Message Successfull',
+                                        message:
+                                            'Hey Thank You. Good Job',
+                          
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                      ),
+                                    );
+                          
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
+
+
+
                               setState(() {
                                 // msgSend = "success";
                                 loading = false;
@@ -1540,6 +1572,18 @@ Future<void> getData() async {
                               // then throw an exception.
                               throw Exception('Failed to load album');
                             }
+
+
+
+
+
+                              
+                            } catch (e) {
+
+                              print(e);
+                              
+                            }
+
                           }
 
 
@@ -1682,7 +1726,7 @@ Future<void> getData() async {
                                        onTap: () {
               
                               Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) => ShowAttendance(StudentEmail: "")),
+                                            MaterialPageRoute(builder: (context) => ShowAttendance(StudentEmail: AllData[index]["StudentEmail"], ClassName: AllData[index]["ClassName"],)),
                                     );
                                       },
 
