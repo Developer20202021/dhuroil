@@ -1,7 +1,13 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
+import 'package:dhuroil/Screens/Students/ViewPerStudentResult.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:uuid/uuid.dart';
+
+
+
 
 
 class AllExamResult extends StatefulWidget {
@@ -31,11 +37,14 @@ class _AllExamResultState extends State<AllExamResult> {
   TextEditingController PracticalMarksController = TextEditingController();
   TextEditingController MCQMarksController = TextEditingController();
   TextEditingController SubjectNameController = TextEditingController();
+  TextEditingController SubjectMarksController = TextEditingController();
+
+    var uuid = Uuid();
 
 
   // Firebase All Customer Data Load
 
-List  AllData = [{},{}];
+List  AllData = [];
 var DataLoad = "";
 String SelectedClassName = "";
 
@@ -43,20 +52,20 @@ bool loading = false; // change true
 
 
 
-Future<void> getData(String StudentEmail) async {
+Future<void> getData( String ClassName) async {
     // Get docs from collection reference
     // QuerySnapshot querySnapshot = await _collectionRef.get();
 
     
   CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('ExamFeePayPayHistory');
+    FirebaseFirestore.instance.collection('ExamResult');
 
     setState(() {
       loading = true;
     });
 
 
-    Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail);
+    Query query = _collectionRef.where("ClassName", isEqualTo: ClassName).where("ExamYear", isEqualTo: "${DateTime.now().year}");
     QuerySnapshot querySnapshot = await query.get();
 
     // Get data from docs and convert map to List
@@ -71,14 +80,14 @@ Future<void> getData(String StudentEmail) async {
      } else {
 
       setState(() {
-      
+       DataLoad = "";
        AllData = querySnapshot.docs.map((doc) => doc.data()).toList();
        loading = false;
      });
        
      }
 
-    print(AllData);
+    print("_____________________________________________________${AllData}");
 }
 
 
@@ -106,7 +115,7 @@ void ChangeClassName(){
 @override
   void initState() {
     // TODO: implement initState
-    // getData(widget.StudentEmail);
+    getData(widget.StudentClassName);
     ChangeClassName();
     super.initState();
   }
@@ -147,6 +156,8 @@ void ChangeClassName(){
 
 
     // SelectedClassName = widget.StudentClassName;
+
+    var SubjectResultID = uuid.v4();
 
 
     
@@ -211,6 +222,8 @@ void ChangeClassName(){
                                                     setState(
                                                       () {
                                                         SelectedClassName = val!;
+
+                                                        getData(val);
         
                                                         print(val);
                                                       },
@@ -256,7 +269,7 @@ void ChangeClassName(){
                       
                    
                         
-                              title: Text("${AllData[index]["pay"]}৳", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                              title: Text("Exam Name:${AllData[index]["OtherExamName"]==""?AllData[index]["ExamName"]:AllData[index]["OtherExamName"]}"),
 
                               trailing:  PopupMenuButton(
                                         tooltip: "এখানে Exam এর Result দেখুন এবং Result Add করুন।",
@@ -285,8 +298,8 @@ void ChangeClassName(){
                       builder: (context, setState) {
                         return AlertDialog(
                         title: Text("আপনি নিচে Subject wise Marks Add করবেন।"),
-                        content:  Container(
-                                              height: double.infinity,
+                        content:  SingleChildScrollView(
+                                             
                                               child: Column(
                                                 children: [
 
@@ -324,7 +337,7 @@ void ChangeClassName(){
                                                         isExpanded: true,
                                                         iconSize: 30.0,
                                                         style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                                        items: ["Bangla",'English', "English 1st Paper"].map(
+                                                        items: ["Bangla 1st Paper",'Bangla 2nd Paper', "English 1st Paper", "English 2nd Paper"].map(
                                                           (val) {
                                                             return DropdownMenuItem<String>(
                                                               value: val,
@@ -597,6 +610,38 @@ void ChangeClassName(){
 
 
 
+                  SizedBox(height: 10,),
+
+
+                  Container(
+                    width: 300,
+                    child: TextField(
+                      
+                       keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Subject Marks',
+                             
+                            hintText: 'Subject Marks',
+                    
+                            //  enabledBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                            //     ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                ),
+                            
+                            
+                            ),
+                        controller: SubjectMarksController,
+                      ),),
+
+
+
 
                                             
 
@@ -617,47 +662,126 @@ void ChangeClassName(){
                             onPressed: () async{
 
 
-                    //           var updateData ={
+                              var PerExamPerSubjectResult ={
 
-                    //                               "Category":SelectedClass.toString().toLowerCase()
+                                "ExamResultID":AllData[index]["ExamResultID"],
+                                "SubejctResultID":SubjectResultID,
+                                "ExamYear":AllData[index]["ExamYear"],
+                                "ExamDate":AllData[index]["ExamDate"],
+                                "ClassName":AllData[index]["ClassName"],
+                                "ExamName":AllData[index]["ExamName"],
+                                "OtherExamName": AllData[index]["OtherExamName"],
+                                "WrittenMarks":WrittenMarksController.text.trim().toLowerCase(),
+                                "MCQAvailable":SelectedMCQAvailable,
+                                "MCQMarks":SelectedMCQAvailable=="Yes"?MCQMarksController.text.trim().toLowerCase():"",
+                                "PracticalAvailable":SelectedPracticalAvailable,
+                                "PracticalMarks":SelectedPracticalAvailable=="Yes"?PracticalMarksController.text.trim().toLowerCase():"",
 
-                    //                             };
+                                "TotalMarks":((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase())).toString(),
+                                "SubjectMarks":SubjectMarksController.text.trim().toLowerCase(),
+                                "SubejectName":SelectedSubjectName.toLowerCase().trim(),
+                                "StudentEmail":widget.StudentEmail,
+                                "StudentName":widget.StudentName,
+                                "StudentPhoneNumber":widget.StudentPhoneNumber,
+                                "RollNumber":widget.RollNumber,
+                                "FatherPhoneNumber":widget.FatherPhoneNo,
+                                "Grade":(() {
+                                          if (((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase()))>=80.0) {
+
+                                            return "A+";
+                                            
+                                          } else if(((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase()))>=70.0 && ((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase()))<=79.0){
+
+                                            return "A";
+                                            
+                                          }
+
+                                          else if(((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase()))>=60.0 && ((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase()))<=69.0){
 
 
-                    // final StudentInfo =
-                    //   FirebaseFirestore.instance.collection('StudentInfo').doc(AllData[index]["StudentEmail"]);
+                                            return "A-";
+
+
+
+                                          }
+
+                                           else if(((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase()))>=50.0 && ((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase()))<=59.0){
+
+
+                                            return "B";
+
+                                          }
+
+
+                                          
+                                           else if(((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase()))>=40.0 && ((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase()))<=49.0){
+
+
+                                            return "C";
+
+                                          }
+
+
+                                          
+                                           else if(((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase()))>=33.0 && ((SelectedMCQAvailable=="Yes"?double.parse(MCQMarksController.text.trim().toLowerCase()):0)+(SelectedPracticalAvailable=="Yes"?double.parse(PracticalMarksController.text.trim().toLowerCase()):0)+double.parse(WrittenMarksController.text.trim().toLowerCase()))<=39.0){
+
+
+                                            return "D";
+
+                                          }
+
+                                          else{
+
+                                            return "F";
+                                          }
+
+
+
+                                        }())
+                                
+
+                                                 
+                                                 
+                                                 
+                                 
+
+                                    };
+
+
+                    final PerExamResultInfo =
+                      FirebaseFirestore.instance.collection('PerExamPerSubjectResult').doc(SubjectResultID);
 
                                                 
-                    //                         StudentInfo.update(updateData).then((value) => setState((){
+                                            PerExamResultInfo.set(PerExamPerSubjectResult).then((value) => setState((){
 
                                         
-                    //                     getData();
+                                        // getData();
 
 
-                    //                     Navigator.pop(context);
+                                        Navigator.pop(context);
 
 
 
 
 
-                    //                             final snackBar = SnackBar(
+                                                final snackBar = SnackBar(
                                   
-                    //                   elevation: 0,
-                    //                   behavior: SnackBarBehavior.floating,
-                    //                   backgroundColor: Colors.transparent,
-                    //                   content: AwesomeSnackbarContent(
-                    //                     title: 'Successfull',
-                    //                     message:
-                    //                         'Hey Thank You. Good Job',
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Marks Successfully Added',
+                                        message:
+                                            'Hey Thank You. Good Job',
                           
-                    //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                    //                     contentType: ContentType.success,
-                    //                   ),
-                    //                 );
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                      ),
+                                    );
                           
-                    //                 ScaffoldMessenger.of(context)
-                    //                   ..hideCurrentSnackBar()
-                    //                   ..showSnackBar(snackBar);
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
 
                                 
 
@@ -667,52 +791,52 @@ void ChangeClassName(){
 
 
 
-                    //                       setState(() {
-                    //                           loading = false;
-                    //                         });
+                                          setState(() {
+                                              loading = false;
+                                            });
 
 
 
 
 
-                    //                         })).onError((error, stackTrace) => setState((){
+                                            })).onError((error, stackTrace) => setState((){
 
 
 
 
-                    //                             final snackBar = SnackBar(
-                    //                   /// need to set following properties for best effect of awesome_snackbar_content
-                    //                   elevation: 0,
-                    //                   behavior: SnackBarBehavior.floating,
-                    //                   backgroundColor: Colors.transparent,
-                    //                   content: AwesomeSnackbarContent(
-                    //                     title: 'Something Wrong!!!!',
-                    //                     message:
-                    //                         'Try again later...',
+                                                final snackBar = SnackBar(
+                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Something Wrong!!!!',
+                                        message:
+                                            'Try again later...',
                           
-                    //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                    //                     contentType: ContentType.failure,
-                    //                   ),
-                    //                 );
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.failure,
+                                      ),
+                                    );
                           
-                    //                 ScaffoldMessenger.of(context)
-                    //                   ..hideCurrentSnackBar()
-                    //                   ..showSnackBar(snackBar);
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
 
 
 
 
 
 
-                    //                 setState(() {
-                    //                           loading = false;
-                    //                         });
+                                    setState(() {
+                                              loading = false;
+                                            });
 
 
-                    //                         }));
+                                            }));
                         
                             },
-                            child: Text("Change"),
+                            child: Text("Save"),
                           ),
                           ],
                         );
@@ -726,6 +850,15 @@ void ChangeClassName(){
                                               PopupMenuItem(
                                                 child: Text("View"),
                                                 value: '/about',
+                                                onTap: () {
+
+                                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  PerStudentViewResult(StudentEmail: widget.StudentEmail, ExamResultID: AllData[index]["ExamResultID"],StudentClassName: AllData[index]["ClassName"], FatherPhoneNo: widget.FatherPhoneNo, RollNumber: widget.RollNumber, StudentName: widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber,)));
+                                                  
+
+
+                                                },
+
+
                                               ),
                                               PopupMenuItem(
                                                 child: Text("Edit"),
@@ -743,20 +876,20 @@ void ChangeClassName(){
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                  
-                                  Text("Name:${AllData[index]["StudentName"]}"),
+            
+                                  Text("Exam Name:${AllData[index]["OtherExamName"]==""?AllData[index]["ExamName"]:AllData[index]["OtherExamName"]}"),
 
-                                  Text("Phone No:${AllData[index]["StudentPhoneNumber"]}"),
+                                  Text("Exam Year:${AllData[index]["ExamYear"]}"),
 
-                                  Text("Email:${AllData[index]["StudentEmail"]}"),
+                                  Text("Class:${AllData[index]["ClassName"]}"),
 
-                                   Text("Receiver E:${AllData[index]["moneyReceiverEmail"]}",style: TextStyle(fontWeight: FontWeight.bold)),
+                                   Text("Exam Total Marks:${AllData[index]["ExamTotalMarks"]}",style: TextStyle(fontWeight: FontWeight.bold)),
 
                                    
-                                   Text("Receiver N:${AllData[index]["moneyReceiverName"].toString().toUpperCase()}", style: TextStyle(fontWeight: FontWeight.bold),),
+                                   Text("Creator N:${AllData[index]["CreatorName"].toString().toUpperCase()}", style: TextStyle(fontWeight: FontWeight.bold),),
 
 
-                                  Text("Fee Name:${AllData[index]["FeeName"]}"),
+                                  Text("Creator E:${AllData[index]["CreatorEmail"]}"),
                   
                                   Text("Date: ${AllData[index]["Date"]}"),
                                 ],

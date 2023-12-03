@@ -876,6 +876,7 @@ Future<void> getData() async {
 
 
               PopupMenuItem(
+
                 onTap: (){
 
 
@@ -1655,7 +1656,7 @@ Future<void> getData() async {
                                       onTap: () {
               
                               Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) => AllExamResult(RollNumber: "", StudentClassName: "7", StudentEmail: "", StudentName: "", StudentPhoneNumber: "", FatherPhoneNo: "")),
+                                            MaterialPageRoute(builder: (context) => AllExamResult(RollNumber: "", StudentClassName: AllData[index]["ClassName"], StudentEmail: "", StudentName: "", StudentPhoneNumber: "", FatherPhoneNo: "")),
 
                                     );
                                       },

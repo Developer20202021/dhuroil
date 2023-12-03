@@ -19,14 +19,21 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 class PerStudentViewResult extends StatefulWidget {
 
 
-  final String StudentEmail;
+  final StudentEmail;
+  final StudentPhoneNumber;
+  final StudentName;
+  final StudentClassName;
+  final RollNumber;
+  final FatherPhoneNo;
+
+  final String ExamResultID;
   
 
 
 
 
 
-  const PerStudentViewResult( {super.key, required this.StudentEmail});
+  const PerStudentViewResult( {super.key, required this.StudentEmail, required this.ExamResultID, required this.FatherPhoneNo, required this.RollNumber, required this.StudentClassName, required this.StudentName, required this.StudentPhoneNumber});
 
   @override
   State<PerStudentViewResult> createState() => _EditCustomerInfoState();
@@ -45,21 +52,19 @@ bool loading = false;
 
    // Firebase All Customer Data Load
 
-List  AllData = [{
-  "StudentName":""
-}];
+List  AllData = [];
 
 
 
-Future<void> getData(String StudentEmail) async {
+Future<void> getData() async {
     // Get docs from collection reference
     // QuerySnapshot querySnapshot = await _collectionRef.get();
     
   CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('StudentInfo');
+    FirebaseFirestore.instance.collection('PerExamPerSubjectResult');
 
 
-    Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail);
+    Query query = _collectionRef.where("ExamResultID", isEqualTo: widget.ExamResultID).where("ClassName", isEqualTo: widget.StudentClassName).where("StudentEmail", isEqualTo: widget.StudentEmail);
     QuerySnapshot querySnapshot = await query.get();
 
     // Get data from docs and convert map to List
@@ -152,7 +157,7 @@ Future<void> getSaleData() async {
 
     
     
-    // getData(widget.StudentEmail);
+    getData();
 
     // getSaleData();
     super.initState();
@@ -463,7 +468,7 @@ Future<void> getSaleData() async {
 
 
 
-                                    for(int i=0; i<15; i++)
+                                    for(int i=0; i<AllData.length; i++)
                                     
                                 TableRow(
                               
@@ -473,7 +478,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("bangla ", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, ),),
+                                          child: Text("${AllData[i]["SubejectName"]}", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, ),),
                                         )),
                                       
                                       
@@ -482,7 +487,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("103", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold,),),
+                                          child: Text("${AllData[i]["WrittenMarks"]}", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold,),),
                                         )),
 
 
@@ -492,7 +497,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("34", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
+                                          child: Text("${AllData[i]["MCQMarks"]}", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
                                         )),
 
 
@@ -502,7 +507,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("56", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold,),),
+                                          child: Text("${AllData[i]["PracticalMarks"]}", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold,),),
                                         )),
 
 
@@ -512,7 +517,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("57", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
+                                          child: Text("${AllData[i]["TotalMarks"]}", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
                                         )),
 
 
@@ -522,7 +527,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("A+", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
+                                          child: Text("${AllData[i]["Grade"]}", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
                                         )),
                                     
                                     ]),

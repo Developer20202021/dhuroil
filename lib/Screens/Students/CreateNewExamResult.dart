@@ -82,7 +82,7 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
 
                       final jsonData ={
 
-                        "ExamID":ExamID,
+                        "ExamResultID":ExamID,
                         "Date":"${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
                         "month":"${DateTime.now().month}/${DateTime.now().year}",
                         "year":"${DateTime.now().year}",
@@ -101,7 +101,7 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
 
 
 
-         await docUser.doc(ExamID).set(jsonData).then((value) =>  setState(() async{
+         await docUser.doc(ExamID).set(jsonData).then((value) =>  setState(() {
 
 
                      setState(() {
@@ -109,11 +109,26 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                  
                       });
 
+                        final snackBar = SnackBar(
 
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(builder: (context) => AllDepartment()),
-              //   );
+                                      duration: Duration(seconds: 7),
+                                  
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Exam Create Successfull',
+                                        message:
+                                            'Exam Create Successfull',
+                          // Presence & Absence History
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                      ),
+                                    );
+                          
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
 
 
 
@@ -121,16 +136,46 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
 
 
 
-                    })).onError((error, stackTrace) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: Colors.green,
-                              content: const Text('Success'),
-                              action: SnackBarAction(
-                                label: 'Undo',
-                                onPressed: () {
-                                  // Some code to undo the change.
-                                },
-                              ),
-                            )));
+                    })).onError((error, stackTrace) => setState(() {
+
+                      setState(() {
+                        loading = false;
+                      });
+
+
+                      print(error);
+
+
+
+                      final snackBar = SnackBar(
+
+                                      duration: Duration(seconds: 7),
+                                  
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Something Wrong!!',
+                                        message:
+                                            'Try again later',
+                          // Presence & Absence History
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.failure,
+                                      ),
+                                    );
+                          
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
+
+
+
+
+
+
+
+
+                    }));
 
 
 
@@ -271,26 +316,21 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
        
         iconTheme: IconThemeData(color: Color.fromRGBO(92, 107, 192, 1)),
         leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.chevron_left)),
-        title: const Text("Create Exam For Result",  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
+        title:  Text("Class: ${widget.StudentClassName} Create Exam For Result",  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
         elevation: 0.0,
         centerTitle: true,
         
       ),
-      body: loading?Padding(
-                padding: const EdgeInsets.only(top: 40),
-                child: Center(
-                      child: LoadingAnimationWidget.discreteCircle(
-                        color: const Color(0xFF1A1A3F),
-                        secondRingColor: Color.fromRGBO(92, 107, 192, 1),
-                        thirdRingColor: Colors.white,
-                        size: 100,
-                      ),
-                    ),
-              ): SingleChildScrollView(
+      body: SingleChildScrollView(
 
-        child:  Padding(
+        child: loading?const Padding(
+                padding: EdgeInsets.only(top: 40),
+                child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+              ): Padding(
           padding: const EdgeInsets.only(left: 400, right: 400, top: 60),
           child: 
           
@@ -570,28 +610,32 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(width: 150, child:TextButton(onPressed: () async{
+                          Container(width: 250, child:TextButton(onPressed: () async{
                             
                             setState(() {
                               loading = true;
                             });
                             
                             
-                        FirebaseAuth.instance
-                          .authStateChanges()
-                          .listen((User? user) async{
-                            if (user == null) {
+                        // FirebaseAuth.instance
+                        //   .authStateChanges()
+                        //   .listen((User? user) async{
+                        //     if (user == null) {
                             
-                              print('User is currently signed out!');
-                            } else {
+                        //       print('User is currently signed out!');
+                        //     } else {
                             
                             
                             
-                          CreateExam(ExamID, user.email, user.displayName);
+                        //   CreateExam(ExamID, user.email, user.displayName);
                             
-                            }
+                        //     }
                             
-                          });
+                        //   });
+
+
+
+                        CreateExam(ExamID, "mahadi", "mahadi Hasan");
                             
                             
                             
