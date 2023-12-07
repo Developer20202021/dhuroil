@@ -46,6 +46,7 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
   TextEditingController ExamTotalMarksController = TextEditingController();
   TextEditingController FeeNameController = TextEditingController();
   TextEditingController OtherExamNameController = TextEditingController();
+  TextEditingController ExamFeeController = TextEditingController();
 
 
 
@@ -95,7 +96,10 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                         "ExamTotalMarks":ExamTotalMarksController.text.trim(),
                         "OtherExamName": SelectedExamName=="Other"?OtherExamNameController.text.trim().toLowerCase():"",
                         "ClassName":widget.StudentClassName,
-                        "status":"private"
+                        "status":"private",
+                        "ExamFeeCollectionMode":"open",
+                        "ExamFee":ExamFeeController.text.trim().toString(),
+                        "ExamStartingDate":SelectedDate
 
                       };
 
@@ -456,7 +460,7 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                                   isExpanded: true,
                                   iconSize: 30.0,
                                   style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                  items: ['১ম সাময়িক', '২য় সাময়িক', '৩য় সাময়িক', "অর্ধ-বার্ষিক","বার্ষিক","Other","ক্লাস টেস্ট"].map(
+                                  items: ['১ম সাময়িক', '২য় সাময়িক', '৩য় সাময়িক', "অর্ধ-বার্ষিক","বার্ষিক","ক্লাস টেস্ট","সাপ্তাহিক টেস্ট","নির্বাচনী","প্রাক-নির্বাচনী","মাসিক","দৈনিক টেস্ট"].map(
                                     (val) {
                                       return DropdownMenuItem<String>(
                                         value: val,
@@ -593,6 +597,38 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                             
                             ),
                         controller: ExamTotalMarksController,
+                      ),
+                    ),
+
+
+
+
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: TextField(
+                       keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Exam Fee',
+                             labelStyle: TextStyle(
+                        color: myFocusNode.hasFocus ? Color.fromRGBO(92, 107, 192, 1): Colors.black
+                                      ),
+                            hintText: 'Exam Fee',
+                                      
+                            //  enabledBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                            //     ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                                ),
+                            
+                            
+                            ),
+                        controller: ExamFeeController,
                       ),
                     ),
                   

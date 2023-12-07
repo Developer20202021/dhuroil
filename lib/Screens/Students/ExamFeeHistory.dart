@@ -1,3 +1,4 @@
+import 'package:bijoy_helper/bijoy_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
 import 'package:dhuroil/Screens/Students/Pay/AdmitCardInvoice.dart';
@@ -10,11 +11,14 @@ class ExamFeeHistory extends StatefulWidget {
   
 
   final StudentEmail;
+  final FatherName;
+  final MotherName;
+  final Gender;
 
 
 
 
-  const ExamFeeHistory({super.key, required this.StudentEmail});
+  const ExamFeeHistory({super.key, required this.StudentEmail, required this.FatherName, required this.Gender, required this.MotherName});
 
   @override
   State<ExamFeeHistory> createState() => _ExamFeeHistoryState();
@@ -22,10 +26,9 @@ class ExamFeeHistory extends StatefulWidget {
 
 class _ExamFeeHistoryState extends State<ExamFeeHistory> {
 
-
   // Firebase All Customer Data Load
 
-List  AllData = [{},{},{},{}];
+List  AllData = [];
 var DataLoad = "";
 
 bool loading = false; // change true
@@ -38,7 +41,7 @@ Future<void> getData(String StudentEmail) async {
 
     
   CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('ExamFeePayPayHistory');
+    FirebaseFirestore.instance.collection('ExamFeePayHistory');
 
     setState(() {
       loading = true;
@@ -74,7 +77,7 @@ Future<void> getData(String StudentEmail) async {
 @override
   void initState() {
     // TODO: implement initState
-    // getData(widget.StudentEmail);
+    getData(widget.StudentEmail);
     super.initState();
   }
 
@@ -206,7 +209,7 @@ Future<void> getData(String StudentEmail) async {
                                                 onTap: () {
 
                                                   Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) => AdmitCardPdfPreviewPage(CashInDate: "", StudentEmail: "", StudentCashIn: "", StudentIDNo: "", StudentName: "", StudentPhoneNumber: "")),
+                                            MaterialPageRoute(builder: (context) => AdmitCardPdfPreviewPage(ClassName: AllData[index]["ClassName"], ExamDate: AllData[index]["ExamStartingDate"], ExamFee: AllData[index]["ExamFee"], FatherName: widget.FatherName, Gender: widget.Gender, MotherName: widget.MotherName, StudentRollNo: AllData[index]["StudentRollNo"], StudentName: AllData[index]["StudentName"], StudentPhoneNumber: AllData[index]["StudentPhoneNumber"], ExamName: AllData[index]["ExamName"])),
                                     );
                                                   
                                                 },
@@ -225,26 +228,34 @@ Future<void> getData(String StudentEmail) async {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                       
-                                    Text("Name:${AllData[index]["StudentName"]}"),
+                                    Text("Name: ${AllData[index]["StudentName"]}"),
                     
-                                    Text("Class:${AllData[index]["ClassName"]}"),
-                                    Text("Roll No:${AllData[index]["RollNumber"]}"),
+                                    Text("Class: ${AllData[index]["ClassName"]}"),
+                                    Text("Roll No: ${AllData[index]["StudentRollNo"]}"),
                       
-                                    Text("Phone No:${AllData[index]["StudentPhoneNumber"]}"),
+                                    Text("Phone No: ${AllData[index]["StudentPhoneNumber"]}"),
+
                     
-                                    Text("F Phone No:${AllData[index]["FatherPhoneNumber"]}"),
+                                    Text("F Phone No: ${AllData[index]["StudentFatherPhoneNo"]}"),
                     
                     
                       
-                                    Text("Email:${AllData[index]["StudentEmail"]}"),
+                                    Text("Email: ${AllData[index]["StudentEmail"]}"),
                       
-                                     Text("Receiver E:${AllData[index]["moneyReceiverEmail"]}",style: TextStyle(fontWeight: FontWeight.bold)),
+                                     Text("Receiver E: ${AllData[index]["moneyReceiverEmail"]}",style: TextStyle(fontWeight: FontWeight.bold)),
                       
                                      
-                                     Text("Receiver N:${AllData[index]["moneyReceiverName"].toString().toUpperCase()}", style: TextStyle(fontWeight: FontWeight.bold),),
+                                     Text("Receiver N: ${AllData[index]["moneyReceiverName"].toString().toUpperCase()}", style: TextStyle(fontWeight: FontWeight.bold),),
                       
                       
-                                    Text("Fee Name:${AllData[index]["FeeName"]}"),
+                                    // Text("Exam Name:${AllData[index]["ExamName"]}"),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text("Exam Name: "),
+                                        Text("${AllData[index]["ExamName"].toString().toBijoy}", style:TextStyle(fontSize: 15, fontWeight: FontWeight.bold, fontFamily: "SiyamRupali")),
+                                      ],
+                                    ),
                                       
                                     Text("Date: ${AllData[index]["Date"]}"),
                                   ],

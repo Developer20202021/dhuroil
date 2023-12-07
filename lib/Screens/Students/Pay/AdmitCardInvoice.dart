@@ -1,5 +1,6 @@
 import 'dart:js';
 
+import 'package:bijoy_helper/bijoy_helper.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
 import 'package:dhuroil/Screens/Students/StudentCertificatePdf.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,15 @@ class AdmitCardPdfPreviewPage extends StatefulWidget {
 
 
   final StudentName;
-  final StudentIDNo;
+  final StudentRollNo;
   final StudentPhoneNumber;
-  final StudentEmail;
-  final StudentCashIn;
-  final CashInDate;
+  final ExamFee;
+  final ExamDate;
+  final ClassName;
+  final Gender;
+  final FatherName;
+  final MotherName;
+  final ExamName;
 
 
 
@@ -35,7 +40,7 @@ class AdmitCardPdfPreviewPage extends StatefulWidget {
 
 
  
-  const AdmitCardPdfPreviewPage({Key? key, required this.CashInDate, required this.StudentEmail, required this.StudentCashIn, required this.StudentIDNo, required this.StudentName, required this.StudentPhoneNumber, }) : super(key: key);
+  const AdmitCardPdfPreviewPage({Key? key, required this.ClassName,required this.ExamDate,required this.ExamFee, required this.FatherName, required this.Gender,required this.MotherName, required this.StudentRollNo ,required this.StudentName, required this.StudentPhoneNumber, required this.ExamName}) : super(key: key);
 
   @override
   State<AdmitCardPdfPreviewPage> createState() => _AdmitCardPdfPreviewPageState();
@@ -65,7 +70,16 @@ class _AdmitCardPdfPreviewPageState extends State<AdmitCardPdfPreviewPage> {
         
       ),
       body: PdfPreview(
-        build: (context) => makePdf(widget.StudentName,widget.StudentIDNo, widget.StudentPhoneNumber,widget.StudentCashIn,widget.StudentEmail,widget.CashInDate),
+        build: (context) => makePdf(widget.StudentName,
+   widget.StudentRollNo,
+   widget.StudentPhoneNumber,
+   widget.ExamFee,
+   widget.ExamDate,
+   widget.ClassName,
+   widget.Gender,
+   widget.FatherName,
+   widget.MotherName,
+   widget.ExamName),
       ),
     );
   }
@@ -84,7 +98,15 @@ class _AdmitCardPdfPreviewPageState extends State<AdmitCardPdfPreviewPage> {
 
 
 
-Future<Uint8List> makePdf(StudentName, StudentIDNo, StudentPhoneNumber, StudentCashIn, StudentEmail,CashInDate) async {
+Future<Uint8List> makePdf(  StudentName,
+   StudentRollNo,
+   StudentPhoneNumber,
+   ExamFee,
+   ExamDate,
+   ClassName,
+   Gender,
+   FatherName,
+   MotherName,ExamName) async {
 
 final netImage = await networkImage('https://i.ibb.co/PYNsGBJ/bangladesh-govt-logo-A2-C7688845-seeklogo-com.png');
 
@@ -263,7 +285,7 @@ pdf.addPage(pw.Page(
               ),
 
 
-              pw.Center(child: pw.Text("1g mvgwqK cix¶v", style:pw.TextStyle(fontSize: 17, fontWeight: pw.FontWeight.bold, font: Banglattf)),),
+              pw.Center(child: pw.Text("${ExamName.toString().toBijoy}", style:pw.TextStyle(fontSize: 17, fontWeight: pw.FontWeight.bold, font: Banglattf)),),
 
 
 
@@ -295,7 +317,7 @@ pdf.addPage(pw.Page(
                 width: 450,
                 decoration:  pw.BoxDecoration(
                 border: pw.Border(bottom: pw.BorderSide(width: 1, style: pw.BorderStyle.dashed))),
-                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("Mahadi Hasan", style: pw.TextStyle(fontSize: 14,))))
+                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("${StudentName.toString().toUpperCase()}", style: pw.TextStyle(fontSize: 14,))))
 
               ]),
 
@@ -324,7 +346,7 @@ pdf.addPage(pw.Page(
                 width: 150,
                 decoration:  pw.BoxDecoration(
                 border: pw.Border(bottom: pw.BorderSide(width: 1, style: pw.BorderStyle.dashed))),
-                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 10),child: pw.Text("Mosta Hasan", style: pw.TextStyle(fontSize: 11,)))),
+                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 10),child: pw.Text("${FatherName.toString().toUpperCase()}", style: pw.TextStyle(fontSize: 11,)))),
 
 
                 pw.Text("Mother's Name:", style: pw.TextStyle(fontSize: 14,)),
@@ -337,7 +359,7 @@ pdf.addPage(pw.Page(
                 width: 150,
                 decoration:  pw.BoxDecoration(
                 border: pw.Border(bottom: pw.BorderSide(width: 1, style: pw.BorderStyle.dashed))),
-                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 10),child: pw.Text("Amena Khanam", style: pw.TextStyle(fontSize: 11,)))),
+                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 10),child: pw.Text("${MotherName.toString().toUpperCase()}", style: pw.TextStyle(fontSize: 11,)))),
 
               ]),
 
@@ -364,7 +386,7 @@ pdf.addPage(pw.Page(
                 width: 100,
                 decoration:  pw.BoxDecoration(
                 border: pw.Border(bottom: pw.BorderSide(width: 1, style: pw.BorderStyle.dashed))),
-                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("7", style: pw.TextStyle(fontSize: 11,)))),
+                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("${ClassName}", style: pw.TextStyle(fontSize: 11,)))),
 
 
                 pw.Text("Roll No:", style: pw.TextStyle(fontSize: 14,)),
@@ -377,7 +399,7 @@ pdf.addPage(pw.Page(
                 width: 130,
                 decoration:  pw.BoxDecoration(
                 border: pw.Border(bottom: pw.BorderSide(width: 1, style: pw.BorderStyle.dashed))),
-                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("123144", style: pw.TextStyle(fontSize: 11,)))),
+                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("${StudentRollNo}", style: pw.TextStyle(fontSize: 11,)))),
 
 
               
@@ -425,7 +447,7 @@ pdf.addPage(pw.Page(
                 width: 100,
                 decoration:  pw.BoxDecoration(
                 border: pw.Border(bottom: pw.BorderSide(width: 1, style: pw.BorderStyle.dashed))),
-                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("Male", style: pw.TextStyle(fontSize: 11,)))),
+                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("${Gender.toString().toUpperCase()}", style: pw.TextStyle(fontSize: 11,)))),
 
 
                 pw.Text("Phone No:", style: pw.TextStyle(fontSize: 14,)),
@@ -438,7 +460,7 @@ pdf.addPage(pw.Page(
                 width: 130,
                 decoration:  pw.BoxDecoration(
                 border: pw.Border(bottom: pw.BorderSide(width: 1, style: pw.BorderStyle.dashed))),
-                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("12314421341", style: pw.TextStyle(fontSize: 11,)))),
+                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 30),child: pw.Text("${StudentPhoneNumber}", style: pw.TextStyle(fontSize: 11,)))),
 
 
               
@@ -453,7 +475,7 @@ pdf.addPage(pw.Page(
                 width: 130,
                 decoration:  pw.BoxDecoration(
                 border: pw.Border(bottom: pw.BorderSide(width: 1, style: pw.BorderStyle.dashed))),
-                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 10),child: pw.Text("100 tk", style: pw.TextStyle(fontSize: 14,)))),
+                    child: pw.Padding(padding: pw.EdgeInsets.only(bottom: 5, left: 10),child: pw.Text("${ExamFee} tk", style: pw.TextStyle(fontSize: 14,)))),
 
 
 

@@ -1,6 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
+import 'package:dhuroil/Screens/Students/Pay/AllPay.dart';
 import 'package:dhuroil/Screens/Students/ViewPerStudentResult.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,6 +42,10 @@ class _AllExamResultState extends State<AllExamResult> {
   List AllData = [];
   var DataLoad = "";
   String SelectedClassName = "";
+
+  String SelectedExamMode = "";
+
+  String SelectedExamStatus = "";
 
   bool loading = false; // change true
 
@@ -87,125 +92,133 @@ class _AllExamResultState extends State<AllExamResult> {
     });
   }
 
+  Future UpdateExamStatus(ExamID, String Status) async {
+    setState(() {
+      loading = true;
+    });
 
+    final docUser = FirebaseFirestore.instance.collection("ExamResult");
 
+    final jsonData = {"status": Status};
 
+    await docUser
+        .doc(ExamID)
+        .update(jsonData)
+        .then((value) => setState(() {
+              getData(widget.StudentClassName, "${DateTime.now().year}");
 
-Future UpdateExamStatus(ExamID, String Status) async{
+              setState(() {
+                loading = false;
+              });
 
-                  setState(() {
-                    loading = true;
-                  });
+              final snackBar = SnackBar(
+                duration: Duration(seconds: 7),
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                content: AwesomeSnackbarContent(
+                  title: 'Update Successfull',
+                  message: 'Update Successfull',
+                  // Presence & Absence History
+                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                  contentType: ContentType.success,
+                ),
+              );
 
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackBar);
+            }))
+        .onError((error, stackTrace) => setState(() {
+              setState(() {
+                loading = false;
+              });
 
+              print(error);
 
+              final snackBar = SnackBar(
+                duration: Duration(seconds: 7),
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                content: AwesomeSnackbarContent(
+                  title: 'Something Wrong!!',
+                  message: 'Try again later',
+                  // Presence & Absence History
+                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                  contentType: ContentType.failure,
+                ),
+              );
 
-          final docUser =  FirebaseFirestore.instance.collection("ExamResult");
-
-                      final jsonData ={
-
-                        "status":Status
-
-                      };
-
-
-
-
-         await docUser.doc(ExamID).update(jsonData).then((value) =>  setState(() {
-
-
-                  getData(widget.StudentClassName, "${DateTime.now().year}");
-
-
-                     setState(() {
-                        loading = false;
-                 
-                      });
-
-                        final snackBar = SnackBar(
-
-                                      duration: Duration(seconds: 7),
-                                  
-                                      elevation: 0,
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: Colors.transparent,
-                                      content: AwesomeSnackbarContent(
-                                        title: 'Update Successfull',
-                                        message:
-                                            'Update Successfull',
-                          // Presence & Absence History
-                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                        contentType: ContentType.success,
-                                      ),
-                                    );
-                          
-                                    ScaffoldMessenger.of(context)
-                                      ..hideCurrentSnackBar()
-                                      ..showSnackBar(snackBar);
-
-
-                    })).onError((error, stackTrace) => setState(() {
-
-                      setState(() {
-                        loading = false;
-                      });
-
-
-                      print(error);
-
-
-
-                      final snackBar = SnackBar(
-
-                                      duration: Duration(seconds: 7),
-                                  
-                                      elevation: 0,
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: Colors.transparent,
-                                      content: AwesomeSnackbarContent(
-                                        title: 'Something Wrong!!',
-                                        message:
-                                            'Try again later',
-                          // Presence & Absence History
-                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                        contentType: ContentType.failure,
-                                      ),
-                                    );
-                          
-                                    ScaffoldMessenger.of(context)
-                                      ..hideCurrentSnackBar()
-                                      ..showSnackBar(snackBar);
-
-
-                    }));
-
-
-
-
-
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackBar);
+            }));
   }
 
+  Future UpdateExamFeeCollectionMode(ExamID, String FeeCollectionMode) async {
+    setState(() {
+      loading = true;
+    });
 
+    final docUser = FirebaseFirestore.instance.collection("ExamResult");
 
+    final jsonData = {"ExamFeeCollectionMode": FeeCollectionMode};
 
+    await docUser
+        .doc(ExamID)
+        .update(jsonData)
+        .then((value) => setState(() {
+              getData(widget.StudentClassName, "${DateTime.now().year}");
 
+              setState(() {
+                loading = false;
+              });
 
+              final snackBar = SnackBar(
+                duration: Duration(seconds: 7),
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                content: AwesomeSnackbarContent(
+                  title: 'Update Successfull',
+                  message: 'Update Successfull',
+                  // Presence & Absence History
+                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                  contentType: ContentType.success,
+                ),
+              );
 
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackBar);
+            }))
+        .onError((error, stackTrace) => setState(() {
+              setState(() {
+                loading = false;
+              });
 
+              print(error);
 
+              final snackBar = SnackBar(
+                duration: Duration(seconds: 7),
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                content: AwesomeSnackbarContent(
+                  title: 'Something Wrong!!',
+                  message: 'Try again later',
+                  // Presence & Absence History
+                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                  contentType: ContentType.failure,
+                ),
+              );
 
-
-
-
-
-
-
-
-
-
-
-
-
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackBar);
+            }));
+  }
 
   @override
   void initState() {
@@ -304,8 +317,6 @@ Future UpdateExamStatus(ExamID, String Status) async{
                         () {
                           SelectedClassName = val!;
 
-                          
-
                           print(val);
                         },
                       );
@@ -367,57 +378,139 @@ Future UpdateExamStatus(ExamID, String Status) async{
                     ),
                   ),
                 ),
+                Container(
+                  width: 200,
+                  height: 40,
+                  child: DropdownButton(
+                    hint: SelectedExamStatus == ""
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Select Status'),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Status: ${SelectedExamStatus}",
+                              style: TextStyle(
+                                  color: ColorName().appColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16),
+                            ),
+                          ),
+                    isExpanded: true,
+                    iconSize: 30.0,
+                    style: TextStyle(
+                        color: ColorName().appColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                    items: ["private", "public", "all"].map(
+                      (val) {
+                        return DropdownMenuItem<String>(
+                          value: val,
+                          child: Text(val),
+                        );
+                      },
+                    ).toList(),
+                    onChanged: (val) {
+                      setState(
+                        () {
+                          SelectedExamStatus = val!;
 
-
-
-
-                
-
-
-          SelectedClassName==""|| SelectedYear=="Select Year" || SelectedYear=="null"?Text(""):
-          
-          
-          Container(
-              height: 50,
-              width: 100,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromRGBO(255, 143, 158, 1),
-                    Color.fromRGBO(255, 188, 143, 1),
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+                          print(val);
+                        },
+                      );
+                    },
+                  ),
                 ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
+                Container(
+                  width: 300,
+                  height: 40,
+                  child: DropdownButton(
+                    hint: SelectedExamMode == ""
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Select Fee Collection Mode'),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Exam Mode: ${SelectedExamMode}",
+                              style: TextStyle(
+                                  color: ColorName().appColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16),
+                            ),
+                          ),
+                    isExpanded: true,
+                    iconSize: 30.0,
+                    style: TextStyle(
+                        color: ColorName().appColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                    items: [
+                      "open",
+                      "close",
+                    ].map(
+                      (val) {
+                        return DropdownMenuItem<String>(
+                          value: val,
+                          child: Text(val),
+                        );
+                      },
+                    ).toList(),
+                    onChanged: (val) {
+                      setState(
+                        () {
+                          SelectedExamMode = val!;
+
+                          print(val);
+                        },
+                      );
+                    },
+                  ),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.white.withOpacity(0.2),
-                    spreadRadius: 4,
-                    blurRadius: 10,
-                    offset: Offset(0, 3),
-                  )
-                ]
-              ),
-               child: TextButton(onPressed: () async{
-
-
-                getData(SelectedClassName, SelectedYear.split(":")[1].trim());
-             
-                             
-                   
-                                          }, child: Text("Search", style: TextStyle(color: Colors.white, fontSize: 15),), style: ButtonStyle(
-                                           
-                      backgroundColor: MaterialStatePropertyAll<Color>(Colors.pink.shade300),
-                    ),),
-             ),
-
-
-
-
-
+                SelectedClassName == "" ||
+                        SelectedYear == "Select Year" ||
+                        SelectedYear == "null"
+                    ? Text("")
+                    : Container(
+                        height: 50,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Color.fromRGBO(255, 143, 158, 1),
+                                Color.fromRGBO(255, 188, 143, 1),
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(25.0),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white.withOpacity(0.2),
+                                spreadRadius: 4,
+                                blurRadius: 10,
+                                offset: Offset(0, 3),
+                              )
+                            ]),
+                        child: TextButton(
+                          onPressed: () async {
+                            getData(SelectedClassName,
+                                SelectedYear.split(":")[1].trim());
+                          },
+                          child: Text(
+                            "Search",
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll<Color>(
+                                Colors.pink.shade300),
+                          ),
+                        ),
+                      ),
               ],
             ),
           ),
@@ -538,10 +631,51 @@ Future UpdateExamStatus(ExamID, String Status) async{
                                                                           .bold,
                                                                   fontSize: 16),
                                                               items: [
+                                                                "Bangla",
+                                                                "English",
                                                                 "Bangla 1st Paper",
                                                                 'Bangla 2nd Paper',
                                                                 "English 1st Paper",
-                                                                "English 2nd Paper"
+                                                                "English 2nd Paper",
+                                                                "G Math",
+                                                                "Math",
+                                                                "Religion",
+                                                                "Islamic Studies",
+                                                                "Hindu Studies",
+                                                                "ICT",
+                                                                "Physics",
+                                                                "Chemistry",
+                                                                "Biology",
+                                                                "Higher Math",
+                                                                "Accounting",
+                                                                "Finance",
+                                                                "Business Entrepreneurship",
+                                                                "Agricultural Studies",
+                                                                "General Science",
+                                                                "Bangladesh and Global Studies",
+                                                                "Information & Technology",
+                                                                "Islam & Moral Education",
+                                                                "Bangladesh & World",
+                                                                "Agriculture Studies",
+                                                                "Finance & Banking",
+                                                                "Accounting",
+                                                                "Business Enterprienure",
+                                                                "General Science",
+                                                                "Information & Technology",
+                                                                "Islam & Moral Education",
+                                                                "Agricultural Studies",
+                                                                "Home Science",
+                                                                "Music",
+                                                                "Geography",
+                                                                "Civic & Citizenship",
+                                                                "Economics",
+                                                                "General Science",
+                                                                "Information & Technology",
+                                                                "Islam & Moral Education",
+                                                                "History of Bangladesh",
+                                                                "Agriculture Studies",
+                                                                "Home Science",
+                                                                "Music",
                                                               ].map(
                                                                 (val) {
                                                                   return DropdownMenuItem<
@@ -647,9 +781,10 @@ Future UpdateExamStatus(ExamID, String Status) async{
                                                                         .circular(
                                                                             4)),
                                                           ),
-                                                          textStyle: TextStyle(
-                                                              color:
-                                                                  Colors.white),
+                                                          textStyle:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white),
                                                           preferBelow: true,
                                                           verticalOffset: 20,
                                                           child: Container(
@@ -657,29 +792,29 @@ Future UpdateExamStatus(ExamID, String Status) async{
                                                             width: 300,
                                                             child:
                                                                 DropdownButton(
-                                                              hint:
-                                                                  SelectedMCQAvailable ==
-                                                                          ""
-                                                                      ? Padding(
-                                                                          padding: const EdgeInsets
-                                                                              .all(
+                                                              hint: SelectedMCQAvailable ==
+                                                                      ""
+                                                                  ? const Padding(
+                                                                      padding:
+                                                                          EdgeInsets.all(
                                                                               8.0),
-                                                                          child:
-                                                                              Text('MCQ Available'),
-                                                                        )
-                                                                      : Padding(
-                                                                          padding: const EdgeInsets
-                                                                              .all(
-                                                                              8.0),
-                                                                          child:
-                                                                              Text(
-                                                                            SelectedMCQAvailable,
-                                                                            style: TextStyle(
-                                                                                color: ColorName().appColor,
-                                                                                fontWeight: FontWeight.bold,
-                                                                                fontSize: 16),
-                                                                          ),
-                                                                        ),
+                                                                      child: Text(
+                                                                          'MCQ Available'),
+                                                                    )
+                                                                  : Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .all(
+                                                                          8.0),
+                                                                      child:
+                                                                          Text(
+                                                                        SelectedMCQAvailable,
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                ColorName().appColor,
+                                                                            fontWeight: FontWeight.bold,
+                                                                            fontSize: 16),
+                                                                      ),
+                                                                    ),
                                                               isExpanded: true,
                                                               iconSize: 30.0,
                                                               style: TextStyle(
@@ -1040,6 +1175,42 @@ Future UpdateExamStatus(ExamID, String Status) async{
                                                                 "FatherPhoneNumber":
                                                                     widget
                                                                         .FatherPhoneNo,
+                                                                "GradePoint":
+                                                                    (() {
+                                                                  if (((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) + (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) + double.parse(WrittenMarksController.text.trim().toLowerCase())) >=
+                                                                      80.0) {
+                                                                    return "5";
+                                                                  } else if (((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) + (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) + double.parse(WrittenMarksController.text.trim().toLowerCase())) >=
+                                                                          70.0 &&
+                                                                      ((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) + (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) + double.parse(WrittenMarksController.text.trim().toLowerCase())) <=
+                                                                          79.0) {
+                                                                    return "4";
+                                                                  } else if (((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) + (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) + double.parse(WrittenMarksController.text.trim().toLowerCase())) >=
+                                                                          60.0 &&
+                                                                      ((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) + (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) + double.parse(WrittenMarksController.text.trim().toLowerCase())) <=
+                                                                          69.0) {
+                                                                    return "3.5";
+                                                                  } else if (((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) + (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) + double.parse(WrittenMarksController.text.trim().toLowerCase())) >=
+                                                                          50.0 &&
+                                                                      ((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) + (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) + double.parse(WrittenMarksController.text.trim().toLowerCase())) <=
+                                                                          59.0) {
+                                                                    return "3";
+                                                                  } else if (((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) + (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) + double.parse(WrittenMarksController.text.trim().toLowerCase())) >=
+                                                                          40.0 &&
+                                                                      ((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) + (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) + double.parse(WrittenMarksController.text.trim().toLowerCase())) <=
+                                                                          49.0) {
+                                                                    return "2";
+                                                                  } else if (((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) + (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) + double.parse(WrittenMarksController.text.trim().toLowerCase())) >=
+                                                                          33.0 &&
+                                                                      ((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) +
+                                                                              (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) +
+                                                                              double.parse(WrittenMarksController.text.trim().toLowerCase())) <=
+                                                                          39.0) {
+                                                                    return "1";
+                                                                  } else {
+                                                                    return "0";
+                                                                  }
+                                                                }()),
                                                                 "Grade": (() {
                                                                   if (((SelectedMCQAvailable == "Yes" ? double.parse(MCQMarksController.text.trim().toLowerCase()) : 0) + (SelectedPracticalAvailable == "Yes" ? double.parse(PracticalMarksController.text.trim().toLowerCase()) : 0) + double.parse(WrittenMarksController.text.trim().toLowerCase())) >=
                                                                       80.0) {
@@ -1212,28 +1383,53 @@ Future UpdateExamStatus(ExamID, String Status) async{
                                       child: Text("Delete"),
                                       value: '/contact',
                                     ),
+                                    AllData[index]["ExamFeeCollectionMode"] ==
+                                            "open"
+                                        ? PopupMenuItem(
+                                            child: Text("Pay"),
+                                            value: '/contact',
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AllPay(
+                                                          ExamFee:
+                                                              AllData[index]
+                                                                  ["ExamFee"],
+                                                          StudentEmail: widget
+                                                              .StudentEmail,
+                                                          StudentName: widget
+                                                              .StudentName,
+                                                          StudentPhoneNumber: widget
+                                                              .StudentPhoneNumber,
+                                                          FatherPhoneNo: widget
+                                                              .FatherPhoneNo,
+                                                          StudentRollNo:
+                                                              widget.RollNumber,
+                                                          ExamName:
+                                                              AllData[index]
+                                                                  ["ExamName"],
+                                                          ExamDate:
+                                                              AllData[index]
+                                                                  ["ExamDate"],
+                                                          ClassName:
+                                                              AllData[index]
+                                                                  ["ClassName"],
+                                                          ExamStarttingDate:
+                                                              AllData[index]
+                                                                  ["ExamDate"],
+                                                        )),
+                                              );
+                                            },
+                                          )
+                                        : PopupMenuItem(
+                                            child: Text(""),
+                                            value: '/contact',
+                                          ),
                                   ];
                                 },
                               ),
-
-                              leading:AllData[index]["status"]=="private"? ElevatedButton(
-                                      onPressed: () async{
-
-                                        UpdateExamStatus(AllData[index]["ExamResultID"], "public");
-                                         
-                                      },
-                                      child: const Text('Public',style: TextStyle(fontWeight: FontWeight.bold),),
-                                    ):
-                                    
-                              ElevatedButton(
-                                      onPressed: () async{
-
-                                         UpdateExamStatus(AllData[index]["ExamResultID"], "private");
-                                        
-                                         
-                                      },
-                                      child:const Text('Private', style: TextStyle(fontWeight: FontWeight.bold),),
-                                    ),
                               subtitle: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1255,10 +1451,85 @@ Future UpdateExamStatus(ExamID, String Status) async{
                                   Text(
                                       "Creator E:${AllData[index]["CreatorEmail"]}"),
                                   Text("Date: ${AllData[index]["Date"]}"),
-
-                                  Text("Status: ${AllData[index]["status"]}", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 17),),
-
-
+                                  Text(
+                                    "Status: ${AllData[index]["status"]}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green,
+                                        fontSize: 17),
+                                  ),
+                                  Text(
+                                    "Fee Collection: ${AllData[index]["ExamFeeCollectionMode"]}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red,
+                                        fontSize: 17),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      AllData[index]["ExamFeeCollectionMode"] ==
+                                              "open"
+                                          ? ElevatedButton(
+                                              onPressed: () async {
+                                                UpdateExamFeeCollectionMode(
+                                                    AllData[index]
+                                                        ["ExamResultID"],
+                                                    "close");
+                                              },
+                                              child: const Text(
+                                                'Close',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            )
+                                          : ElevatedButton(
+                                              onPressed: () async {
+                                                UpdateExamFeeCollectionMode(
+                                                    AllData[index]
+                                                        ["ExamResultID"],
+                                                    "open");
+                                              },
+                                              child: const Text(
+                                                'Open',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                      AllData[index]["status"] == "private"
+                                          ? ElevatedButton(
+                                              onPressed: () async {
+                                                UpdateExamStatus(
+                                                    AllData[index]
+                                                        ["ExamResultID"],
+                                                    "public");
+                                              },
+                                              child: const Text(
+                                                'Public',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            )
+                                          : ElevatedButton(
+                                              onPressed: () async {
+                                                UpdateExamStatus(
+                                                    AllData[index]
+                                                        ["ExamResultID"],
+                                                    "private");
+                                              },
+                                              child: const Text(
+                                                'Private',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),

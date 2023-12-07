@@ -27,19 +27,22 @@ import 'package:uuid/uuid.dart';
 
 class MonthlyFee extends StatefulWidget {
 
-
   final StudentEmail;
   final StudentPhoneNumber;
   final StudentName;
-  final StudentDueAmount;
+  final ExamFee;
   final FatherPhoneNo;
-  final StudentIDNo;
+  final StudentRollNo;
+  final ExamName;
+  final ExamDate;
+  final ClassName;
+  final ExamStarttingDate;
 
 
 
 
 
-  const MonthlyFee({super.key, required this.StudentDueAmount, required this.StudentEmail, required this.StudentName, required this.StudentPhoneNumber, required this.FatherPhoneNo, required this.StudentIDNo});
+  const MonthlyFee({super.key, required this.ExamFee, required this.StudentEmail, required this.StudentName, required this.StudentPhoneNumber, required this.FatherPhoneNo, required this.StudentRollNo, required this.ExamName, required this.ExamDate,required this.ClassName, required this.ExamStarttingDate});
 
   @override
   State<MonthlyFee> createState() => _MonthlyFeeState();
@@ -66,94 +69,94 @@ class _MonthlyFeeState extends State<MonthlyFee> {
 
 
 
-  Future StudentMonthlyFeeFunction(PaymentID, moneyReceiverEmail, moneyReceiverName) async{
+  // Future StudentMonthlyFeeFunction(PaymentID, moneyReceiverEmail, moneyReceiverName) async{
 
-    setState(() {
-      loading = true;
-    });
-
-
-    int DuePayment = int.parse(widget.StudentDueAmount);
+  //   setState(() {
+  //     loading = true;
+  //   });
 
 
+  //   int DuePayment = int.parse(widget.StudentDueAmount);
 
 
-          final docUser =  FirebaseFirestore.instance.collection("MonthlyFeePayHistory");
 
-                      final jsonData ={
 
-                        "PaymentID":PaymentID,
-                        "StudentName":widget.StudentName,
-                        "StudentEmail":widget.StudentEmail,
-                        "StudentPhoneNumber":widget.StudentPhoneNumber,
-                        "pay":PaymentController.text.trim(),
-                        "Date":"${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                        "month":"${DateTime.now().month}/${DateTime.now().year}",
-                        "year":"${DateTime.now().year}",
-                        "DateTime":"${DateTime.now().toIso8601String()}",
-                        "moneyReceiverEmail":moneyReceiverEmail,
-                        "moneyReceiverName":moneyReceiverName,
-                        "IDNo":widget.StudentIDNo
+  //         final docUser =  FirebaseFirestore.instance.collection("MonthlyFeePayHistory");
+
+  //                     final jsonData ={
+
+  //                       "PaymentID":PaymentID,
+  //                       "StudentName":widget.StudentName,
+  //                       "StudentEmail":widget.StudentEmail,
+  //                       "StudentPhoneNumber":widget.StudentPhoneNumber,
+  //                       "pay":PaymentController.text.trim(),
+  //                       "Date":"${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+  //                       "month":"${DateTime.now().month}/${DateTime.now().year}",
+  //                       "year":"${DateTime.now().year}",
+  //                       "DateTime":"${DateTime.now().toIso8601String()}",
+  //                       "moneyReceiverEmail":moneyReceiverEmail,
+  //                       "moneyReceiverName":moneyReceiverName,
+  //                       "IDNo":widget.StudentIDNo
 
                      
-                      };
+  //                     };
 
 
 
 
-         await docUser.doc(PaymentID).set(jsonData).then((value) =>  setState(() async{
+  //        await docUser.doc(PaymentID).set(jsonData).then((value) =>  setState(() async{
 
 
 
 
 
                       
-         final StudentInfo = FirebaseFirestore.instance.collection("StudentInfo").doc(widget.StudentEmail);
+  //        final StudentInfo = FirebaseFirestore.instance.collection("StudentInfo").doc(widget.StudentEmail);
 
-                  final UpadateData ={
+  //                 final UpadateData ={
 
-                    "DueAmount":(DuePayment-int.parse(PaymentController.text.trim()))<0?"0":(DuePayment-int.parse(PaymentController.text.trim())).toString(),
-                    "StudentType":"Paid",
-                    "AccountStatus":(DuePayment-int.parse(PaymentController.text.trim()))<=0?"close":"open"
+  //                   "DueAmount":(DuePayment-int.parse(PaymentController.text.trim()))<0?"0":(DuePayment-int.parse(PaymentController.text.trim())).toString(),
+  //                   "StudentType":"Paid",
+  //                   "AccountStatus":(DuePayment-int.parse(PaymentController.text.trim()))<=0?"close":"open"
 
                 
-                };
+  //               };
 
 
 
 
 
-                // user Data Update and show snackbar
+  //               // user Data Update and show snackbar
 
-                  StudentInfo.update(UpadateData).then((value) => setState(() async{
-
-
+  //                 StudentInfo.update(UpadateData).then((value) => setState(() async{
 
 
 
-          try {
+
+
+  //         try {
 
 
 
                                    
-             var AdminMsg = "Dear ${widget.StudentName}, আপনি ${PaymentController.text.trim()} Taka Pay করেছেন। Uttaron";
+  //            var AdminMsg = "Dear ${widget.StudentName}, আপনি ${PaymentController.text.trim()} Taka Pay করেছেন। Uttaron";
 
 
 
-            final response = await http
-                .get(Uri.parse('https://api.greenweb.com.bd/api.php?token=1024519252916991043295858a1b3ac3cb09ae52385b1489dff95&to=${widget.FatherPhoneNo}&message=${AdminMsg}'));
+  //           final response = await http
+  //               .get(Uri.parse('https://api.greenweb.com.bd/api.php?token=1024519252916991043295858a1b3ac3cb09ae52385b1489dff95&to=${widget.FatherPhoneNo}&message=${AdminMsg}'));
 
-            if (response.statusCode == 200) {
-              // If the server did return a 200 OK response,
-              // then parse the JSON.
-              print(jsonDecode(response.body));
+  //           if (response.statusCode == 200) {
+  //             // If the server did return a 200 OK response,
+  //             // then parse the JSON.
+  //             print(jsonDecode(response.body));
               
             
-            } else {
-              // If the server did not return a 200 OK response,
-              // then throw an exception.
-              throw Exception('Failed to load album');
-            }
+  //           } else {
+  //             // If the server did not return a 200 OK response,
+  //             // then throw an exception.
+  //             throw Exception('Failed to load album');
+  //           }
 
 
 
@@ -163,62 +166,58 @@ class _MonthlyFeeState extends State<MonthlyFee> {
 
 
                         
-                      } catch (e) {
+  //                     } catch (e) {
                         
-                      }
+  //                     }
 
 
 
 
 
 
-                     setState(() {
-                        loading = false;
+  //                    setState(() {
+  //                       loading = false;
                  
-                      });
+  //                     });
 
 
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AdmitCardPdfPreviewPage(CashInDate: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}", StudentEmail: widget.StudentEmail, StudentCashIn: PaymentController.text.trim(), StudentIDNo:widget.StudentIDNo, StudentName:widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber)),
-                );
-
-
-
+  //             Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(builder: (context) => AdmitCardPdfPreviewPage(CashInDate: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}", StudentEmail: widget.StudentEmail, StudentCashIn: PaymentController.text.trim(), StudentIDNo:widget.StudentIDNo, StudentName:widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber)),
+  //               );
 
 
 
 
-                     final snackBar = SnackBar(
-                    /// need to set following properties for best effect of awesome_snackbar_content
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    content: AwesomeSnackbarContent(
-                      title: 'Pay Successfull',
-                      message:
-                          'Pay Successfull',
+
+
+
+  //                    final snackBar = SnackBar(
+  //                   /// need to set following properties for best effect of awesome_snackbar_content
+  //                   elevation: 0,
+  //                   behavior: SnackBarBehavior.floating,
+  //                   backgroundColor: Colors.transparent,
+  //                   content: AwesomeSnackbarContent(
+  //                     title: 'Pay Successfull',
+  //                     message:
+  //                         'Pay Successfull',
         
-                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                      contentType: ContentType.success,
-                    ),
-                  );
+  //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+  //                     contentType: ContentType.success,
+  //                   ),
+  //                 );
         
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
+  //                 ScaffoldMessenger.of(context)
+  //                   ..hideCurrentSnackBar()
+  //                   ..showSnackBar(snackBar);
 
 
 
-                  })).onError((error, stackTrace) => setState((){
+  //                 })).onError((error, stackTrace) => setState((){
 
-                    print(error);
+  //                   print(error);
 
-                  }));
-
-
-
-
+  //                 }));
 
 
 
@@ -226,24 +225,28 @@ class _MonthlyFeeState extends State<MonthlyFee> {
 
 
 
-                       final snackBar = SnackBar(
-                    /// need to set following properties for best effect of awesome_snackbar_content
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    content: AwesomeSnackbarContent(
-                      title: 'Pay Successfull',
-                      message:
-                          'Pay Successfull',
+
+
+
+
+  //                      final snackBar = SnackBar(
+  //                   /// need to set following properties for best effect of awesome_snackbar_content
+  //                   elevation: 0,
+  //                   behavior: SnackBarBehavior.floating,
+  //                   backgroundColor: Colors.transparent,
+  //                   content: AwesomeSnackbarContent(
+  //                     title: 'Pay Successfull',
+  //                     message:
+  //                         'Pay Successfull',
         
-                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                      contentType: ContentType.success,
-                    ),
-                  );
+  //                     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+  //                     contentType: ContentType.success,
+  //                   ),
+  //                 );
         
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
+  //                 ScaffoldMessenger.of(context)
+  //                   ..hideCurrentSnackBar()
+  //                   ..showSnackBar(snackBar);
 
 
                     
@@ -256,36 +259,36 @@ class _MonthlyFeeState extends State<MonthlyFee> {
 
 
 
-                  //  myAdminNameController.clear();
-                  //     myEmailController.clear();
-                  //     myPassController.clear();
-                  //     myPhoneNumberController.clear();
+  //                 //  myAdminNameController.clear();
+  //                 //     myEmailController.clear();
+  //                 //     myPassController.clear();
+  //                 //     myPhoneNumberController.clear();
 
                 
                 
-                setState(() {
-                    loading = false;
-                  });
+  //               setState(() {
+  //                   loading = false;
+  //                 });
 
 
 
 
-                    })).onError((error, stackTrace) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: Colors.green,
-                              content: const Text('Success'),
-                              action: SnackBarAction(
-                                label: 'Undo',
-                                onPressed: () {
-                                  // Some code to undo the change.
-                                },
-                              ),
-                            )));
+  //                   })).onError((error, stackTrace) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //                   backgroundColor: Colors.green,
+  //                             content: const Text('Success'),
+  //                             action: SnackBarAction(
+  //                               label: 'Undo',
+  //                               onPressed: () {
+  //                                 // Some code to undo the change.
+  //                               },
+  //                             ),
+  //                           )));
 
 
 
 
 
-  }
+  // }
 
 
 
@@ -492,7 +495,7 @@ class _MonthlyFeeState extends State<MonthlyFee> {
                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Due: ${widget.StudentDueAmount}৳',
+                    labelText: 'Due: ৳',
                      labelStyle: TextStyle(
         color: myFocusNode.hasFocus ? Color.fromRGBO(92, 107, 192, 1): Colors.black
             ),
@@ -591,7 +594,7 @@ class _MonthlyFeeState extends State<MonthlyFee> {
 
 
 
-                  StudentMonthlyFeeFunction(PaymentID, user.email, user.displayName);
+                  // StudentMonthlyFeeFunction(PaymentID, user.email, user.displayName);
 
 
           

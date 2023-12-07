@@ -30,14 +30,19 @@ class OthersFeePay extends StatefulWidget {
   final StudentEmail;
   final StudentPhoneNumber;
   final StudentName;
-  final StudentDueAmount;
+  final ExamFee;
   final FatherPhoneNo;
+  final StudentRollNo;
+  final ExamName;
+  final ExamDate;
+  final ClassName;
+  final ExamStarttingDate;
 
 
 
 
 
-  const OthersFeePay({super.key, required this.StudentDueAmount, required this.StudentEmail, required this.StudentName, required this.StudentPhoneNumber, required this.FatherPhoneNo});
+  const OthersFeePay({super.key, required this.ExamFee, required this.StudentEmail, required this.StudentName, required this.StudentPhoneNumber, required this.FatherPhoneNo, required this.StudentRollNo, required this.ExamName, required this.ExamDate, required this.ClassName, required this.ExamStarttingDate});
 
   @override
   State<OthersFeePay> createState() => _OthersFeePayState();

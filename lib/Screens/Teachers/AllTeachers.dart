@@ -55,18 +55,7 @@ var DataLoad = "";
 
 List  AllData = [
   
-  {
-  "TeacherName":"Mahadi Hasan"
-},
 
-
-  {
-  "TeacherName":"Mahadi Hasan"
-},
-
-  {
-  "TeacherName":"Mahadi Hasan"
-},
 
 
 ];
@@ -141,11 +130,11 @@ Future<void> getData() async {
 @override
   void initState() {
     // TODO: implement initState
-    // setState(() {
-    //   loading = true;
-    // });
+    setState(() {
+      loading = true;
+    });
    
-    // getData();
+    getData();
     super.initState();
   }
 
@@ -385,6 +374,8 @@ Future<void> getData() async {
 
                     double ClassEndTimeSeconds =0.0;
 
+                    List SelectedDay =[];
+
 
                     
 
@@ -482,11 +473,14 @@ Future<void> getData() async {
                             final index = day % 7;
                     
                             print(day);
+                            // SelectedDay.insert(SelectedDay.length, day);
                             // We "flip" the value in this example, but you may also
                             // perform validation, a DB write, an HTTP call or anything
                             // else before you actually flip the value,
                             // it's up to your app's needs.
                             values[index] = !values[index];
+
+                            print(values);
                           });
                         },
                         values: values,

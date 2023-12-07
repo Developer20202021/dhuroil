@@ -840,7 +840,7 @@ Future<void> getSaleData() async {
                           Container(width: 150, child:TextButton(onPressed: (){
       
       
-                                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => ExamFeeHistory(StudentEmail: widget.StudentEmail)));
+                                  //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ExamFeeHistory(StudentEmail: widget.StudentEmail)));
       
       
                            

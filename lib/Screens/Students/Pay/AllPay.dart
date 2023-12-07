@@ -19,13 +19,17 @@ class AllPay extends StatefulWidget {
   final StudentEmail;
   final StudentPhoneNumber;
   final StudentName;
-  final StudentDueAmount;
+  final ExamFee;
   final FatherPhoneNo;
-  final StudentIDNo;
+  final StudentRollNo;
+  final ExamName;
+  final ExamDate;
+  final ClassName;
+  final ExamStarttingDate;
 
 
 
-  const AllPay({super.key, required this.StudentDueAmount, required this.StudentEmail, required this.StudentName, required this.StudentPhoneNumber, required this.FatherPhoneNo, required this.StudentIDNo});
+  const AllPay({super.key, required this.ExamFee, required this.StudentEmail, required this.StudentName, required this.StudentPhoneNumber, required this.FatherPhoneNo, required this.StudentRollNo, required this.ExamName, required this.ExamDate, required this.ClassName, required this.ExamStarttingDate});
 
   @override
   State<AllPay> createState() => _AllPayState();
@@ -136,10 +140,10 @@ class _AllPayState extends State<AllPay> {
                                 children: [
                                               
                                               
-                                            Container(width: 170, child:TextButton(onPressed: (){
+                                          widget.ExamName!=""?  Container(width: 170, child:TextButton(onPressed: (){
                 
                 
-                   Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ExamFeePay(StudentDueAmount: widget.StudentDueAmount, StudentEmail: widget.StudentEmail, StudentName: widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber, FatherPhoneNo: widget.FatherPhoneNo,)));
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ExamFeePay(ExamFee: widget.ExamFee, StudentEmail: widget.StudentEmail, StudentName: widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber, FatherPhoneNo: widget.FatherPhoneNo, StudentRollNo: widget.StudentRollNo, ExamName: widget.ExamName, ExamDate: widget.ExamDate, ClassName: widget.ClassName, ExamStarttingDate: widget.ExamStarttingDate,)));
                 
                 
                 
@@ -150,7 +154,7 @@ class _AllPayState extends State<AllPay> {
                                             }, child: Text("Exam Fee", style: TextStyle(color: ColorName().appColor),), style: ButtonStyle(
                                  
                                             backgroundColor: MaterialStatePropertyAll<Color>(Colors.white),
-                                          ),),),
+                                          ),),):Text(""),
 
                                 ],),
                             )
@@ -226,7 +230,7 @@ class _AllPayState extends State<AllPay> {
                                             Container(width: 170, child:TextButton(onPressed: (){
                 
                 
-                   Navigator.of(context).push(MaterialPageRoute(builder: (context) =>OthersFeePay(StudentDueAmount: widget.StudentDueAmount, StudentEmail: widget.StudentEmail, StudentName: widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber, FatherPhoneNo: widget.FatherPhoneNo,)));
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) =>OthersFeePay(ExamFee: widget.ExamFee, StudentEmail: widget.StudentEmail, StudentName: widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber, FatherPhoneNo: widget.FatherPhoneNo, StudentRollNo: widget.StudentRollNo, ExamName: widget.ExamName, ExamDate: widget.ExamDate, ClassName: widget.ClassName, ExamStarttingDate: widget.ExamStarttingDate,)));
                 
                 
                 
@@ -280,7 +284,7 @@ class _AllPayState extends State<AllPay> {
 
 
 
-              int.parse(widget.StudentDueAmount)>0? Padding(
+               Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                   width: MediaQuery.of(context).size.width*0.75,
@@ -317,7 +321,7 @@ class _AllPayState extends State<AllPay> {
                 
                 
                 
-                                              Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MonthlyFee(StudentDueAmount: widget.StudentDueAmount, StudentEmail: widget.StudentEmail, StudentName: widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber, FatherPhoneNo: widget.FatherPhoneNo, StudentIDNo: widget.StudentIDNo,)));
+                                              Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MonthlyFee(ExamFee: widget.ExamFee, StudentEmail: widget.StudentEmail, StudentName: widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber, FatherPhoneNo: widget.FatherPhoneNo, StudentRollNo: widget.StudentRollNo, ExamName: widget.ExamName, ExamDate: widget.ExamDate, ClassName: widget.ClassName, ExamStarttingDate: widget.ExamStarttingDate,)));
                 
                 
                 
@@ -356,7 +360,7 @@ class _AllPayState extends State<AllPay> {
                             color:Color.fromARGB(255,12, 53, 106)
                           ),
                   borderRadius: BorderRadius.circular(10)      
-                 ),)):Text(""),
+                 ),)),
       
 
       

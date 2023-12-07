@@ -1,4 +1,5 @@
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
 import 'package:dhuroil/Screens/Students/EditStudent.dart';
@@ -373,7 +374,7 @@ Future<void> getSaleData() async {
                               value: '/hello',
                               onTap: () {
 
-                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MarksSheetPdfPreviewPage(CashInDate: "", StudentEmail: "", StudentCashIn: "", StudentIDNo: "", StudentName: "", StudentPhoneNumber: "")));
+                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MarksSheetPdfPreviewPage(ExamResultID: widget.ExamResultID, FatherPhoneNo: widget.FatherPhoneNo, RollNumber: widget.RollNumber, StudentClassName: widget.StudentClassName, StudentEmail: widget.StudentEmail, StudentName: widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber)));
                                 
                               },
                             ),
@@ -390,7 +391,7 @@ Future<void> getSaleData() async {
                     child: Container(
                       width: MediaQuery.of(context).size.width*0.75,
                       child: Table(
-                           border: TableBorder(
+                           border: const TableBorder(
                            horizontalInside:
                       BorderSide(color: Colors.white, width: 10.0)),
                           textBaseline: TextBaseline.ideographic,
@@ -409,8 +410,8 @@ Future<void> getSaleData() async {
                               children: [
                                       Container(
                                         
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
                                           child: Text("Subject", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Colors.white),),
                                         )),
                                       
@@ -418,8 +419,8 @@ Future<void> getSaleData() async {
                                       Container(
                                         
                                         
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
                                           child: Text("Written", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Colors.white),),
                                         )),
 
@@ -428,8 +429,8 @@ Future<void> getSaleData() async {
                                       Container(
                                         
                                         
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
                                           child: Text("MCQ", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold, color: Colors.white),),
                                         )),
 
@@ -438,8 +439,8 @@ Future<void> getSaleData() async {
                                       Container(
                                         
                                         
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
                                           child: Text("Practical", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Colors.white),),
                                         )),
 
@@ -448,8 +449,8 @@ Future<void> getSaleData() async {
                                       Container(
                                         
                                         
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
                                           child: Text("Total", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold, color: Colors.white),),
                                         )),
 
@@ -458,9 +459,31 @@ Future<void> getSaleData() async {
                                       Container(
                                         
                                         
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
                                           child: Text("Grade", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold, color: Colors.white),),
+                                        )),
+
+
+                                      
+                                      Container(
+                                        
+                                        
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Text("Grade Point", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold, color: Colors.white),),
+                                        )),
+
+
+                                        
+                                        
+                                        
+                                         Container(
+                                        
+                                        
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Center(child: Text("Delete", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold, color: Colors.white),)),
                                         )),
                                     
                                     ]),
@@ -478,7 +501,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("${AllData[i]["SubejectName"]}", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, ),),
+                                          child: Text("${AllData[i]["SubejectName"].toString().toUpperCase()}", style: const TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, ),),
                                         )),
                                       
                                       
@@ -487,7 +510,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("${AllData[i]["WrittenMarks"]}", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold,),),
+                                          child: Text("${AllData[i]["WrittenMarks"]}", style: const TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold,),),
                                         )),
 
 
@@ -497,7 +520,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("${AllData[i]["MCQMarks"]}", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
+                                          child: Text("${AllData[i]["MCQMarks"]}", style: const TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
                                         )),
 
 
@@ -507,7 +530,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("${AllData[i]["PracticalMarks"]}", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold,),),
+                                          child: Text("${AllData[i]["PracticalMarks"]}", style: const TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold,),),
                                         )),
 
 
@@ -517,7 +540,7 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("${AllData[i]["TotalMarks"]}", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
+                                          child: Text("${AllData[i]["TotalMarks"]}", style: const TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
                                         )),
 
 
@@ -527,7 +550,172 @@ Future<void> getSaleData() async {
                                         
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text("${AllData[i]["Grade"]}", style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
+                                          child: Text("${AllData[i]["Grade"]}", style: const TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
+                                        )),
+
+
+
+                                         Container(
+                                        
+                                        
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text("${AllData[i]["GradePoint"]}", style: const TextStyle(fontSize: 17.0,fontWeight: FontWeight.bold,),),
+                                        )),
+
+
+                                          Container(
+                                        
+                                        
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: IconButton(onPressed: (){
+
+                   showDialog(
+                    context: context,
+                    builder: (context) {
+                  
+
+                      return StatefulBuilder(
+                      builder: (context, setState) {
+                        return AlertDialog(
+                                              title:const Text('Delete'),
+                                              content:const Text('Are you Sure You want to Delete it?'),
+                                              actions: [
+                                                ElevatedButton(
+                                                
+                                                  onPressed: () {
+
+                                                     Navigator.pop(context);
+
+                                                  },
+                                                  child: Text('CANCEL'),
+                                                ),
+                                                ElevatedButton(
+                                                 
+                                                  onPressed: () async{
+                        
+
+                        setState(() {
+
+                          loading = true;
+                          
+                        },);
+                                              
+                        CollectionReference collectionRef =
+                        FirebaseFirestore.instance.collection('PerExamPerSubjectResult');
+                            collectionRef.doc(AllData[i]["SubejctResultID"]).delete().then(
+                                    (doc) => setState((){
+
+
+                                          getData();
+
+
+                                        Navigator.pop(context);
+
+
+
+
+
+                                    final snackBar = SnackBar(
+                                  
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Delete Successfull',
+                                        message:
+                                            'Hey Thank You. Good Job',
+                          
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                      ),
+                                    );
+                          
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
+
+                                
+
+
+                                
+                            
+
+
+
+                                          setState(() {
+                                              loading = false;
+                                            });
+
+
+
+
+                                    }),
+                                    onError: (e) => setState((){
+
+
+                                    
+
+
+                                        Navigator.pop(context);
+
+
+
+
+
+                                                final snackBar = SnackBar(
+                                  
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Something Wrong!!!',
+                                        message:
+                                            'Try again later...',
+                          
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.failure,
+                                      ),
+                                    );
+                          
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
+
+                                
+
+
+                                
+                            
+
+
+
+                                          setState(() {
+                                              loading = false;
+                                            });
+
+
+
+
+
+                                    }),
+                                  );
+
+
+
+
+                                                  },
+                                                  child: const Text('DELETE'),
+                                                ),
+                                              ],
+                                            );});});
+
+
+
+
+
+                                          }, icon: Icon(Icons.delete, color: Colors.red.shade400,)),
                                         )),
                                     
                                     ]),
@@ -541,7 +729,7 @@ Future<void> getSaleData() async {
                   ),
 
 
-                    SizedBox(height: 15,),
+                    const SizedBox(height: 15,),
 
 
 

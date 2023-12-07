@@ -1651,12 +1651,12 @@ Future<void> getData() async {
                               //       ),
 
                                     PopupMenuItem(
-                                      child: Text("All Results"),
+                                      child: Text("All Exams & Results"),
                                       value: '/contact',
                                       onTap: () {
               
                               Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) => AllExamResult(RollNumber: "", StudentClassName: AllData[index]["ClassName"], StudentEmail: "", StudentName: "", StudentPhoneNumber: "", FatherPhoneNo: "")),
+                                            MaterialPageRoute(builder: (context) => AllExamResult(RollNumber: AllData[index]["RollNo"], StudentClassName: AllData[index]["ClassName"], StudentEmail: AllData[index]["StudentEmail"], StudentName: AllData[index]["StudentName"], StudentPhoneNumber: AllData[index]["StudentPhoneNumber"], FatherPhoneNo: AllData[index]["FatherPhoneNo"])),
 
                                     );
                                       },
@@ -1674,7 +1674,7 @@ Future<void> getData() async {
                                       onTap: () {
               
                               Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) => ExamFeeHistory(StudentEmail: "")),
+                                            MaterialPageRoute(builder: (context) => ExamFeeHistory(StudentEmail: AllData[index]["StudentEmail"], FatherName: AllData[index]["FatherName"], Gender: AllData[index]["Gender"], MotherName: AllData[index]["MotherName"],)),
                                     );
                                       },
 
@@ -1712,7 +1712,7 @@ Future<void> getData() async {
                                        onTap: () {
               
                               Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) => AllPay(StudentDueAmount: "10", StudentEmail: "", StudentName: "", StudentPhoneNumber: "", FatherPhoneNo: "", StudentIDNo: "")),
+                                            MaterialPageRoute(builder: (context) => AllPay(ExamFee: "", StudentEmail: AllData[index]["StudentEmail"], StudentName: AllData[index]["StudentName"], StudentPhoneNumber:AllData[index]["StudentPhoneNumber"], FatherPhoneNo: AllData[index]["FatherPhoneNo"], StudentRollNo: AllData[index]["RollNo"], ExamName:"", ExamDate: "", ClassName: widget.ClassName, ExamStarttingDate: "",)),
                                     );
                                       },
 

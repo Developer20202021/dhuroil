@@ -1,5 +1,6 @@
 import 'dart:js';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
 import 'package:dhuroil/Screens/Students/StudentCertificatePdf.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +19,13 @@ import 'package:printing/printing.dart';
 class MarksSheetPdfPreviewPage extends StatefulWidget {
 
 
-  final StudentName;
-  final StudentIDNo;
-  final StudentPhoneNumber;
   final StudentEmail;
-  final StudentCashIn;
-  final CashInDate;
+  final StudentPhoneNumber;
+  final StudentName;
+  final StudentClassName;
+  final RollNumber;
+  final FatherPhoneNo;
+  final String ExamResultID;
 
 
 
@@ -35,13 +37,108 @@ class MarksSheetPdfPreviewPage extends StatefulWidget {
 
 
  
-  const MarksSheetPdfPreviewPage({Key? key, required this.CashInDate, required this.StudentEmail, required this.StudentCashIn, required this.StudentIDNo, required this.StudentName, required this.StudentPhoneNumber, }) : super(key: key);
+  const MarksSheetPdfPreviewPage({Key? key, required this.ExamResultID, required this.FatherPhoneNo, required this.RollNumber, required this.StudentClassName, required this.StudentEmail, required this.StudentName, required this.StudentPhoneNumber}) : super(key: key);
 
   @override
   State<MarksSheetPdfPreviewPage> createState() => _MarksSheetPdfPreviewPageState();
 }
 
 class _MarksSheetPdfPreviewPageState extends State<MarksSheetPdfPreviewPage> {
+
+
+
+
+List  AllData = [];
+
+
+double TotalMarks = 0;
+
+double TotalGradePoint = 0;
+
+int TotalSubject = 0;
+
+
+
+void getTotalMarksAndGradePoint(){
+
+   setState(() {
+     TotalSubject = AllData.length;
+   });
+
+
+  for (var i = 0; i < AllData.length; i++) {
+
+   setState(() {
+      TotalMarks = TotalMarks + double.parse(AllData[i]["TotalMarks"]);
+
+    TotalGradePoint = TotalGradePoint + double.parse(AllData[i]["GradePoint"]);
+   });
+    
+  }
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+Future<void> getData() async {
+    // Get docs from collection reference
+    // QuerySnapshot querySnapshot = await _collectionRef.get();
+    
+  CollectionReference _collectionRef =
+    FirebaseFirestore.instance.collection('PerExamPerSubjectResult');
+
+
+    Query query = _collectionRef.where("ExamResultID", isEqualTo: widget.ExamResultID).where("ClassName", isEqualTo: widget.StudentClassName).where("StudentEmail", isEqualTo: widget.StudentEmail);
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+     setState(() {
+       AllData = querySnapshot.docs.map((doc) => doc.data()).toList();
+     });
+ 
+    // AllData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    getTotalMarksAndGradePoint();
+
+    print(AllData);
+}
+
+
+
+@override
+  void initState() {
+    // TODO: implement initState
+    getData();
+    super.initState();
+  }
+
+
+  
+  Future refresh() async{
+
+
+    setState(() {
+          getData();
+
+    });
+
+  }
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +161,11 @@ class _MarksSheetPdfPreviewPageState extends State<MarksSheetPdfPreviewPage> {
         centerTitle: true,
         
       ),
-      body: PdfPreview(
-        build: (context) => makePdf(widget.StudentName,widget.StudentIDNo, widget.StudentPhoneNumber,widget.StudentCashIn,widget.StudentEmail,widget.CashInDate),
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: PdfPreview(
+          build: (context) => makePdf(widget.StudentEmail, widget.StudentPhoneNumber, widget.StudentName, widget.StudentClassName, widget.RollNumber,widget.FatherPhoneNo, widget.ExamResultID, AllData, TotalMarks,TotalGradePoint, TotalSubject ),
+        ),
       ),
     );
   }
@@ -82,13 +182,21 @@ class _MarksSheetPdfPreviewPageState extends State<MarksSheetPdfPreviewPage> {
 
 
 
-
-
-Future<Uint8List> makePdf(StudentName, StudentIDNo, StudentPhoneNumber, StudentCashIn, StudentEmail,CashInDate) async {
+Future<Uint8List> makePdf(StudentEmail, StudentPhoneNumber, StudentName, StudentClassName, RollNumber,FatherPhoneNo, ExamResultID, List AllData, double TotalMarks, double TotalGradePoint, int TotalSubject) async {
 
 final netImage = await networkImage('https://i.ibb.co/PYNsGBJ/bangladesh-govt-logo-A2-C7688845-seeklogo-com.png');
 
 final backImage = await networkImage('https://i.ibb.co/X4QQgpc/13783.jpg');
+
+
+
+
+
+
+
+
+
+
 
 
 final pdf = pw.Document();
@@ -291,7 +399,7 @@ pdf.addPage(pw.Page(
 
                               pw.Padding(
                               child: pw.Text(
-                                'Mahadi Hasan',
+                                '${StudentName}',
                                 
                                 textAlign: pw.TextAlign.left,
                               ),
@@ -324,7 +432,7 @@ pdf.addPage(pw.Page(
 
                               pw.Padding(
                               child: pw.Text(
-                                '6',
+                                '${StudentClassName}',
                                 
                                 textAlign: pw.TextAlign.left,
                               ),
@@ -354,7 +462,7 @@ pdf.addPage(pw.Page(
 
                               pw.Padding(
                               child: pw.Text(
-                                '642534636',
+                                '${RollNumber}',
                                 
                                 textAlign: pw.TextAlign.left,
                               ),
@@ -414,7 +522,7 @@ pdf.addPage(pw.Page(
 
                               pw.Padding(
                               child: pw.Text(
-                                '1200',
+                                '${TotalMarks.toString()}',
                                 
                                 textAlign: pw.TextAlign.left,
                               ),
@@ -445,7 +553,7 @@ pdf.addPage(pw.Page(
 
                               pw.Padding(
                               child: pw.Text(
-                                '5.00',
+                                '${(TotalGradePoint/TotalSubject).toStringAsFixed(2)}',
                                 
                                 textAlign: pw.TextAlign.left,
                               ),
@@ -558,7 +666,7 @@ pdf.addPage(pw.Page(
                     
                     
 
-                    for(int i=0; i<14; i++)
+                    for(int i=0; i<AllData.length; i++)
                         pw.TableRow(
 
                           decoration: pw.BoxDecoration(color: PdfColors.grey100),
@@ -566,7 +674,7 @@ pdf.addPage(pw.Page(
                           children: [
                             pw.Padding(
                               child: pw.Text(
-                                'Bangla',
+                                '${AllData[i]["SubejectName"]}',
                                 
                                 textAlign: pw.TextAlign.left,
                               ),
@@ -576,7 +684,7 @@ pdf.addPage(pw.Page(
 
                               pw.Padding(
                               child: pw.Text(
-                                '60',
+                                '${AllData[i]["WrittenMarks"]}',
                                 
                                 textAlign: pw.TextAlign.left,
                               ),
@@ -587,7 +695,7 @@ pdf.addPage(pw.Page(
 
                              pw.Padding(
                               child: pw.Text(
-                                '30',
+                                '${AllData[i]["MCQMarks"]}',
                                 
                                 textAlign: pw.TextAlign.left,
                               ),
@@ -597,7 +705,7 @@ pdf.addPage(pw.Page(
 
                              pw.Padding(
                               child: pw.Text(
-                                '24',
+                                '${AllData[i]["PracticalMarks"]}',
                                 
                                 textAlign: pw.TextAlign.left,
                               ),
@@ -607,7 +715,7 @@ pdf.addPage(pw.Page(
 
                              pw.Padding(
                               child: pw.Text(
-                                '100',
+                                '${AllData[i]["TotalMarks"]}',
                                 
                                 textAlign: pw.TextAlign.left,
                               ),
@@ -617,7 +725,7 @@ pdf.addPage(pw.Page(
 
                              pw.Padding(
                               child: pw.Text(
-                                'A+',
+                                '${AllData[i]["Grade"]}',
                                 
                                 textAlign: pw.TextAlign.left,
                               ),
