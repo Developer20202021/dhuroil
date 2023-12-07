@@ -95,6 +95,7 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                         "ExamTotalMarks":ExamTotalMarksController.text.trim(),
                         "OtherExamName": SelectedExamName=="Other"?OtherExamNameController.text.trim().toLowerCase():"",
                         "ClassName":widget.StudentClassName,
+                        "status":"private"
 
                       };
 

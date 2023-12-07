@@ -87,6 +87,126 @@ class _AllExamResultState extends State<AllExamResult> {
     });
   }
 
+
+
+
+
+Future UpdateExamStatus(ExamID, String Status) async{
+
+                  setState(() {
+                    loading = true;
+                  });
+
+
+
+
+          final docUser =  FirebaseFirestore.instance.collection("ExamResult");
+
+                      final jsonData ={
+
+                        "status":Status
+
+                      };
+
+
+
+
+         await docUser.doc(ExamID).update(jsonData).then((value) =>  setState(() {
+
+
+                  getData(widget.StudentClassName, "${DateTime.now().year}");
+
+
+                     setState(() {
+                        loading = false;
+                 
+                      });
+
+                        final snackBar = SnackBar(
+
+                                      duration: Duration(seconds: 7),
+                                  
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Update Successfull',
+                                        message:
+                                            'Update Successfull',
+                          // Presence & Absence History
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                      ),
+                                    );
+                          
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
+
+
+                    })).onError((error, stackTrace) => setState(() {
+
+                      setState(() {
+                        loading = false;
+                      });
+
+
+                      print(error);
+
+
+
+                      final snackBar = SnackBar(
+
+                                      duration: Duration(seconds: 7),
+                                  
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Something Wrong!!',
+                                        message:
+                                            'Try again later',
+                          // Presence & Absence History
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.failure,
+                                      ),
+                                    );
+                          
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
+
+
+                    }));
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -1095,6 +1215,25 @@ class _AllExamResultState extends State<AllExamResult> {
                                   ];
                                 },
                               ),
+
+                              leading:AllData[index]["status"]=="private"? ElevatedButton(
+                                      onPressed: () async{
+
+                                        UpdateExamStatus(AllData[index]["ExamResultID"], "public");
+                                         
+                                      },
+                                      child: const Text('Public',style: TextStyle(fontWeight: FontWeight.bold),),
+                                    ):
+                                    
+                              ElevatedButton(
+                                      onPressed: () async{
+
+                                         UpdateExamStatus(AllData[index]["ExamResultID"], "private");
+                                        
+                                         
+                                      },
+                                      child:const Text('Private', style: TextStyle(fontWeight: FontWeight.bold),),
+                                    ),
                               subtitle: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1116,6 +1255,10 @@ class _AllExamResultState extends State<AllExamResult> {
                                   Text(
                                       "Creator E:${AllData[index]["CreatorEmail"]}"),
                                   Text("Date: ${AllData[index]["Date"]}"),
+
+                                  Text("Status: ${AllData[index]["status"]}", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green, fontSize: 17),),
+
+
                                 ],
                               ),
                             ),
