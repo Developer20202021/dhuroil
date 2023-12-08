@@ -192,6 +192,10 @@ class _AllStudentsState extends State<AllStudents> {
 
 // Firebase All Customer Data Load
 
+
+
+
+
   List AllData = [];
 
   Future<void> getData() async {
@@ -227,6 +231,67 @@ class _AllStudentsState extends State<AllStudents> {
 
     print(AllData);
   }
+
+
+
+
+
+
+
+
+
+
+  Future<void> getSpecificData(String Status, context) async {
+    // Get docs from collection reference
+    CollectionReference _CustomerOrderHistoryCollectionRef =
+        FirebaseFirestore.instance.collection('StudentInfo');
+
+    Query _CustomerOrderHistoryCollectionRefDueQueryCount =
+        _CustomerOrderHistoryCollectionRef.where("ClassName",
+                isEqualTo: widget.ClassName).where("StudentStatus", isEqualTo: Status);
+            // .where("StudentStatus", isEqualTo: "new");
+
+    // // all Due Query Count
+    //    Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("Department", isEqualTo: widget.DepartmentName).where("Semister", isEqualTo: widget.SemisterName).where("StudentStatus", isEqualTo: "new");
+
+    QuerySnapshot queryDueSnapshot =
+        await _CustomerOrderHistoryCollectionRefDueQueryCount.get();
+
+    var AllDueData = queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+    if (AllDueData.length == 0) {
+      setState(() {
+        Navigator.pop(context);
+        DataLoad = "0";
+        loading = false;
+      });
+    } else {
+      setState(() {
+
+        Navigator.pop(context);
+        DataLoad = "";
+        AllData = queryDueSnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+    }
+
+    print(AllData);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Firebase All Customer Data Load
 
@@ -654,6 +719,119 @@ class _AllStudentsState extends State<AllStudents> {
                   ),
                   padding: EdgeInsets.all(18.0),
                 ),
+
+              PopupMenuItem(
+                  child: Text("Search By Status"),
+                                            value: '/about',
+                                            onTap: () async {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  String SelectedStudentStatus =
+                                                      "";
+
+                                                  return StatefulBuilder(
+                                                    builder:
+                                                        (context, setState) {
+                                                      return AlertDialog(
+                                                        title: const Text(
+                                                            "Please Select a Status."),
+                                                        content: Container(
+                                                          height: 70,
+                                                          child: Column(
+                                                            children: [
+                                          DropdownButton(
+                                           hint: SelectedStudentStatus ==
+                                                                        ""
+                                                                    ? const Text(
+                                                                        'Select Student Status')
+                                                                    : Text(
+                                                                        SelectedStudentStatus,
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                ColorName().appColor,
+                                                                            fontWeight: FontWeight.bold,
+                                                                            fontSize: 16),
+                                                                      ),
+                                                                isExpanded:
+                                                                    true,
+                                                                iconSize: 30.0,
+                                                                style: TextStyle(
+                                                                    color: ColorName()
+                                                                        .appColor,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        16),
+                                                                items: [
+                                                                  "New",
+                                                                  'Old',
+                                                                  "Running"
+                                                                ].map(
+                                                                  (val) {
+                                                                    return DropdownMenuItem<
+                                                                        String>(
+                                                                      value:
+                                                                          val,
+                                                                      child: Text(
+                                                                          val),
+                                                                    );
+                                                                  },
+                                                                ).toList(),
+                                                                onChanged:
+                                                                    (val) {
+                                                                  setState(
+                                                                    () {
+                                                                      SelectedStudentStatus =
+                                                                          val!;
+
+                                                                      print(
+                                                                          val);
+                                                                    },
+                                                                  );
+                                                                },
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 20,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    context),
+                                                            child:
+                                                                Text("Cancel"),
+                                                          ),
+                                                          SelectedStudentStatus ==
+                                                                  ""
+                                                              ? Text("")
+                                                              : TextButton(
+                                                                  onPressed:
+                                                                      () async {
+
+                                                          getSpecificData(SelectedStudentStatus.toString().toLowerCase(), context);
+
+
+          
+
+
+
+                                                                  },
+                                                                  child: const Text(
+                                                                      "Find"),
+                                                                ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          ),
 
             
       
