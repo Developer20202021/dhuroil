@@ -25,13 +25,11 @@ class AllTeacherAttendance extends StatefulWidget {
 
   final indexNumber ;
 
-  final DepartmentName;
-  final SemisterName;
 
 
 
 
-  const AllTeacherAttendance({super.key, required this.indexNumber,required this.DepartmentName, required this.SemisterName});
+  const AllTeacherAttendance({super.key, required this.indexNumber,});
 
   @override
   State<AllTeacherAttendance> createState() => _AllTeacherAttendanceState();
@@ -55,7 +53,7 @@ var DataLoad = "";
 
 // Firebase All Customer Data Load
 
-List  AllData = [{},{}];
+List  AllData = [];
 
 
 
@@ -72,12 +70,12 @@ List  AllData = [{},{}];
 Future<void> getData() async {
     // Get docs from collection reference
       CollectionReference _CustomerOrderHistoryCollectionRef =
-    FirebaseFirestore.instance.collection('StudentInfo');
+    FirebaseFirestore.instance.collection('TeacherInfo');
 
   // all Due Query Count
-     Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("Department", isEqualTo: widget.DepartmentName).where("Semister", isEqualTo: widget.SemisterName).where("StudentStatus", isEqualTo: "new");
+    //  Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("Department", isEqualTo: widget.DepartmentName).where("Semister", isEqualTo: widget.SemisterName).where("StudentStatus", isEqualTo: "new");
 
-     QuerySnapshot queryDueSnapshot = await _CustomerOrderHistoryCollectionRefDueQueryCount.get();
+     QuerySnapshot queryDueSnapshot = await _CustomerOrderHistoryCollectionRef.get();
 
     var AllDueData = queryDueSnapshot.docs.map((doc) => doc.data()).toList();
 
@@ -121,7 +119,7 @@ Future<void> getTodayAttendanceData(String StudentEmail, BuildContext context) a
     FirebaseFirestore.instance.collection('Attendance');
 
   // all Due Query Count
-     Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("Date", isEqualTo: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}");
+     Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("TeacherEmail", isEqualTo: StudentEmail).where("Date", isEqualTo: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}");
 
      QuerySnapshot queryDueSnapshot = await _CustomerOrderHistoryCollectionRefDueQueryCount.get();
 
@@ -145,7 +143,7 @@ Future<void> getTodayAttendanceData(String StudentEmail, BuildContext context) a
       loading = false;
 
 
-       Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChangeTeacherAttendance(StudentEmail: StudentEmail, AttendanceType: todayAttendanceData[0]["type"] , AttendanceID: todayAttendanceData[0]["AttendanceID"])));
+       Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChangeTeacherAttendance( AttendanceType: todayAttendanceData[0]["type"] , AttendanceID: todayAttendanceData[0]["AttendanceID"], TeacherEmail: StudentEmail,)));
      });
        
      }
@@ -227,11 +225,11 @@ Future<void> getSearchData(String StudentIDNo) async {
 @override
   void initState() {
     // TODO: implement initState
-    // setState(() {
-    //   loading = true;
-    // });
+    setState(() {
+      loading = true;
+    });
    
-    // getData();
+    getData();
     super.initState();
   }
 
@@ -461,7 +459,7 @@ Future<void> getSearchData(String StudentIDNo) async {
         
         
         
-          ):Text("All Students", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
+          ):Text("All Teachers Attendance", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
         ),
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
@@ -562,7 +560,7 @@ Future<void> getSearchData(String StudentIDNo) async {
                           
                    
                             
-                                  title: Text("ID No:- ${AllData[index]["IDNo"]}", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                                  title: Text("Name: ${AllData[index]["TeacherName"].toString().toUpperCase()}", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
 
                                   trailing: 
                              Column(
@@ -578,7 +576,7 @@ Future<void> getSearchData(String StudentIDNo) async {
       AllData[index]["LastAttendance"] =="${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}"? TextButton(onPressed: () async{
 
 
-        getTodayAttendanceData(AllData[index]["StudentEmail"], context);
+        getTodayAttendanceData(AllData[index]["TeacherEmail"], context);
 
 
 
@@ -606,25 +604,17 @@ Future<void> getSearchData(String StudentIDNo) async {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                      
-                                      Text("Name:${AllData[index]["StudentName"].toString().toUpperCase()}"),
-                                      Text("Phone Number:${AllData[index]["StudentPhoneNumber"]}"),
+                                       Text("Name:${AllData[index]["TeacherName"].toString().toUpperCase()}"),
+                                      Text("Phone Number:${AllData[index]["TeacherPhoneNumber"]}"),
 
+                                      Text("Email: ${AllData[index]["TeacherEmail"]}"),
+                                      Text("Address: ${AllData[index]["TeacherAddress"]}"),
 
+                                      Text("Role: ${AllData[index]["role"]}"),
 
-                                      Text("Father Phone No: ${AllData[index]["FatherPhoneNo"]}"),
-                  
+                                      Text("Class: ${AllData[index]["ClassName"]}"),
 
-
-                                      
-
-                                      Text("Department: ${AllData[index]["Department"]}"),
-                                      
-                                      Text("Semister: ${AllData[index]["Semister"]}"),
-                                     
-                                     Text("Category: ${AllData[index]["Category"]}"),
-
-
-                                      Text("Due: ${AllData[index]["DueAmount"]}৳"),
+                                     Text("Subject: ${AllData[index]["SubjectName"]}"),
 
                                     ],
                                   ),
@@ -660,7 +650,7 @@ Future<void> getSearchData(String StudentIDNo) async {
 
 
    final StudentInfo =
-    FirebaseFirestore.instance.collection('StudentInfo').doc(AllData[index]["StudentEmail"]);
+    FirebaseFirestore.instance.collection('TeacherInfo').doc(AllData[index]["TeacherEmail"]);
 
                               
                           StudentInfo.update(updateData).then((value) => setState(() async{
@@ -677,9 +667,9 @@ Future<void> getSearchData(String StudentIDNo) async {
                       final jsonData ={
 
                         "AttendanceID":AttendanceID,
-                        "StudentName":AllData[index]["StudentName"],
-                        "StudentEmail":AllData[index]["StudentEmail"],
-                        "StudentPhoneNumber":AllData[index]["StudentPhoneNumber"],
+                        "TeacherName":AllData[index]["TeacherName"],
+                        "TeacherEmail":AllData[index]["TeacherEmail"],
+                        "TeacherPhoneNumber":AllData[index]["TeacherPhoneNumber"],
                         "Date":"${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
                         "month":"${DateTime.now().month}/${DateTime.now().year}",
                         "year":"${DateTime.now().year}",
@@ -845,7 +835,7 @@ Future<void> getSearchData(String StudentIDNo) async {
 
 
    final StudentInfo =
-    FirebaseFirestore.instance.collection('StudentInfo').doc(AllData[index]["StudentEmail"]);
+    FirebaseFirestore.instance.collection('TeacherInfo').doc(AllData[index]["TeacherEmail"]);
 
                               
                           StudentInfo.update(updateData).then((value) => setState(() async{
@@ -862,9 +852,9 @@ Future<void> getSearchData(String StudentIDNo) async {
                       final jsonData ={
 
                         "AttendanceID":AttendanceID,
-                        "StudentName":AllData[index]["StudentName"],
-                        "StudentEmail":AllData[index]["StudentEmail"],
-                        "StudentPhoneNumber":AllData[index]["StudentPhoneNumber"],
+                        "TeacherName":AllData[index]["TeacherName"],
+                        "TeacherEmail":AllData[index]["TeacherEmail"],
+                        "TeacherPhoneNumber":AllData[index]["TeacherPhoneNumber"],
                         "Date":"${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
                         "month":"${DateTime.now().month}/${DateTime.now().year}",
                         "year":"${DateTime.now().year}",

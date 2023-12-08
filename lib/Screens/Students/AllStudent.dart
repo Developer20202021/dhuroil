@@ -7,6 +7,7 @@ import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/MonthlyFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/OtherFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/Pay/AllPay.dart';
+import 'package:dhuroil/Screens/Students/PerClassRoutineView.dart';
 import 'package:dhuroil/Screens/Students/ShowAttendance.dart';
 import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -37,6 +38,14 @@ class _AllStudentsState extends State<AllStudents> {
   TextEditingController StudentRollNumberController = TextEditingController();
 
   TextEditingController StudentSendController = TextEditingController();
+
+  TextEditingController StudentNewRollNoController = TextEditingController();
+
+  
+
+
+
+
 
   bool loading = false;
 
@@ -192,8 +201,8 @@ class _AllStudentsState extends State<AllStudents> {
 
     Query _CustomerOrderHistoryCollectionRefDueQueryCount =
         _CustomerOrderHistoryCollectionRef.where("ClassName",
-                isEqualTo: widget.ClassName)
-            .where("StudentStatus", isEqualTo: "new");
+                isEqualTo: widget.ClassName);
+            // .where("StudentStatus", isEqualTo: "new");
 
     // // all Due Query Count
     //    Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("Department", isEqualTo: widget.DepartmentName).where("Semister", isEqualTo: widget.SemisterName).where("StudentStatus", isEqualTo: "new");
@@ -236,7 +245,7 @@ class _AllStudentsState extends State<AllStudents> {
 
   Future refresh() async {
     setState(() {
-      getData();
+      // getData();
     });
   }
 
@@ -358,33 +367,7 @@ class _AllStudentsState extends State<AllStudents> {
                   ),
                 ),
 
-                // Container(
-                //   width: 200,
-                //   child: TextField(
-
-                //             keyboardType: TextInputType.number,
-                //             decoration: InputDecoration(
-                //                 border: OutlineInputBorder(),
-                //                 labelText: 'Enter Phone No',
-
-                //                 hintText: 'Enter Phone No',
-
-                //                 //  enabledBorder: OutlineInputBorder(
-                //                 //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                //                 //     ),
-                //                     focusedBorder: OutlineInputBorder(
-                //                       borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                //                     ),
-                //                     errorBorder: OutlineInputBorder(
-                //                       borderSide: BorderSide(
-                //                           width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                //                     ),
-
-                //                 ),
-                //             controller: StudentRollNumberController,
-                //           ),
-                // ),
-
+        
                 DropdownButtonHideUnderline(
                   child: DropdownButton2<String>(
                     isExpanded: true,
@@ -637,11 +620,47 @@ class _AllStudentsState extends State<AllStudents> {
                             )));
                   },
                   child: ListTile(
-                    title: Text("Create Exam For Result"),
+                    title: Text("Create Exam Result"),
                     trailing: Icon(Icons.arrow_forward),
                   ),
                   padding: EdgeInsets.all(18.0),
                 ),
+
+
+                PopupMenuItem(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PerClassRoutine(indexNumber: "", ClassName: widget.ClassName)));
+                  },
+                  child: ListTile(
+                    title: Text("View Routine"),
+                    trailing: Icon(Icons.arrow_forward),
+                  ),
+                  padding: EdgeInsets.all(18.0),
+                ),
+
+
+
+                PopupMenuItem(
+                  onTap: () {
+
+
+
+                 
+                  },
+                  child: ListTile(
+                    title: Text("Change Class"),
+                    trailing: Icon(Icons.arrow_forward),
+                  ),
+                  padding: EdgeInsets.all(18.0),
+                ),
+
+            
+      
+
+
+
+
               ];
             })
           ]),
@@ -660,7 +679,7 @@ class _AllStudentsState extends State<AllStudents> {
                             BoxDecoration(color: Colors.pink.shade300),
                         columnSpacing: 12,
                         horizontalMargin: 12,
-                        minWidth: 600,
+                        minWidth: 1500,
                         smRatio: 0.75,
                         lmRatio: 1.5,
                         columns: const [
@@ -695,6 +714,9 @@ class _AllStudentsState extends State<AllStudents> {
                           ),
                           DataColumn(
                             label: Text('Father Phone No'),
+                          ),
+                           DataColumn(
+                            label: Text('Status'),
                           ),
                           DataColumn(
                             label: Text('A/P %'),
@@ -731,6 +753,11 @@ class _AllStudentsState extends State<AllStudents> {
                                       '${AllData[index]["StudentPhoneNumber"]}')),
                                   DataCell(Text(
                                       '${AllData[index]["FatherPhoneNo"]}')),
+
+                                  DataCell(Text(
+                                      AllData[index]["StudentStatus"].toString().toUpperCase(), style: TextStyle(fontSize: 16, color:AllData[index]["StudentStatus"]=="new"?Colors.red:Colors.green, fontWeight: FontWeight.bold),)),
+
+
                                   DataCell(
                                     Text('Click Me'),
                                     onTap: () async {
@@ -791,16 +818,107 @@ class _AllStudentsState extends State<AllStudents> {
                                                     builder:
                                                         (context, setState) {
                                                       return AlertDialog(
-                                                        title: Text(
+                                                        title: const Text(
                                                             "Are You Sure? You Want to Change The Class."),
-                                                        content: Container(
-                                                          height: 170,
+                                                        content: SingleChildScrollView(
+                                                          
                                                           child: Column(
                                                             children: [
+                  
+                  
+                  Container(
+                  height: 50,
+                  width: 160,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color.fromRGBO(255, 143, 158, 1),
+                          Color.fromRGBO(255, 188, 143, 1),
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(25.0),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.2),
+                          spreadRadius: 4,
+                          blurRadius: 10,
+                          offset: Offset(0, 3),
+                        )
+                      ]),
+                  child: TextButton(
+                    onPressed: () {
+                      showDatePicker(
+                        context: context,
+                        initialDatePickerMode: DatePickerMode.year,
+                        initialDate: DateTime(2000, 1, 1),
+                        firstDate: DateTime(2000, 1, 1),
+                        lastDate: DateTime(2090, 1, 1),
+                      ).then((pickedDate) {
+                        print(pickedDate);
+
+                        setState(() {
+                          SelectedYear = "Year: ${pickedDate?.year}";
+                        });
+
+                        // SelectedDate = "${pickedDate}";
+                        // SelectedDate = SelectedDate.split(" ")[0];
+
+                        print(SelectedYear);
+                        // print(SelectedDate.split(" ")[0]);
+                      });
+                    },
+                    child: Text(
+                      "${SelectedYear}",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll<Color>(ColorName().appColor),
+                    ),
+                  ),
+                ), 
+
+                SizedBox(height: 20,),                                            
+
+                      
+                Container(
+                  width: 200,
+                  child: TextField(
+                    onChanged: (value) {},
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Enter New Roll No',
+
+                      hintText: 'Enter New Roll No',
+
+                      //  enabledBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                      //     ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 3, color: Theme.of(context).primaryColor),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                      ),
+                    ),
+                    controller: StudentNewRollNoController,
+                  ),
+                ),
+
+
+
+
                                                               DropdownButton(
                                                                 hint: SelectedClass ==
                                                                         ""
-                                                                    ? Text(
+                                                                    ? const Text(
                                                                         'Class')
                                                                     : Text(
                                                                         SelectedClass,
@@ -858,7 +976,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                                   );
                                                                 },
                                                               ),
-                                                              SizedBox(
+                                                              const SizedBox(
                                                                 height: 20,
                                                               ),
                                                               SelectedClass ==
@@ -870,7 +988,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                                   ? DropdownButton(
                                                                       hint: SelectedDepartment ==
                                                                               ""
-                                                                          ? Text(
+                                                                          ? const Text(
                                                                               'Department')
                                                                           : Text(
                                                                               SelectedDepartment,
@@ -929,83 +1047,108 @@ class _AllStudentsState extends State<AllStudents> {
                                                           SelectedClass == ""
                                                               ? Text("")
                                                               : TextButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    var updateData =
-                                                                        {
-                                                                      "ClassName":
-                                                                          SelectedClass.toString()
-                                                                              .toLowerCase(),
-                                                                      "Department": SelectedClass == "9" ||
-                                                                              SelectedClass == "10" ||
-                                                                              SelectedClass == "ssc"
-                                                                          ? SelectedDepartment.toString().trim()
-                                                                          : "None"
-                                                                    };
 
-                                                                    final StudentInfo = FirebaseFirestore
-                                                                        .instance
-                                                                        .collection(
-                                                                            'StudentInfo')
-                                                                        .doc(AllData[index]
-                                                                            [
-                                                                            "StudentEmail"]);
+                                onPressed:
+                                      () async {
 
-                                                                    StudentInfo.update(
-                                                                            updateData)
-                                                                        .then((value) =>
-                                                                            setState(
-                                                                                () {
-                                                                              getData();
 
-                                                                              Navigator.pop(context);
+                        var updateData ={"ClassName":SelectedClass.toString().toLowerCase(),
+                        "RollNo":StudentNewRollNoController.text.trim().toLowerCase(),
+                        "StudentStatus":"new",
+                        "AdmissionYear":SelectedYear.split(":")[1].trim().toString(),
+                        "Department":SelectedClass == "9" ||
+                                                     SelectedClass == "10" ||
+                                                     SelectedClass == "ssc"? SelectedDepartment.toString().trim():"None"
+                                                              };
 
-                                                                              final snackBar = SnackBar(
-                                                                                elevation: 0,
-                                                                                behavior: SnackBarBehavior.floating,
-                                                                                backgroundColor: Colors.transparent,
-                                                                                content: AwesomeSnackbarContent(
-                                                                                  title: 'Student Class Change Successfull',
-                                                                                  message: 'Hey Thank You. Good Job',
+                      final StudentInfo = FirebaseFirestore.instance.collection('StudentInfo')
+                      .doc(AllData[index]
+                      ["StudentEmail"]);
 
-                                                                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                                                                  contentType: ContentType.success,
-                                                                                ),
-                                                                              );
+                     StudentInfo.update(updateData).then((value) =>setState(
+                                                       () {
 
-                                                                              ScaffoldMessenger.of(context)
-                                                                                ..hideCurrentSnackBar()
-                                                                                ..showSnackBar(snackBar);
+                      var OldInfo ={
 
-                                                                              setState(() {
-                                                                                loading = false;
+                        "StudentName":AllData[index]["StudentName"],
+                        "StudentEmail":AllData[index]["StudentEmail"],
+                        "OldClassName":AllData[index]["ClassName"],
+                        "TransferedClassName":SelectedClass,
+                        "OldClassRoll":AllData[index]["RollNo"],
+                        "OldClassYear":AllData[index]["AdmissionYear"],
+                        "NewClassRoll":StudentNewRollNoController.text.trim().toLowerCase()
+                      };
+
+                        
+                      
+
+
+                      final StudentOldInfo = FirebaseFirestore.instance.collection('StudentOldInfo')
+                      .doc();
+
+
+                       StudentOldInfo.set(OldInfo).then((value) =>setState(
+                                                       () {})).onError((error, stackTrace) => setState((){
+
+
+
+                                                       }),);
+
+
+                                          
+
+
+
+                                              getData();
+
+                                                Navigator.pop(context);
+
+                                    final snackBar = SnackBar(
+                                           elevation: 0,
+                                           behavior: SnackBarBehavior.floating,
+                                           backgroundColor: Colors.transparent,
+                                           content: AwesomeSnackbarContent(
+                                           title: 'Student Class Change Successfull',
+                                           message: 'Hey Thank You. Good Job',
+
+                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                          contentType: ContentType.success,
+                                                       ),
+                                                        );
+
+                                               ScaffoldMessenger.of(context)
+                                                             ..hideCurrentSnackBar()
+                                                                ..showSnackBar(snackBar);
+
+                                                              setState(() {
+                                                                loading = false;
                                                                               });
                                                                             }))
-                                                                        .onError((error,
-                                                                                stackTrace) =>
-                                                                            setState(() {
-                                                                              final snackBar = SnackBar(
-                                                                                /// need to set following properties for best effect of awesome_snackbar_content
-                                                                                elevation: 0,
-                                                                                behavior: SnackBarBehavior.floating,
-                                                                                backgroundColor: Colors.transparent,
-                                                                                content: AwesomeSnackbarContent(
-                                                                                  title: 'Something Wrong!!!!',
-                                                                                  message: 'Try again later...',
+                                                        .onError((error,
+                                                                       stackTrace) =>
+                                                                  setState(() {
+                                                                    final snackBar = SnackBar(
+                                                   /// need to set following properties for best effect of awesome_snackbar_content
+                                                    elevation: 0,
+                                                  behavior: SnackBarBehavior.floating,
+                                                  backgroundColor: Colors.transparent,
+                                                  content: AwesomeSnackbarContent(
+                                                  title: 'Something Wrong!!!!',
+                                                  message: 'Try again later...',
 
-                                                                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                                                                  contentType: ContentType.failure,
+                                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                  contentType: ContentType.failure,
                                                                                 ),
                                                                               );
 
-                                                                              ScaffoldMessenger.of(context)
-                                                                                ..hideCurrentSnackBar()
-                                                                                ..showSnackBar(snackBar);
+                                              ScaffoldMessenger.of(context)
+                                                     ..hideCurrentSnackBar()
+                                                     ..showSnackBar(snackBar);
 
-                                                                              setState(() {
-                                                                                loading = false;
-                                                                              });
-                                                                            }));
+                                                   setState(() {
+                                                      loading = false;
+                                                               });
+                                                            }));
                                                                   },
                                                                   child: Text(
                                                                       "Change"),
@@ -1020,7 +1163,7 @@ class _AllStudentsState extends State<AllStudents> {
                                           ),
 
                                           PopupMenuItem(
-                                            child: Text("Set Old"),
+                                            child: Text("Change Status"),
                                             value: '/about',
                                             onTap: () async {
                                               showDialog(
@@ -1033,7 +1176,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                     builder:
                                                         (context, setState) {
                                                       return AlertDialog(
-                                                        title: Text(
+                                                        title: const Text(
                                                             "Are You Sure? You Want to Change The Student Status."),
                                                         content: Container(
                                                           height: 70,
@@ -1042,7 +1185,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                               DropdownButton(
                                                                 hint: SelectedStudentStatus ==
                                                                         ""
-                                                                    ? Text(
+                                                                    ? const Text(
                                                                         'Change Student Status')
                                                                     : Text(
                                                                         SelectedStudentStatus,
@@ -1065,7 +1208,8 @@ class _AllStudentsState extends State<AllStudents> {
                                                                         16),
                                                                 items: [
                                                                   "New",
-                                                                  'Old'
+                                                                  'Old',
+                                                                  "Running"
                                                                 ].map(
                                                                   (val) {
                                                                     return DropdownMenuItem<

@@ -65,7 +65,7 @@ Future<void> getPresenceData(String StudentEmail) async {
                 CollectionReference _collectionRef =
     FirebaseFirestore.instance.collection('Attendance');
 
-    Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "presence");
+    Query query = _collectionRef.where("TeacherEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "presence");
     QuerySnapshot querySnapshot = await query.get();
 
     // Get data from docs and convert map to List
@@ -168,7 +168,7 @@ Future<void> getSpecificPresenceData(String StudentEmail, String SelectedMonth) 
                 CollectionReference _collectionRef =
     FirebaseFirestore.instance.collection('Attendance');
 
-    Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "presence").where("month", isEqualTo: SelectedMonth);
+    Query query = _collectionRef.where("TeacherEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "presence").where("month", isEqualTo: SelectedMonth);
     QuerySnapshot querySnapshot = await query.get();
 
     // Get data from docs and convert map to List
@@ -276,7 +276,7 @@ Future<void> getAbsenceData(String StudentEmail) async {
   CollectionReference _collectionRef =
     FirebaseFirestore.instance.collection('Attendance');
 
-    Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "absence");
+    Query query = _collectionRef.where("TeacherEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "absence");
     QuerySnapshot querySnapshot = await query.get();
 
     // Get data from docs and convert map to List
@@ -364,7 +364,7 @@ Future<void> getSpecificAbsenceData(String StudentEmail, String SelectedMonth) a
     FirebaseFirestore.instance.collection('Attendance');
 
 
-    Query query = _collectionRef.where("StudentEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "absence").where("month", isEqualTo: SelectedMonth);
+    Query query = _collectionRef.where("TeacherEmail", isEqualTo: StudentEmail).where("type", isEqualTo: "absence").where("month", isEqualTo: SelectedMonth);
     QuerySnapshot querySnapshot = await query.get();
 
     // Get data from docs and convert map to List
@@ -453,9 +453,9 @@ Future<void> getSpecificAbsenceData(String StudentEmail, String SelectedMonth) a
     // TODO: implement initState
 
 
-    // getPresenceData(widget.StudentEmail);
+    getPresenceData(widget.StudentEmail);
 
-    // getAbsenceData(widget.StudentEmail);
+    getAbsenceData(widget.StudentEmail);
 
     super.initState();
   }

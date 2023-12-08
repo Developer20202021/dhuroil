@@ -8,14 +8,14 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class ChangeTeacherAttendance extends StatefulWidget {
 
-  final StudentEmail;
+  final TeacherEmail;
   final AttendanceType;
   final AttendanceID;
 
 
 
 
-  const ChangeTeacherAttendance({super.key, required this.StudentEmail, required this.AttendanceType, required this.AttendanceID});
+  const ChangeTeacherAttendance({super.key, required this.TeacherEmail, required this.AttendanceType, required this.AttendanceID});
 
   @override
   State<ChangeTeacherAttendance> createState() => _ChangeTeacherAttendanceState();
@@ -100,7 +100,7 @@ class _ChangeTeacherAttendanceState extends State<ChangeTeacherAttendance> {
 
 
    final StudentInfo =
-    FirebaseFirestore.instance.collection('StudentInfo').doc(widget.StudentEmail);
+    FirebaseFirestore.instance.collection('TeacherInfo').doc(widget.TeacherEmail);
 
                               
                           StudentInfo.update(updateData).then((value) => setState(() async{
@@ -252,7 +252,7 @@ class _ChangeTeacherAttendanceState extends State<ChangeTeacherAttendance> {
 
 
    final StudentInfo =
-    FirebaseFirestore.instance.collection('StudentInfo').doc(widget.StudentEmail);
+    FirebaseFirestore.instance.collection('TeacherInfo').doc(widget.TeacherEmail);
 
                               
                           StudentInfo.update(updateData).then((value) => setState(() async{

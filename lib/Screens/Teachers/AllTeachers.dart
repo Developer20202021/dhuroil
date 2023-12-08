@@ -340,7 +340,7 @@ Future<void> getData() async {
                                       value: '/hello',
                                       onTap: () {
 
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllTeacherAttendance(indexNumber: "", DepartmentName: "", SemisterName: "",)));
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllTeacherAttendance(indexNumber: "",)));
                                         
                                       },
                                     ),
@@ -350,7 +350,7 @@ Future<void> getData() async {
                                       value: '/hello',
                                       onTap: () {
 
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ShowTeacherAttendance(StudentEmail: "")));
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ShowTeacherAttendance(StudentEmail: AllData[index]["TeacherEmail"])));
                                         
                                       },
                                     ),
