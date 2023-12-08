@@ -26,10 +26,12 @@ class AllPay extends StatefulWidget {
   final ExamDate;
   final ClassName;
   final ExamStarttingDate;
+  final ExamResultID;
+  final TotalExamFeeCollection;
 
 
 
-  const AllPay({super.key, required this.ExamFee, required this.StudentEmail, required this.StudentName, required this.StudentPhoneNumber, required this.FatherPhoneNo, required this.StudentRollNo, required this.ExamName, required this.ExamDate, required this.ClassName, required this.ExamStarttingDate});
+  const AllPay({super.key, required this.ExamFee, required this.StudentEmail, required this.StudentName, required this.StudentPhoneNumber, required this.FatherPhoneNo, required this.StudentRollNo, required this.ExamName, required this.ExamDate, required this.ClassName, required this.ExamStarttingDate, required this.ExamResultID, required this.TotalExamFeeCollection});
 
   @override
   State<AllPay> createState() => _AllPayState();
@@ -143,7 +145,7 @@ class _AllPayState extends State<AllPay> {
                                           widget.ExamName!=""?  Container(width: 170, child:TextButton(onPressed: (){
                 
                 
-                   Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ExamFeePay(ExamFee: widget.ExamFee, StudentEmail: widget.StudentEmail, StudentName: widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber, FatherPhoneNo: widget.FatherPhoneNo, StudentRollNo: widget.StudentRollNo, ExamName: widget.ExamName, ExamDate: widget.ExamDate, ClassName: widget.ClassName, ExamStarttingDate: widget.ExamStarttingDate,)));
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) =>ExamFeePay(ExamFee: widget.ExamFee, StudentEmail: widget.StudentEmail, StudentName: widget.StudentName, StudentPhoneNumber: widget.StudentPhoneNumber, FatherPhoneNo: widget.FatherPhoneNo, StudentRollNo: widget.StudentRollNo, ExamName: widget.ExamName, ExamDate: widget.ExamDate, ClassName: widget.ClassName, ExamStarttingDate: widget.ExamStarttingDate, ExamResultID: widget.ExamResultID, TotalExamFeeCollection: widget.TotalExamFeeCollection,)));
                 
                 
                 

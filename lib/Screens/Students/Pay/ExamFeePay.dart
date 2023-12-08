@@ -24,6 +24,8 @@ class ExamFeePay extends StatefulWidget {
   final ExamDate;
   final ClassName;
   final ExamStarttingDate;
+  final ExamResultID;
+  final TotalExamFeeCollection;
 
   const ExamFeePay(
       {super.key,
@@ -36,7 +38,12 @@ class ExamFeePay extends StatefulWidget {
       required this.ExamName,
       required this.ExamDate,
       required this.ClassName,
-      required this.ExamStarttingDate});
+      required this.ExamStarttingDate,
+      required this.ExamResultID,
+      required this.TotalExamFeeCollection
+      
+      
+      });
 
   @override
   State<ExamFeePay> createState() => _ExamFeePayState();
@@ -63,6 +70,7 @@ class _ExamFeePayState extends State<ExamFeePay> {
 
   Future StudentExamFeePayFunction(
       PaymentID, moneyReceiverEmail, moneyReceiverName) async {
+
     setState(() {
       loading = true;
     });
@@ -94,6 +102,8 @@ class _ExamFeePayState extends State<ExamFeePay> {
         .doc(PaymentID)
         .set(jsonData)
         .then((value) => setState(() async {
+
+
               try {
                 var AdminMsg =
                     "Dear ${widget.StudentName}, আপনি ${PaymentController.text.trim()} Taka Pay করেছেন। Dhuroil";
@@ -111,6 +121,8 @@ class _ExamFeePayState extends State<ExamFeePay> {
                   throw Exception('Failed to load album');
                 }
               } catch (e) {}
+
+              ChangeTotalFeeCollection();
 
               setState(() {
                 loading = false;
@@ -157,6 +169,107 @@ class _ExamFeePayState extends State<ExamFeePay> {
                 ..showSnackBar(snackBar);
             }));
   }
+
+
+
+
+
+
+  Future ChangeTotalFeeCollection() async{
+
+
+
+
+    setState(() {
+      loading = true;
+    });
+
+    final docUser = FirebaseFirestore.instance.collection("ExamResult");
+
+    final jsonData = {
+
+      "TotalExamFeeCollection":(double.parse(widget.TotalExamFeeCollection) + double.parse(PaymentController.text.trim().toString())).toString()
+
+     
+    };
+
+    await docUser
+        .doc(widget.ExamResultID)
+        .update(jsonData)
+        .then((value) => setState(() async {
+            
+
+              setState(() {
+                loading = false;
+              });
+
+              setState(() {
+              final snackBar = SnackBar(
+                /// need to set following properties for best effect of awesome_snackbar_content
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                content: AwesomeSnackbarContent(
+                  title: 'Successfull',
+                  message: 'Payment Successfull',
+
+                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                  contentType: ContentType.success,
+                ),
+              );
+
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackBar);
+            });
+
+            }))
+        .onError((error, stackTrace) => setState(() {
+              final snackBar = SnackBar(
+                /// need to set following properties for best effect of awesome_snackbar_content
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                content: AwesomeSnackbarContent(
+                  title: 'Something Wrong!!!!',
+                  message: 'Try again later...',
+
+                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                  contentType: ContentType.failure,
+                ),
+              );
+
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(snackBar);
+            }));
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

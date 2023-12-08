@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:bijoy_helper/bijoy_helper.dart';
 import 'package:dhuroil/Screens/Students/AllExamResult.dart';
 import 'package:dhuroil/Screens/Students/CreateNewExamResult.dart';
@@ -9,6 +10,7 @@ import 'package:dhuroil/Screens/Students/OtherFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/Pay/AllPay.dart';
 import 'package:dhuroil/Screens/Students/PerClassRoutineView.dart';
 import 'package:dhuroil/Screens/Students/ShowAttendance.dart';
+import 'package:dhuroil/Screens/Students/StudentFileAndFileUpload.dart';
 import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
@@ -22,6 +24,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:universal_html/html.dart' as html;
+
+
 
 class AllStudents extends StatefulWidget {
   final indexNumber;
@@ -40,6 +44,33 @@ class _AllStudentsState extends State<AllStudents> {
   TextEditingController StudentSendController = TextEditingController();
 
   TextEditingController StudentNewRollNoController = TextEditingController();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
 
@@ -721,7 +752,13 @@ class _AllStudentsState extends State<AllStudents> {
                 ),
 
               PopupMenuItem(
-                  child: Text("Search By Status"),
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: ListTile(
+                      
+                      trailing: Icon(Icons.arrow_forward),
+                      title: Text("Search By Status")),
+                  ),
                                             value: '/about',
                                             onTap: () async {
                                               showDialog(
@@ -1805,7 +1842,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                           ExamDate: "",
                                                           ClassName:
                                                               widget.ClassName,
-                                                          ExamStarttingDate: "",
+                                                          ExamStarttingDate: "", ExamResultID: "", TotalExamFeeCollection: "",
                                                         )),
                                               );
                                             },
@@ -1861,6 +1898,46 @@ class _AllStudentsState extends State<AllStudents> {
                                               );
                                             },
                                           ),
+
+
+                    PopupMenuItem(
+                       child: Text("Upload File"),
+                       value: '/about',
+                       onTap: () async {
+
+
+                        Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                       StudentFileAndFileUpload(StudentEmail: AllData[index]
+                                                              ["StudentEmail"],
+                                                              
+                                                               FatherPhoneNo: AllData[index]
+                                                              ["FatherPhoneNo"], 
+                                                              
+                                                              RollNumber:  AllData[index]
+                                                              ["RollNo"], StudentClassName: AllData[index]
+                                                              ["ClassName"],  StudentPhoneNumber: AllData[index]
+                                                              ["StudentPhoneNumber"])),
+                                              );
+                    
+                                            },
+                                          ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                         ];
                                       },
                                     ),
@@ -1870,4 +1947,14 @@ class _AllStudentsState extends State<AllStudents> {
                 ),
     );
   }
+
+
+
+
+
+  
+ 
+
+
+
 }

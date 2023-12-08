@@ -156,6 +156,9 @@ class _AllExamResultState extends State<AllExamResult> {
             }));
   }
 
+
+
+
   Future UpdateExamFeeCollectionMode(ExamID, String FeeCollectionMode) async {
     setState(() {
       loading = true;
@@ -1419,6 +1422,14 @@ class _AllExamResultState extends State<AllExamResult> {
                                                           ExamStarttingDate:
                                                               AllData[index]
                                                                   ["ExamDate"],
+                                                          ExamResultID: AllData[
+                                                                  index]
+                                                              ["ExamResultID"],
+
+                                                          TotalExamFeeCollection: AllData[
+                                                                  index]
+                                                              ["TotalExamFeeCollection"],
+
                                                         )),
                                               );
                                             },
@@ -1458,6 +1469,17 @@ class _AllExamResultState extends State<AllExamResult> {
                                         color: Colors.green,
                                         fontSize: 17),
                                   ),
+
+                                   Text(
+                                    "Total Collection: ${AllData[index]["TotalExamFeeCollection"]} ৳",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.green,
+                                        fontSize: 17),
+                                  ),
+
+
+
                                   Text(
                                     "Fee Collection: ${AllData[index]["ExamFeeCollectionMode"]}",
                                     style: TextStyle(

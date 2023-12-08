@@ -99,7 +99,8 @@ class _CreateNewExamResultState extends State<CreateNewExamResult> {
                         "status":"private",
                         "ExamFeeCollectionMode":"open",
                         "ExamFee":ExamFeeController.text.trim().toString(),
-                        "ExamStartingDate":SelectedDate
+                        "ExamStartingDate":SelectedDate,
+                        "TotalExamFeeCollection":"0"
 
                       };
 
