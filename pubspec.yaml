@@ -71,6 +71,7 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_html: ^3.0.0-beta.2
   youtube_player_iframe: ^4.0.4
+  pie_chart: ^5.4.0
   
   
 

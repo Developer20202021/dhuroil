@@ -1,3 +1,4 @@
+import 'package:dhuroil/Screens/AdminPanel/AdminHomePage.dart';
 import 'package:dhuroil/Screens/HomePage.dart';
 import 'package:dhuroil/Screens/Registration/AllRegistration.dart';
 import 'package:dhuroil/Screens/Registration/OtpPage.dart';
@@ -73,7 +74,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AllStudentsHomePage(),
+      home: AdminHomePage(),
     );
   }
 }
