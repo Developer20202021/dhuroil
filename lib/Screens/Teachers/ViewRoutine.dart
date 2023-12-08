@@ -22,13 +22,16 @@ import 'package:weekday_selector/weekday_selector.dart';
 class ViewRoutine extends StatefulWidget {
 
   final indexNumber ;
+  final TeacherEmail;
+  final TeacherPhoneNumber;
+  final TeacherName;
 
 
 
 
 
 
-  const ViewRoutine({super.key, required this.indexNumber,});
+  const ViewRoutine({super.key, required this.indexNumber,required this.TeacherEmail, required this.TeacherPhoneNumber, required this.TeacherName});
 
   @override
   State<ViewRoutine> createState() => _ViewRoutineState();
@@ -41,13 +44,20 @@ class _ViewRoutineState extends State<ViewRoutine> {
 
 TextEditingController TeacherSubjectNameController = TextEditingController();
 
+TextEditingController TeacherSMSController = TextEditingController();
+
+
+
 
 bool loading = false;
 
 var DataLoad = "";
 
 
- final values = List.filled(7, true);
+ final values = List.filled(7, false);
+
+
+
 
  
 
@@ -55,23 +65,7 @@ var DataLoad = "";
 
 // Firebase All Customer Data Load
 
-List  AllData = [
-  
-  {
-  "TeacherName":"Mahadi Hasan"
-},
-
-
-  {
-  "TeacherName":"Mahadi Hasan"
-},
-
-  {
-  "TeacherName":"Mahadi Hasan"
-},
-
-
-];
+List  AllData = [];
 
 
 
@@ -88,7 +82,7 @@ List  AllData = [
 Future<void> getData() async {
     // Get docs from collection reference
       CollectionReference _CustomerOrderHistoryCollectionRef =
-    FirebaseFirestore.instance.collection('TeacherInfo');
+    FirebaseFirestore.instance.collection('TeacherRoutine');
 
   // // all Due Query Count
   //    Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("Department", isEqualTo: widget.DepartmentName).where("Semister", isEqualTo: widget.SemisterName).where("StudentStatus", isEqualTo: "new");
@@ -131,6 +125,10 @@ Future<void> getData() async {
 
 
 
+
+
+
+
 // Firebase All Customer Data Load
 
 
@@ -143,11 +141,11 @@ Future<void> getData() async {
 @override
   void initState() {
     // TODO: implement initState
-    // setState(() {
-    //   loading = true;
-    // });
+    setState(() {
+      loading = true;
+    });
    
-    // getData();
+    getData();
     super.initState();
   }
 
@@ -182,6 +180,9 @@ Future<void> getData() async {
   Widget build(BuildContext context) {
 
  FocusNode myFocusNode = new FocusNode();
+
+
+
 
 
 
@@ -302,7 +303,7 @@ Future<void> getData() async {
        
         iconTheme: IconThemeData(color: Color.fromRGBO(92, 107, 192, 1)),
         leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.chevron_left)),
-        title: const Text("All Teachers",  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
+        title: Text("${widget.TeacherName.toString().toUpperCase()} Sir এর Routine",  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
         elevation: 0.0,
@@ -347,272 +348,272 @@ Future<void> getData() async {
                                   return [
                             
 
-                                    PopupMenuItem(
-                                      child: Text("Edit Routine"),
-                                      value: '/hello',
-                                      onTap: () async{
+              //                       PopupMenuItem(
+              //                         child: Text("Edit Routine"),
+              //                         value: '/hello',
+              //                         onTap: () async{
 
 
 
 
 
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                    String SelectedClassName ="";
+              //   showDialog(
+              //       context: context,
+              //       builder: (context) {
+              //       String SelectedClassName ="";
 
-                    String SelectDay ="";
+              //       String SelectDay ="";
 
-                    String SelectClassStartTime ="Select Start Time";
+              //       String SelectClassStartTime ="Select Start Time";
 
-                    String SelectClassEndTime ="Select End Time";
+              //       String SelectClassEndTime ="Select End Time";
 
-                    double ClassStartTimeSeconds =0.0;
+              //       double ClassStartTimeSeconds =0.0;
 
-                    double ClassEndTimeSeconds =0.0;
+              //       double ClassEndTimeSeconds =0.0;
 
 
                     
 
 
 
-                      return StatefulBuilder(
-                      builder: (context, setState) {
-                        return AlertDialog(
-                        title: Text("Edit Routine"),
-                        content:  Container(
-                                              width: 400,
-                                              height: 330,
-                                              child: Column(
-                                                children: [
+              //         return StatefulBuilder(
+              //         builder: (context, setState) {
+              //           return AlertDialog(
+              //           title: Text("Edit Routine"),
+              //           content:  Container(
+              //                                 width: 400,
+              //                                 height: 330,
+              //                                 child: Column(
+              //                                   children: [
 
 
-                                      DropdownButton(
+              //                         DropdownButton(
                                                   
                                                                     
                                                   
-                                                    hint:  SelectedClassName == ""
-                                                        ? Text('Select Class')
-                                                        : Text(
-                                                          "Class: ${SelectedClassName}",
-                                                            style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                                          ),
-                                                    isExpanded: true,
-                                                    iconSize: 30.0,
-                                                    style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
-                                                    items: ["0",'1', '2', '3', "4","5","6","7","8", "9","10", "ssc"].map(
-                                                      (val) {
-                                                        return DropdownMenuItem<String>(
-                                                          value: val,
-                                                          child: Text(val),
-                                                        );
-                                                      },
-                                                    ).toList(),
-                                                    onChanged: (val) {
-                                                      setState(
-                                                        () {
-                                                          SelectedClassName = val!;
+              //                                       hint:  SelectedClassName == ""
+              //                                           ? Text('Select Class')
+              //                                           : Text(
+              //                                             "Class: ${SelectedClassName}",
+              //                                               style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+              //                                             ),
+              //                                       isExpanded: true,
+              //                                       iconSize: 30.0,
+              //                                       style: TextStyle(color: ColorName().appColor, fontWeight: FontWeight.bold, fontSize: 16),
+              //                                       items: ["0",'1', '2', '3', "4","5","6","7","8", "9","10", "ssc"].map(
+              //                                         (val) {
+              //                                           return DropdownMenuItem<String>(
+              //                                             value: val,
+              //                                             child: Text(val),
+              //                                           );
+              //                                         },
+              //                                       ).toList(),
+              //                                       onChanged: (val) {
+              //                                         setState(
+              //                                           () {
+              //                                             SelectedClassName = val!;
 
-                                                          print(val);
-                                                        },
-                                                      );
-                                                    },
-                                                  ),
-
-
-                     SizedBox(
-                      height: 20,
-                    ),
+              //                                             print(val);
+              //                                           },
+              //                                         );
+              //                                       },
+              //                                     ),
 
 
+              //        SizedBox(
+              //         height: 20,
+              //       ),
 
-                   TextField(
 
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Enter Subject Name',
-                           labelStyle: TextStyle(
-              color: myFocusNode.hasFocus ? Theme.of(context).primaryColor: Colors.black
-                  ),
-                          hintText: 'Enter Subject Name',
-                          //  enabledBorder: OutlineInputBorder(
-                          //     borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                          //   ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                            ),
+
+              //      TextField(
+
+              //         decoration: InputDecoration(
+              //             border: OutlineInputBorder(),
+              //             labelText: 'Enter Subject Name',
+              //              labelStyle: TextStyle(
+              // color: myFocusNode.hasFocus ? Theme.of(context).primaryColor: Colors.black
+              //     ),
+              //             hintText: 'Enter Subject Name',
+              //             //  enabledBorder: OutlineInputBorder(
+              //             //     borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+              //             //   ),
+              //               focusedBorder: OutlineInputBorder(
+              //                 borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
+              //               ),
+              //               errorBorder: OutlineInputBorder(
+              //                 borderSide: BorderSide(
+              //                     width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+              //               ),
                           
                           
-                          ),
-                      controller: TeacherSubjectNameController,
-                    ),
+              //             ),
+              //         controller: TeacherSubjectNameController,
+              //       ),
             
-                    SizedBox(
-                      height: 20,
-                    ),
+              //       SizedBox(
+              //         height: 20,
+              //       ),
 
 
 
 
-                  Text("যে Day গুলোতে ক্লাস থাকবে তা Select করুন"),
+              //     Text("যে Day গুলোতে ক্লাস থাকবে তা Select করুন"),
                   
 
-                    WeekdaySelector(
-                        selectedSplashColor: Colors.green,
-                        onChanged: (int day) {
-                          setState(() {
-                            // Use module % 7 as Sunday's index in the array is 0 and
-                            // DateTime.sunday constant integer value is 7.
-                            final index = day % 7;
+              //       WeekdaySelector(
+              //           selectedSplashColor: Colors.green,
+              //           onChanged: (int day) {
+              //             setState(() {
+              //               // Use module % 7 as Sunday's index in the array is 0 and
+              //               // DateTime.sunday constant integer value is 7.
+              //               final index = day % 7;
                     
-                            print(day);
-                            // We "flip" the value in this example, but you may also
-                            // perform validation, a DB write, an HTTP call or anything
-                            // else before you actually flip the value,
-                            // it's up to your app's needs.
-                            values[index] = !values[index];
-                          });
-                        },
-                        values: values,
-                      ),
+              //               print(day);
+              //               // We "flip" the value in this example, but you may also
+              //               // perform validation, a DB write, an HTTP call or anything
+              //               // else before you actually flip the value,
+              //               // it's up to your app's needs.
+              //               values[index] = !values[index];
+              //             });
+              //           },
+              //           values: values,
+              //         ),
 
 
 
-                SizedBox(
-                      height: 30,
-                    ),
+              //   SizedBox(
+              //         height: 30,
+              //       ),
 
 
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
 
 
-                        Container(width: 150, child:TextButton(onPressed: () async{
+              //           Container(width: 150, child:TextButton(onPressed: () async{
 
 
-                          showTimePicker(
-                                        context: context,
-                                        initialTime: TimeOfDay(hour: 7, minute: 15),
+              //             showTimePicker(
+              //                           context: context,
+              //                           initialTime: TimeOfDay(hour: 7, minute: 15),
 
-                                      ).then((value) => setState((){
+              //                         ).then((value) => setState((){
                                         
-                                        print("${value?.hour}:${value?.minute} ${value?.period.toString().split('.')[1]}");
+              //                           print("${value?.hour}:${value?.minute} ${value?.period.toString().split('.')[1]}");
 
 
 
 
-                                         DateTime tempDate = DateFormat("hh:mm").parse(
-                                              value!.hour.toString() +
-                                                  ":" + value!.minute.toString());
-                                          var dateFormat = DateFormat("h:mm a"); // you can change the format here
-                                          print(dateFormat.format(tempDate));
+              //                            DateTime tempDate = DateFormat("hh:mm").parse(
+              //                                 value!.hour.toString() +
+              //                                     ":" + value!.minute.toString());
+              //                             var dateFormat = DateFormat("h:mm a"); // you can change the format here
+              //                             print(dateFormat.format(tempDate));
 
 
-                                          String FormateTime = dateFormat.format(tempDate);
+              //                             String FormateTime = dateFormat.format(tempDate);
 
-                                          String SplitTime = FormateTime.split(" ")[0];
-
-                                          
-                                          double SplitTimehour = double.parse(SplitTime.split(":")[0]);
-
-                                          double SplitTimeMinute = double.parse(SplitTime.split(":")[1]);
-
-
-                                          double SplitTimeSeconds = (SplitTimehour*60 + SplitTimeMinute)*60;
+              //                             String SplitTime = FormateTime.split(" ")[0];
 
                                           
+              //                             double SplitTimehour = double.parse(SplitTime.split(":")[0]);
+
+              //                             double SplitTimeMinute = double.parse(SplitTime.split(":")[1]);
+
+
+              //                             double SplitTimeSeconds = (SplitTimehour*60 + SplitTimeMinute)*60;
+
+                                          
                                           
 
 
 
-                                          setState((){
+              //                             setState((){
 
-                                            SelectClassStartTime = dateFormat.format(tempDate);
+              //                               SelectClassStartTime = dateFormat.format(tempDate);
 
-                                            ClassStartTimeSeconds = SplitTimeSeconds;
+              //                               ClassStartTimeSeconds = SplitTimeSeconds;
 
-                                          });
+              //                             });
 
     
-                                      }));
+              //                         }));
 
 
 
 
-                        }, child: Text("${SelectClassStartTime}", style: TextStyle(color: Colors.white),), style: ButtonStyle(
+              //           }, child: Text("${SelectClassStartTime}", style: TextStyle(color: Colors.white),), style: ButtonStyle(
                          
-                backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-              ),),),
+              //   backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
+              // ),),),
 
 
 
 
-               Container(width: 150, child:TextButton(onPressed: () async{
+              //  Container(width: 150, child:TextButton(onPressed: () async{
 
 
 
-                              showTimePicker(
-                                        context: context,
-                                        initialTime: TimeOfDay(hour: 7, minute: 15),
+              //                 showTimePicker(
+              //                           context: context,
+              //                           initialTime: TimeOfDay(hour: 7, minute: 15),
 
-                                      ).then((value) => setState((){
+              //                         ).then((value) => setState((){
                                         
-                                        print("${value?.hour}:${value?.minute} ${value?.period.toString().split('.')[1]}");
+              //                           print("${value?.hour}:${value?.minute} ${value?.period.toString().split('.')[1]}");
 
 
 
 
-                                         DateTime tempDate = DateFormat("hh:mm").parse(
-                                              value!.hour.toString() +
-                                                  ":" + value!.minute.toString());
-                                          var dateFormat = DateFormat("h:mm a"); // you can change the format here
-                                          print(dateFormat.format(tempDate));
+              //                            DateTime tempDate = DateFormat("hh:mm").parse(
+              //                                 value!.hour.toString() +
+              //                                     ":" + value!.minute.toString());
+              //                             var dateFormat = DateFormat("h:mm a"); // you can change the format here
+              //                             print(dateFormat.format(tempDate));
 
 
                                           
-                                          String FormateTime = dateFormat.format(tempDate);
+              //                             String FormateTime = dateFormat.format(tempDate);
 
-                                          String SplitTime = FormateTime.split(" ")[0];
+              //                             String SplitTime = FormateTime.split(" ")[0];
 
                                           
-                                          double SplitTimehour = double.parse(SplitTime.split(":")[0]);
+              //                             double SplitTimehour = double.parse(SplitTime.split(":")[0]);
 
-                                          double SplitTimeMinute = double.parse(SplitTime.split(":")[1]);
-
-
-                                          double SplitTimeSeconds = (SplitTimehour*60 + SplitTimeMinute)*60;
+              //                             double SplitTimeMinute = double.parse(SplitTime.split(":")[1]);
 
 
-
-                                          setState((){
-
-                                            SelectClassEndTime = dateFormat.format(tempDate);
+              //                             double SplitTimeSeconds = (SplitTimehour*60 + SplitTimeMinute)*60;
 
 
-                                            ClassEndTimeSeconds = SplitTimeSeconds;
-                                          });
+
+              //                             setState((){
+
+              //                               SelectClassEndTime = dateFormat.format(tempDate);
+
+
+              //                               ClassEndTimeSeconds = SplitTimeSeconds;
+              //                             });
 
     
-                                      }));
+              //                         }));
 
 
 
 
-                        }, child: Text("${SelectClassEndTime}", style: TextStyle(color: Colors.white),), style: ButtonStyle(
+              //           }, child: Text("${SelectClassEndTime}", style: TextStyle(color: Colors.white),), style: ButtonStyle(
                          
-                backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
-              ),),),
+              //   backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).primaryColor),
+              // ),),),
 
 
 
-                      ],
-                    ),
+              //         ],
+              //       ),
 
 
 
@@ -623,58 +624,58 @@ Future<void> getData() async {
 
 
             
-                    SizedBox(
-                      height: 10,
-                    ),
+              //       SizedBox(
+              //         height: 10,
+              //       ),
 
 
 
 
             
-                                                ],
-                                              ),
-                                            ),
+              //                                   ],
+              //                                 ),
+              //                               ),
 
 
-                        actions: <Widget>[
+              //           actions: <Widget>[
 
-                          TextButton(
-                            onPressed: (){
-
-
-                              double DurationTime = (ClassStartTimeSeconds - ClassEndTimeSeconds)/60;
-
-                              print("${DurationTime} min");
+              //             TextButton(
+              //               onPressed: (){
 
 
+              //                 double DurationTime = (ClassStartTimeSeconds - ClassEndTimeSeconds)/60;
 
-                            },
-                            child: Text("Create"),
-                          ),
+              //                 print("${DurationTime} min");
+
+
+
+              //               },
+              //               child: Text("Create"),
+              //             ),
                           
 
 
 
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text("Cancel"),
-                          ),
+              //             TextButton(
+              //               onPressed: () => Navigator.pop(context),
+              //               child: Text("Cancel"),
+              //             ),
 
 
                           
 
 
 
-                          ],
-                        );
-                      },
-                    );
-                    },
-                  );
+              //             ],
+              //           );
+              //         },
+              //       );
+              //       },
+              //     );
 
 
-                                      },
-                                    ),
+              //                         },
+              //                       ),
 
                              
                                     PopupMenuItem(
@@ -688,7 +689,7 @@ Future<void> getData() async {
                     String SelectedClassName ="";
                     
 
-
+                    TeacherSMSController.text ="Dear Sir,আপনার Class ${AllData[index]["ClassName"]} এ ${AllData[index]["ClassStartTime"]} Time এ একটা ক্লাস আছে। Thank You";
 
                       return StatefulBuilder(
                       builder: (context, setState) {
@@ -724,7 +725,7 @@ Future<void> getData() async {
                           
                           
                           ),
-                      controller: TeacherSubjectNameController,
+                      controller: TeacherSMSController,
                     ),
             
                     SizedBox(
@@ -759,7 +760,22 @@ Future<void> getData() async {
                             if (response.statusCode == 200) {
                               // If the server did return a 200 OK response,
                               // then parse the JSON.
-                              print(jsonDecode(response.body));
+
+                              final snackBar = SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: AwesomeSnackbarContent(
+                                        title: 'Teacher message send Successfull',
+                                        message: 'Hey Thank You. Good Job',
+
+                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                                ),
+                                            );
+
+                    ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
+                             
                               setState(() {
                                 // msgSend = "success";
                                 loading = false;
@@ -847,7 +863,7 @@ Future<void> getData() async {
                                     children: [
                                      
                                       Text("Name:${AllData[index]["TeacherName"].toString().toUpperCase()}"),
-                                      Text("Phone Number:${AllData[index]["TeacherPhoneNumber"]}"),
+                                      Text("Phone Number:${AllData[index]["TeacherPhoneNo"]}"),
 
                                       Text("Email: ${AllData[index]["TeacherEmail"]}"),
                                       Text("Class: ${AllData[index]["ClassName"]}"),
@@ -858,7 +874,36 @@ Future<void> getData() async {
 
                                      Text("End: ${AllData[index]["ClassEndTime"]}"),
 
-                                     Text("Duration: ${AllData[index]["ClassDuration"]} min"),
+                                     Text("Duration:${AllData[index]["duration"]} min"),
+
+                                    
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                    
+                                    Text("ক্লাস নিবেন: "),
+
+                                    AllData[index]["days"][0]?const Text("রবিবার,"):const Text(""),
+
+
+                                    AllData[index]["days"][1]?const Text("সোমবার,"):const Text(""),
+
+
+                                    AllData[index]["days"][2]?const Text("মংগলবার,"):const Text(""),
+
+                                    AllData[index]["days"][3]?const Text("বুধবার,"):const Text(""),
+
+
+                                    AllData[index]["days"][4]?const Text("বৃহস্পতিবার,"):const Text(""),
+
+
+                                    AllData[index]["days"][5]?const Text("শুক্রবার,"):const Text(""),
+
+                                    AllData[index]["days"][6]?const Text("শনিবার,"):const Text("")
+
+
+                                      ],
+                                    )
 
 
                                     ],
@@ -908,94 +953,111 @@ Future<void> getData() async {
 
 
 
+setState(() {
 
-               var updateData ={
-
-                                "AdminApprove":"false"
-
-                              };
-
-
-   final StudentInfo =
-    FirebaseFirestore.instance.collection('TeacherInfo').doc(AllData[index]["TeacherEmail"]);
-
-                              
-                          StudentInfo.update(updateData).then((value) => setState((){
+                          loading = true;
+                          
+                        },);
+                                              
+                        CollectionReference collectionRef =
+                        FirebaseFirestore.instance.collection('TeacherRoutine');
+                            collectionRef.doc(AllData[index]["RoutineID"]).delete().then(
+                                    (doc) => setState((){
 
 
+                                          getData();
 
 
-                              final snackBar = SnackBar(
-                 
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    content: AwesomeSnackbarContent(
-                      title: 'Successfull',
-                      message:
-                          'Hey Thank You. Good Job',
-        
-                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                      contentType: ContentType.success,
-                    ),
-                  );
-        
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
-
-              
-
-
-              
-          
-
-
-
-                         setState(() {
-                          getData();
-                            loading = false;
-                          });
+                                        Navigator.pop(context);
 
 
 
 
 
-                          })).onError((error, stackTrace) => setState((){
+                                    final snackBar = SnackBar(
+                                  
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Delete Successfull',
+                                        message:
+                                            'Hey Thank You. Good Job',
+                          
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                      ),
+                                    );
+                          
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
+
+                                
+
+
+                                
+                            
+
+
+
+                                          setState(() {
+                                              loading = false;
+                                            });
 
 
 
 
-                              final snackBar = SnackBar(
-                    /// need to set following properties for best effect of awesome_snackbar_content
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    content: AwesomeSnackbarContent(
-                      title: 'Something Wrong!!!!',
-                      message:
-                          'Try again later...',
-        
-                      /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                      contentType: ContentType.failure,
-                    ),
-                  );
-        
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
+                                    }),
+                                    onError: (e) => setState((){
+
+
+                                    
+
+
+                                        Navigator.pop(context);
 
 
 
 
 
+                                                final snackBar = SnackBar(
+                                  
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Something Wrong!!!',
+                                        message:
+                                            'Try again later...',
+                          
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.failure,
+                                      ),
+                                    );
+                          
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
 
-                   setState(() {
-                            loading = false;
-                          });
+                                
 
 
-                          }));
+                                
+                            
+
+
+
+                                          setState(() {
+                                              loading = false;
+                                            });
+
+
+
+
+
+                                    }),
+                                  );
       
       
       

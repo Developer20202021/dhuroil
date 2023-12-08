@@ -17,6 +17,10 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:intl/intl.dart';
 import 'package:weekday_selector/weekday_selector.dart';
+import 'package:uuid/uuid.dart';
+
+
+
 
 
 
@@ -47,18 +51,15 @@ bool loading = false;
 
 var DataLoad = "";
 
+var uuid = Uuid();
+
  
 
- final values = List.filled(7, true);
+ final values = List.filled(7, false);
 
 // Firebase All Customer Data Load
 
-List  AllData = [
-  
-
-
-
-];
+List  AllData = [];
 
 
 
@@ -169,6 +170,8 @@ Future<void> getData() async {
   Widget build(BuildContext context) {
 
  FocusNode myFocusNode = new FocusNode();
+
+ var RoutineID = uuid.v4();
 
 
 
@@ -480,7 +483,9 @@ Future<void> getData() async {
                             // it's up to your app's needs.
                             values[index] = !values[index];
 
-                            print(values);
+                            SelectedDay = values;
+
+                            print(SelectedDay);
                           });
                         },
                         values: values,
@@ -655,6 +660,89 @@ Future<void> getData() async {
                               print("${DurationTime} min");
 
 
+              
+               var jsonData =
+                        {
+                        "RoutineID":RoutineID,
+                        "TeacherName":AllData[index]["TeacherName"],
+                        "TeacherEmail":AllData[index]["TeacherEmail"],
+                        "TeacherPhoneNo":AllData[index]["TeacherPhoneNumber"],
+                        "TeacherImageUrl":AllData[index]["TeacherImageUrl"],
+                        "role": AllData[index]["role"],
+                        "roleClass":AllData[index]["ClassName"],
+                        "ClassName":SelectedClassName,
+                        "SubjectName":TeacherSubjectNameController.text.trim().toLowerCase(),
+                        "ClassStartTime":SelectClassStartTime,
+                        "ClassEndTime":SelectClassEndTime,
+                        "days":SelectedDay,
+                        "duration":DurationTime,
+                        "RoutineCreateDate":DateTime.now().toIso8601String()
+                        };
+
+                  final StudentInfo = FirebaseFirestore.instance.collection('TeacherRoutine').doc(RoutineID);
+                  
+                  StudentInfo.set(jsonData).then((value) =>setState(() {
+                                          getData();
+
+                                        Navigator.pop(context);
+
+                                final snackBar = SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: AwesomeSnackbarContent(
+                                        title: 'Routine Create Successfull',
+                                        message: 'Hey Thank You. Good Job',
+
+                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                                ),
+                                            );
+
+                    ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
+
+                     
+
+                       setState(() {
+                        loading = false;
+                             });
+                            }))
+                      .onError((error,stackTrace) =>setState(() {
+                        final snackBar = SnackBar(
+                  /// need to set following properties for best effect of awesome_snackbar_content
+                        elevation: 0,
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        content: AwesomeSnackbarContent(
+                        title: 'Something Wrong!!!!',
+                        message: 'Try again later...',
+
+            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                        contentType: ContentType.failure,
+                            ),
+                        );
+
+                ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
+
+                      setState(() {
+                            loading = false;
+                               });
+                      }));
+
+
+
+            
+                      
+
+
+
+
+
+
+
+
+
+
 
                             },
                             child: Text("Create"),
@@ -688,7 +776,7 @@ Future<void> getData() async {
                                       child: Text("View Routine"),
                                       value: '/about',
                                       onTap: () {
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewRoutine(indexNumber: "")));
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewRoutine(indexNumber: "", TeacherEmail: AllData[index]["TeacherEmail"], TeacherPhoneNumber: AllData[index]["TeacherPhoneNumber"], TeacherName: AllData[index]["TeacherName"],)));
                                       },
                                     ),
                                     PopupMenuItem(
@@ -773,7 +861,23 @@ Future<void> getData() async {
                             if (response.statusCode == 200) {
                               // If the server did return a 200 OK response,
                               // then parse the JSON.
-                              print(jsonDecode(response.body));
+                              // print(jsonDecode(response.body));
+                              final snackBar = SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: AwesomeSnackbarContent(
+                                        title: 'Teacher message send Successfull',
+                                        message: 'Hey Thank You. Good Job',
+
+                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                                ),
+                                            );
+
+                    ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
+
+
                               setState(() {
                                 // msgSend = "success";
                                 loading = false;
@@ -920,6 +1024,63 @@ Future<void> getData() async {
 
 
 
+                      var updateData =
+                        {
+                        "role": "guide teacher",
+                        "ClassName":SelectedClassName
+                        };
+
+                  final StudentInfo = FirebaseFirestore.instance.collection('TeacherInfo').doc(AllData[index]["TeacherEmail"]);
+                  
+                  StudentInfo.update(updateData).then((value) =>setState(() {
+                                          getData();
+
+                                        Navigator.pop(context);
+
+                                final snackBar = SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: AwesomeSnackbarContent(
+                                        title: 'Teacher Role Change Successfull',
+                                        message: 'Hey Thank You. Good Job',
+
+                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                                ),
+                                            );
+
+                    ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
+
+                     
+
+                       setState(() {
+                        loading = false;
+                             });
+                            }))
+                      .onError((error,stackTrace) =>setState(() {
+                        final snackBar = SnackBar(
+                  /// need to set following properties for best effect of awesome_snackbar_content
+                        elevation: 0,
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        content: AwesomeSnackbarContent(
+                        title: 'Something Wrong!!!!',
+                        message: 'Try again later...',
+
+            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                        contentType: ContentType.failure,
+                            ),
+                        );
+
+                ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
+
+                      setState(() {
+                            loading = false;
+                               });
+                      }));
+
+
 
                         }, child: Text("Save", style: TextStyle(color: Colors.white),), style: ButtonStyle(
                          
@@ -1005,7 +1166,9 @@ Future<void> getData() async {
                                       Text("Email: ${AllData[index]["TeacherEmail"]}"),
                                       Text("Address: ${AllData[index]["TeacherAddress"]}"),
 
-                                      Text("Department: ${AllData[index]["Department"]}"),
+                                      Text("Role: ${AllData[index]["role"]}"),
+
+                                      Text("Class: ${AllData[index]["ClassName"]}"),
 
                                      Text("Subject: ${AllData[index]["SubjectName"]}"),
 

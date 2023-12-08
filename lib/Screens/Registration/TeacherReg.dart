@@ -979,7 +979,7 @@ var RegCodeTextField ="";
                         "TeacherPassword":myPassController.text.trim(),
                         "TeacherAddress":myAddressController.text.trim(),
                         "SubjectName":SubjectController.text.trim(),
-                        "Department":SelectedRole,
+                        
                         "TeacherStatus":"new",
                         "LastAttendance":"",
                         "Gender":SelectedGenderValue.toString().toLowerCase(),
