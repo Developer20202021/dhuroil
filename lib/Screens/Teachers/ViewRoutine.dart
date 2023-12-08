@@ -317,16 +317,16 @@ Future<void> getData() async {
           itemBuilder: (BuildContext context, int index) {
             return Padding(
 
-                  padding:  EdgeInsets.only(left:208.0, right: 208, bottom: 10),
+                  padding:  EdgeInsets.only(left:308.0, right: 308, bottom: 10),
                   child: Container(
                   
                  decoration: BoxDecoration(
-                  color: ColorName().AppBoxBackgroundColor,
+                  color: Colors.grey.shade300,
      
 
                   border: Border.all(
                             width: 2,
-                            color: ColorName().AppBoxBackgroundColor
+                            color: Colors.grey.shade300
                           ),
                   borderRadius: BorderRadius.circular(10)      
                  ),
@@ -933,153 +933,156 @@ Future<void> getData() async {
 
 
 
-                TextButton(onPressed: ()async{
-
-
-
-
-
-
-                   AwesomeDialog(
-              showCloseIcon: true,
-             width: MediaQuery.of(context).size.width*0.4,
-            context: context,
-            dialogType: DialogType.question,
-            animType: AnimType.rightSlide,
-            title: 'Are You Sure?',
-            desc: 'আপনি কি এই Teacher এর Routine Delete করতে চান?যদি হ্যা হয় তবে Ok button press করুন। না হলে Cancel button press করুন।',
-          
-            btnOkOnPress: () async{
-
-
-
-setState(() {
-
-                          loading = true;
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(onPressed: ()async{
+                
+                
+                
+                
+                
+                
+                     AwesomeDialog(
+                              showCloseIcon: true,
+                             width: MediaQuery.of(context).size.width*0.4,
+                            context: context,
+                            dialogType: DialogType.question,
+                            animType: AnimType.rightSlide,
+                            title: 'Are You Sure?',
+                            desc: 'আপনি কি এই Teacher এর Routine Delete করতে চান?যদি হ্যা হয় তবে Ok button press করুন। না হলে Cancel button press করুন।',
                           
-                        },);
-                                              
-                        CollectionReference collectionRef =
-                        FirebaseFirestore.instance.collection('TeacherRoutine');
-                            collectionRef.doc(AllData[index]["RoutineID"]).delete().then(
-                                    (doc) => setState((){
-
-
-                                          getData();
-
-
-                                        Navigator.pop(context);
-
-
-
-
-
-                                    final snackBar = SnackBar(
-                                  
-                                      elevation: 0,
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: Colors.transparent,
-                                      content: AwesomeSnackbarContent(
-                                        title: 'Delete Successfull',
-                                        message:
-                                            'Hey Thank You. Good Job',
-                          
-                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                        contentType: ContentType.success,
-                                      ),
-                                    );
-                          
-                                    ScaffoldMessenger.of(context)
-                                      ..hideCurrentSnackBar()
-                                      ..showSnackBar(snackBar);
-
-                                
-
-
-                                
+                            btnOkOnPress: () async{
+                
+                
+                
+                setState(() {
+                
+                            loading = true;
                             
-
-
-
-                                          setState(() {
-                                              loading = false;
-                                            });
-
-
-
-
-                                    }),
-                                    onError: (e) => setState((){
-
-
+                          },);
+                                                
+                          CollectionReference collectionRef =
+                          FirebaseFirestore.instance.collection('TeacherRoutine');
+                              collectionRef.doc(AllData[index]["RoutineID"]).delete().then(
+                                      (doc) => setState((){
+                
+                
+                                            getData();
+                
+                
+                                          Navigator.pop(context);
+                
+                
+                
+                
+                
+                                      final snackBar = SnackBar(
                                     
-
-
-                                        Navigator.pop(context);
-
-
-
-
-
-                                                final snackBar = SnackBar(
-                                  
-                                      elevation: 0,
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: Colors.transparent,
-                                      content: AwesomeSnackbarContent(
-                                        title: 'Something Wrong!!!',
-                                        message:
-                                            'Try again later...',
-                          
-                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                        contentType: ContentType.failure,
-                                      ),
-                                    );
-                          
-                                    ScaffoldMessenger.of(context)
-                                      ..hideCurrentSnackBar()
-                                      ..showSnackBar(snackBar);
-
-                                
-
-
-                                
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: AwesomeSnackbarContent(
+                                          title: 'Delete Successfull',
+                                          message:
+                                              'Hey Thank You. Good Job',
                             
-
-
-
-                                          setState(() {
-                                              loading = false;
-                                            });
-
-
-
-
-
-                                    }),
-                                  );
-      
-      
-      
-      
-      
-
-
-          
-            },
-
-            btnCancelOnPress: () {
-
-
-          
-            },
-          ).show();
-
-
-                                      }, child: Text("Delete", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
-                                       
-                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.red.shade400),
-                ),),
+                                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                          contentType: ContentType.success,
+                                        ),
+                                      );
+                            
+                                      ScaffoldMessenger.of(context)
+                                        ..hideCurrentSnackBar()
+                                        ..showSnackBar(snackBar);
+                
+                                  
+                
+                
+                                  
+                              
+                
+                
+                
+                                            setState(() {
+                                                loading = false;
+                                              });
+                
+                
+                
+                
+                                      }),
+                                      onError: (e) => setState((){
+                
+                
+                                      
+                
+                
+                                          Navigator.pop(context);
+                
+                
+                
+                
+                
+                                                  final snackBar = SnackBar(
+                                    
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: AwesomeSnackbarContent(
+                                          title: 'Something Wrong!!!',
+                                          message:
+                                              'Try again later...',
+                            
+                                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                          contentType: ContentType.failure,
+                                        ),
+                                      );
+                            
+                                      ScaffoldMessenger.of(context)
+                                        ..hideCurrentSnackBar()
+                                        ..showSnackBar(snackBar);
+                
+                                  
+                
+                
+                                  
+                              
+                
+                
+                
+                                            setState(() {
+                                                loading = false;
+                                              });
+                
+                
+                
+                
+                
+                                      }),
+                                    );
+                      
+                      
+                      
+                      
+                      
+                
+                
+                          
+                            },
+                
+                            btnCancelOnPress: () {
+                
+                
+                          
+                            },
+                          ).show();
+                
+                
+                                        }, child: Text("Delete", style: TextStyle(color: Colors.white, fontSize: 12),), style: ButtonStyle(
+                                         
+                    backgroundColor: MaterialStatePropertyAll<Color>(Colors.red.shade400),
+                  ),),
+                ),
 
 
                 SizedBox(height: 2,),
