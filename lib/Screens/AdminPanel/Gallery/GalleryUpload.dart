@@ -25,7 +25,7 @@ import 'package:uuid/uuid.dart';
 
 
 
-class NoticeUpload extends StatefulWidget {
+class GalleryUpload extends StatefulWidget {
 
 
 
@@ -37,13 +37,13 @@ class NoticeUpload extends StatefulWidget {
 
 
 
-  const NoticeUpload( {super.key,});
+  const GalleryUpload( {super.key,});
 
   @override
-  State<NoticeUpload> createState() => _EditCustomerInfoState();
+  State<GalleryUpload> createState() => _EditCustomerInfoState();
 }
 
-class _EditCustomerInfoState extends State<NoticeUpload> {
+class _EditCustomerInfoState extends State<GalleryUpload> {
 
 
     TextEditingController NoticeController = TextEditingController();
@@ -277,14 +277,13 @@ bool loading = false;
 
   
 
-         final docUser = FirebaseFirestore.instance.collection("NoticeInfo").doc(FileID);
+         final docUser = FirebaseFirestore.instance.collection("Gallery").doc(FileID);
          
 
                   final UpadateData ={
                     "FileID":FileID,
                     "FileUrl":AllUploadImageUrl,
-                    "NoticeTitle":TitleController.text.trim(),
-                    "NoticeDescription":NoticeController.text.trim(),
+                    "title":TitleController.text.trim(),                  
                     "Date":DateTime.now().toIso8601String(),
                     "month":"${DateTime.now().month}/${DateTime.now().year}",
                     "year":"${DateTime.now().year}",
@@ -400,7 +399,7 @@ Future<void> getData() async {
     // QuerySnapshot querySnapshot = await _collectionRef.get();
     
   CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('NoticeInfo');
+    FirebaseFirestore.instance.collection('Gallery');
 
 
     // Query query = _collectionRef.where("StudentEmail", isEqualTo: widget.StudentEmail);
@@ -617,7 +616,7 @@ Future<void> getData() async {
        
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.chevron_left)),
-        title: const Text("Notice Upload & View", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
+        title: const Text("Gallery Upload & View", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
         elevation: 0.0,
@@ -709,25 +708,28 @@ Future<void> getData() async {
                                         const SizedBox(height: 10,),
                   
                   
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                  
-                                            for(int i=0; i<AllUploadImageUrl.length; i++)
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(5),
-                                                  child: Image.network(
-                                                    "${AllUploadImageUrl[i]}",
-                                                    width: 50,
-                                                    height: 50,
-                                                    fit: BoxFit.fitHeight,
+                                        SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                                          
+                                              for(int i=0; i<AllUploadImageUrl.length; i++)
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                    child: Image.network(
+                                                      "${AllUploadImageUrl[i]}",
+                                                      width: 150,
+                                                      height: 50,
+                                                      fit: BoxFit.fitHeight,
+                                                    ),
                                                   ),
-                                                ),
-                                            ),
-                  
-                                          ],
+                                              ),
+                                                          
+                                            ],
+                                          ),
                                         ),
                   
                   
@@ -745,10 +747,10 @@ Future<void> getData() async {
                                               keyboardType: TextInputType.name,
                                               decoration: InputDecoration(
                                                 border: OutlineInputBorder(),
-                                                labelText: 'Enter Notice Title',
+                                                labelText: 'Enter  Title',
                                                 
                           
-                                                hintText: 'Enter Notice Title...',
+                                                hintText: 'Enter Title...',
                           
                                                 //  enabledBorder: OutlineInputBorder(
                                                 //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
@@ -773,38 +775,10 @@ Future<void> getData() async {
                           
                                   
                           
-                                        SizedBox(height: 20,),
+              
                           
                                                 
-                                            Container(
-                                            width: 350,
-                                            child: TextField(
-                                              
-                                              maxLines: 10,
-                                              maxLength: 1100,
-                                              onChanged: (value) {},
-                                              keyboardType: TextInputType.name,
-                                              decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                labelText: 'Enter Notice Description',
-                          
-                                                hintText: 'Enter Notice Description...',
-                          
-                                                //  enabledBorder: OutlineInputBorder(
-                                                //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                                                //     ),
-                                                focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 3, color: Theme.of(context).primaryColor),
-                                                ),
-                                                errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                                                ),
-                                              ),
-                                              controller: NoticeController,
-                                            ),
-                                          ),
+                                            
                   
                   
                   
@@ -890,12 +864,7 @@ Future<void> getData() async {
                   
                   
                   
-                                        Container(
-                                          
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text("Notice", style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold, color: Colors.white),),
-                                          )),
+                                
                                         
                                         
                                      
@@ -946,19 +915,14 @@ Future<void> getData() async {
                                           
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Text("${AllData[i]["NoticeTitle"].toString().toUpperCase()}", style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold, fontFamily: 'Josefin Sans',),),
+                                            child: Text("${AllData[i]["title"].toString().toUpperCase()}", style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold, fontFamily: 'Josefin Sans',),),
                                           )),
                   
                   
                   
                   
                   
-                                        Container(
-                                          
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text("${AllData[i]["NoticeDescription"].toString().toUpperCase()}", style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold, fontFamily: 'Josefin Sans',),),
-                                          )),
+                                       
                                         
                                       
                   
@@ -972,12 +936,12 @@ Future<void> getData() async {
                                               onPressed: () {
                   
                                       
-                                       Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                         NoticeView(NoticeTitle: AllData[i]["NoticeTitle"], FileUrl: AllData[i]["FileUrl"])),
-                                                );
+                                      //  Navigator.push(
+                                      //             context,
+                                      //             MaterialPageRoute(
+                                      //                 builder: (context) =>
+                                      //                    NoticeView(NoticeTitle: AllData[i]["NoticeTitle"], FileUrl: AllData[i]["FileUrl"])),
+                                      //           );
                                                 
                   
                                               },
@@ -1037,7 +1001,7 @@ Future<void> getData() async {
                           },);
                                                 
                           CollectionReference collectionRef =
-                          FirebaseFirestore.instance.collection('NoticeInfo');
+                          FirebaseFirestore.instance.collection('Gallery');
                               collectionRef.doc(AllData[i]["FileID"]).delete().then(
                                       (doc) => setState((){
                   

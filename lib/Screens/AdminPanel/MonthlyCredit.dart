@@ -10,19 +10,19 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 
 
-class MonthlyDebit extends StatefulWidget {
+class MonthlyCredit extends StatefulWidget {
 
 
 
 
   
-  const MonthlyDebit({super.key});
+  const MonthlyCredit({super.key});
 
   @override
-  State<MonthlyDebit> createState() => _MonthlyDebitState();
+  State<MonthlyCredit> createState() => _MonthlyCreditState();
 }
 
-class _MonthlyDebitState extends State<MonthlyDebit> {
+class _MonthlyCreditState extends State<MonthlyCredit> {
 
 
   // এখানে Date দিয়ে Data fetch করতে হবে। 
@@ -97,7 +97,7 @@ List  AllData = [];
     int moneyAdd = 0;
 
   CollectionReference _collectionRef =
-    FirebaseFirestore.instance.collection('DebitInfo');
+    FirebaseFirestore.instance.collection('CreditInfo');
 
 Future<void> getData(String paymentDate) async {
     // Get docs from collection reference
@@ -132,7 +132,7 @@ Future<void> getData(String paymentDate) async {
 
       for (var i = 0; i < AllData.length; i++) {
 
-       var money = AllData[i]["DebitAmount"];
+       var money = AllData[i]["CreditAmount"];
       int moneyInt = int.parse(money);
 
       
@@ -200,7 +200,7 @@ Future<void> getData(String paymentDate) async {
        
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.chevron_left)),
-        title:  Text("স্কুলের মাসিক ইনকাম",  style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, fontFamily: 'Josefin Sans',),),
+        title:  Text("স্কুলের মাসিক ব্যয়",  style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, fontFamily: 'Josefin Sans',),),
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
         elevation: 0.0,
@@ -221,7 +221,7 @@ Future<void> getData(String paymentDate) async {
             color:Theme.of(context).primaryColor,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("${VisiblePaymentMonth} মাসে ${moneyAdd}৳ ইনকাম হয়েছে", style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, fontFamily: 'Josefin Sans', color: Colors.white),overflow: TextOverflow.ellipsis,),
+              child: Text("${VisiblePaymentMonth} মাসে ${moneyAdd}৳ ব্যয় হয়েছে", style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, fontFamily: 'Josefin Sans',color: Colors.white),overflow: TextOverflow.ellipsis,),
             ),),
 
 
@@ -287,18 +287,18 @@ Future<void> getData(String paymentDate) async {
                       
                    
                         
-                              title: Text("${AllData[index]["DebitAmount"]}৳", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                              title: Text("${AllData[index]["CreditAmount"]}৳", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
                          
                               subtitle: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                   
-                                  Text("${AllData[index]["DebitName"]}",style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, fontFamily: 'Josefin Sans',),),
+                                  Text("${AllData[index]["CreditName"]}",style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, fontFamily: 'Josefin Sans',),),
 
                               
 
-                          
+                               
 
                                    Text("Receiver E:${AllData[index]["CollectorEmail"]}",style: TextStyle(fontWeight: FontWeight.bold)),
 

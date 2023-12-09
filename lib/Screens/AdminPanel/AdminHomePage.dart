@@ -3,6 +3,8 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bijoy_helper/bijoy_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
+import 'package:dhuroil/Screens/AdminPanel/Gallery/GalleryUpload.dart';
+import 'package:dhuroil/Screens/AdminPanel/MonthlyCredit.dart';
 import 'package:dhuroil/Screens/AdminPanel/MonthlyDebit.dart';
 import 'package:dhuroil/Screens/AdminPanel/NoticeUplaod.dart';
 import 'package:dhuroil/Screens/Students/AllStudentsHomePage.dart';
@@ -904,12 +906,39 @@ class _AdminHomePageState extends State<AdminHomePage> {
              ListTile(
                 leading: const Icon(Icons.payment),
                 title: const Text('Monthly Debit'),
-                selected: _selectedDestination == 4,
+                selected: _selectedDestination == 5,
                 onTap: (){
 
                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MonthlyDebit()));
 
-                  selectDestination(4);
+                  selectDestination(5);
+                },
+              ),
+
+
+
+              ListTile(
+                leading: const Icon(Icons.payment),
+                title: const Text('Monthly Credit'),
+                selected: _selectedDestination == 6,
+                onTap: (){
+
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MonthlyCredit()));
+
+                  selectDestination(6);
+                },
+              ),
+
+
+              ListTile(
+                leading: const Icon(Icons.image),
+                title: const Text('Gallery Upload'),
+                selected: _selectedDestination == 7,
+                onTap: (){
+
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GalleryUpload()));
+
+                  selectDestination(7);
                 },
               ),
 
