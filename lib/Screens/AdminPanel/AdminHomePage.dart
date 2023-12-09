@@ -23,19 +23,21 @@ class AdminHomePage extends StatefulWidget {
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
+
+  var uuid = Uuid();
+
+
   int _selectedDestination = 0;
 
   bool loading = false;
-
 
   TextEditingController DebitController = TextEditingController();
   TextEditingController DebitAmountController = TextEditingController();
 
 
-  var uuid = Uuid();
 
 
-
+  
   Map<String, double> dataMap = {
     "Student P": 60,
     "Student A": 40,
@@ -49,6 +51,311 @@ class _AdminHomePageState extends State<AdminHomePage> {
     "Debit": 11160,
     "Credit": 11140,
   };
+
+
+
+
+
+
+
+  List AllStudentAbsenceData = [];
+  int TotalStudentAbsence = 0;
+  List AllStudentPresenceData = [];
+  int TotalStudentPresence = 0;
+
+
+// Student Presence Data Load 
+  Future<void> getStudentPresenceData() async {
+
+
+    setState(() {
+      loading = true;
+    });
+
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('StudentAttendance');
+
+    Query query = _collectionRef
+        .where("type", isEqualTo: "presence")
+        .where("Date", isEqualTo: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}");
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+    AllStudentPresenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    setState(() {
+      TotalStudentPresence = AllStudentPresenceData.length;
+    });
+
+    if (AllStudentPresenceData.isEmpty) {
+      setState(() {
+        loading = false;
+      });
+
+      getStudentAbsenceData();
+    } else {
+      setState(() {
+        AllStudentPresenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+
+        getStudentAbsenceData();
+    }
+  }
+
+
+
+// Student Absence Data Load 
+ Future<void> getStudentAbsenceData() async {
+
+
+    setState(() {
+      loading = true;
+    });
+
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('StudentAttendance');
+
+    Query query = _collectionRef
+        .where("type", isEqualTo: "absence")
+        .where("Date", isEqualTo: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}");
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+    AllStudentAbsenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    setState(() {
+      TotalStudentAbsence = AllStudentAbsenceData.length;
+    });
+
+    if (AllStudentAbsenceData.isEmpty) {
+      setState(() {
+        loading = false;
+      });
+
+     getTeacherPresenceData();
+    } else {
+      setState(() {
+        AllStudentAbsenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+
+      getTeacherPresenceData();
+    }
+  }
+
+
+
+
+
+
+
+
+
+  List AllTeacherAbsenceData = [];
+  int TotalTeacherAbsence = 0;
+  List AllTeacherPresenceData = [];
+  int TotalTeacherPresence = 0;
+
+
+// Teacher Presence Data Load 
+  Future<void> getTeacherPresenceData() async {
+
+
+    setState(() {
+      loading = true;
+    });
+
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('Attendance');
+
+    Query query = _collectionRef
+        .where("type", isEqualTo: "presence")
+        .where("Date", isEqualTo: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}");
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+    AllTeacherPresenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    setState(() {
+      TotalTeacherPresence = AllTeacherPresenceData.length;
+    });
+
+    if (AllTeacherPresenceData.isEmpty) {
+      setState(() {
+        loading = false;
+      });
+
+      getTeacherAbsenceData();
+    } else {
+      setState(() {
+        AllTeacherPresenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+
+      getTeacherAbsenceData();
+    }
+  }
+
+
+
+
+// Teacher Absence Data Load 
+  Future<void> getTeacherAbsenceData() async {
+
+
+    setState(() {
+      loading = true;
+    });
+
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('Attendance');
+
+    Query query = _collectionRef
+        .where("type", isEqualTo: "absence")
+        .where("Date", isEqualTo: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}");
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+    AllTeacherAbsenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    setState(() {
+      TotalTeacherAbsence= AllTeacherAbsenceData.length;
+    });
+
+    if (AllTeacherAbsenceData.isEmpty) {
+      setState(() {
+        loading = false;
+      });
+
+      DataSetForMap();
+    } else {
+      setState(() {
+        AllTeacherAbsenceData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+
+      DataSetForMap();
+    }
+  }
+
+
+
+
+  void DataSetForMap(){
+
+
+    setState(() {
+
+
+     dataMap = {
+    "Student P": double.parse(AllStudentPresenceData.length.toString()),
+    "Student A": double.parse(AllStudentAbsenceData.length.toString()),
+    "Teacher P": double.parse(AllTeacherPresenceData.length.toString()),
+    "Teacher A": double.parse(AllTeacherAbsenceData.length.toString()),
+  };
+      
+
+    });
+
+
+
+
+  }
+
+
+
+
+
+
+
+
+  List AllStudentsData =[];
+  int TotalStudents = 0;
+
+  // All Student Data Load 
+ Future<void> getAllStudentsData() async {
+
+
+    setState(() {
+      loading = true;
+    });
+
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('StudentInfo');
+
+    Query query = _collectionRef
+        .where("StudentStatus", isEqualTo: "running");
+       
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+    AllStudentsData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    setState(() {
+      TotalStudents = AllStudentsData.length;
+    });
+
+    if (AllStudentsData.isEmpty) {
+      setState(() {
+        loading = false;
+      });
+
+   
+    } else {
+      setState(() {
+        AllStudentsData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+
+  
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@override
+  void initState() {
+    getStudentPresenceData();
+    super.initState();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -171,7 +478,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                         itemBuilder: (BuildContext bc) {
                           return  [
                             PopupMenuItem(
-                                child: Text("Debit"),
+                                child: Text("Debit Add"),
                                             value: '/about',
                                             onTap: () async {
                                               showDialog(
@@ -375,7 +682,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
 
                            PopupMenuItem(
-                                child: Text("Credit"),
+                                child: Text("Credit Add"),
                                             value: '/about',
                                             onTap: () async {
                                               showDialog(
@@ -591,7 +898,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
               
               // Total Student
              Container(
-                    child:  Center(child: Text("Total Student: 100", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 27, color: Colors.white),)),
+                    child:  Center(child: Container(
+                      child: Column(
+                        children: [
+                          Icon(Icons.person, size: 107,color: Colors.white,),
+
+                          SizedBox(height: 10,),
+                          
+                          Text("Total Active Student: 100", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 27, color: Colors.white),),
+                        ],
+                      ),
+                    )),
                     width: 100,
                     height: 50,
                     decoration: BoxDecoration(
@@ -607,7 +924,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [Colors.red.shade300, Colors.pink.shade300, Colors.green.shade100],
+                        colors: [Colors.red.shade200, Colors.pink.shade500, ],
                       ),
                     ),
                   ),
@@ -618,7 +935,22 @@ class _AdminHomePageState extends State<AdminHomePage> {
             
                 // Total Teacher
                   Container(
-                    child:  Center(child: Text("Total Teacher: 100", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27, color: Colors.white),)),
+                    child:  Center(child: Container(
+                      child: Column(
+                        children: [
+
+
+                          Icon(Icons.school, size: 107,color: Colors.white,),
+
+                          SizedBox(height: 10,),
+
+
+
+
+                          Text("Total Teacher: 100", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27, color: Colors.white),),
+                        ],
+                      ),
+                    )),
                     width: 100,
                     height: 50,
                     decoration: BoxDecoration(
@@ -634,7 +966,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [Colors.deepOrange.shade300, Colors.deepPurpleAccent, Colors.deepPurple.shade100],
+                        colors: [ Colors.deepPurpleAccent, Colors.deepPurple.shade300],
                       ),
                     ),
                   ),
@@ -644,7 +976,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
             
                 // Total Fee Collection this year
                   Container(
-                    child:  Center(child: Text("Total Fee Collection: 100 ৳", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),)),
+                    child:  Center(child: Container(
+                      child: Column(
+                        children: [
+                    
+                          Icon(Icons.payment, size: 107,color: Colors.white,),
+                    
+                            SizedBox(height: 10,),
+                    
+                          Text("Total Fee Collection: 100 ৳", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),),
+                        ],
+                      ),
+                    )),
                     width: 100,
                     height: 50,
                     decoration: BoxDecoration(
@@ -660,7 +1003,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [Colors.purple.shade300, Colors.orange.shade300, Colors.green.shade100],
+                        colors: [ Colors.orange.shade400, Colors.green.shade300],
                       ),
                     ),
                   ),
@@ -673,7 +1016,18 @@ class _AdminHomePageState extends State<AdminHomePage> {
             
                   // Today Presence Students
                   Container(
-                    child:  Center(child: Text("Today Presence Students: 100 ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),)),
+                    child:  Center(child: Container(
+                      child: Column(
+                        children: [
+
+                          Icon(Icons.person_3, size: 107,color: Colors.white,),
+
+                          SizedBox(height: 10,),
+                          
+                          Text("Today Present Students: 100 ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),),
+                        ],
+                      ),
+                    )),
                     width: 100,
                     height: 50,
                     decoration: BoxDecoration(
@@ -689,7 +1043,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [Colors.lime.shade300, Colors.indigo.shade300, Colors.green.shade100],
+                        colors: [ Colors.indigo.shade400, Colors.green.shade400],
                       ),
                     ),
                   ),
