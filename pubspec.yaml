@@ -129,6 +129,9 @@ flutter:
   #         weight: 700
 
   fonts:
+    - family: Pacifico
+      fonts:
+        - asset: lib/fonts/JosefinSans-BoldItalic.ttf
     - family: Josefin Sans
       fonts:
         - asset: lib/fonts/TiroBangla-Regular.ttf

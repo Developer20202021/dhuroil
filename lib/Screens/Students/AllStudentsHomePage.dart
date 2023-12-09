@@ -115,7 +115,9 @@ Future<void> getData(String StudentEmail) async {
   Widget build(BuildContext context) {
 
 
-    
+    double width = MediaQuery.of(context).size.width;
+
+    double height = MediaQuery.of(context).size.height;
 
 
 
@@ -146,7 +148,7 @@ Future<void> getData(String StudentEmail) async {
         
       ),
       body: Center(
-        child: Padding(
+        child: width<869?const Center(child: Text("This Screen size is not Allowed for this Admin panel", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),)):Padding(
                   padding: const EdgeInsets.only(left: 300,right: 300, ),
                   child: Container(
 
@@ -189,9 +191,9 @@ Future<void> getData(String StudentEmail) async {
                           children: [
 
 
-                            Center(
+                            const Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(8.0),
                                 child: Text("Class Select করুন", style: TextStyle(fontWeight: FontWeight.bold),),
                               ),
                             ),

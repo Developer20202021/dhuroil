@@ -3,6 +3,8 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bijoy_helper/bijoy_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhuroil/DeveloperAccess/DeveloperAccess.dart';
+import 'package:dhuroil/Screens/AdminPanel/MonthlyDebit.dart';
+import 'package:dhuroil/Screens/AdminPanel/NoticeUplaod.dart';
 import 'package:dhuroil/Screens/Students/AllStudentsHomePage.dart';
 import 'package:dhuroil/Screens/Students/Attendance/AttendanceHomePage.dart';
 import 'package:dhuroil/Screens/Teachers/AllTeachers.dart';
@@ -47,7 +49,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
 
   
-  Map<String, double> DebitCredit = {
+  Map<String, double> DebitCreditMonth = {
+    "Debit": 11160,
+    "Credit": 11140,
+  };
+
+
+  Map<String, double> DebitCreditYear = {
     "Debit": 11160,
     "Credit": 11140,
   };
@@ -322,6 +330,422 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
 
 
+    List AllTeachersData =[];
+  int TotalTeachers = 0;
+
+  // All Student Data Load 
+ Future<void> getAllTeachersData() async {
+
+
+    setState(() {
+      loading = true;
+    });
+
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('TeacherInfo');
+
+    Query query = _collectionRef
+        .where("TeacherStatus", isEqualTo: "new");
+       
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+    AllTeachersData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    setState(() {
+      TotalTeachers = AllTeachersData.length;
+    });
+
+    if (AllTeachersData.isEmpty) {
+      setState(() {
+        loading = false;
+      });
+
+   
+    } else {
+      setState(() {
+        AllTeachersData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+
+  
+    }
+  }
+
+
+
+
+
+
+
+  List AllFeeData =[];
+  double TotalFee = 0;
+
+  // All Student Data Load 
+ Future<void> getAllExamFeeData() async {
+
+
+    setState(() {
+      loading = true;
+    });
+
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('ExamResult');
+
+    Query query = _collectionRef
+        .where("ExamYear", isEqualTo: "${DateTime.now().year}");
+       
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+    AllFeeData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+   
+
+    if (AllFeeData.isEmpty) {
+      setState(() {
+        loading = false;
+      });
+
+   
+    } else {
+
+
+      for (var i = 0; i < AllFeeData.length; i++) {
+
+        setState(() {
+          TotalFee = TotalFee + double.parse(AllFeeData[i]["TotalExamFeeCollection"]);
+        });
+        
+      }
+
+
+
+
+      setState(() {
+       AllFeeData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+
+  
+    }
+  }
+
+
+
+
+
+
+
+   List AllDebitData =[];
+  double TotalDebit = 0;
+
+  // All Student Data Load 
+ Future<void> getAllDebitData() async {
+
+
+    setState(() {
+      loading = true;
+    });
+
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('DebitInfo');
+
+    Query query = _collectionRef
+        .where("year", isEqualTo: "${DateTime.now().year}");
+       
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+    AllDebitData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+   
+
+    if (AllDebitData.isEmpty) {
+      setState(() {
+        loading = false;
+      });
+
+      getAllCreditData();
+   
+    } else {
+
+
+      for (var i = 0; i < AllDebitData.length; i++) {
+
+        setState(() {
+          TotalDebit = TotalDebit + double.parse(AllDebitData[i]["DebitAmount"]);
+        });
+        
+      }
+
+
+
+
+      setState(() {
+       AllDebitData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+
+      getAllCreditData();
+
+  
+    }
+  }
+
+
+
+
+
+
+  List AllCreditData =[];
+  double TotalCredit = 0;
+
+  // All Student Data Load 
+ Future<void> getAllCreditData() async {
+
+
+    setState(() {
+      loading = true;
+    });
+
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('CreditInfo');
+
+    Query query = _collectionRef
+        .where("year", isEqualTo: "${DateTime.now().year}");
+       
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+    AllCreditData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+   
+
+    if (AllCreditData.isEmpty) {
+      setState(() {
+        loading = false;
+      });
+
+
+    getTotalYearlyDebitCredit();
+   
+    } else {
+
+
+      for (var i = 0; i < AllCreditData.length; i++) {
+
+        setState(() {
+          TotalCredit = TotalCredit + double.parse(AllCreditData[i]["CreditAmount"]);
+        });
+        
+      }
+
+
+
+
+      setState(() {
+       AllCreditData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+
+        getTotalYearlyDebitCredit();
+
+
+  
+    }
+  }
+
+
+
+
+
+
+
+
+
+  List AllMonthlyDebitData =[];
+  double TotalMonthlyDebit = 0;
+
+  // All Student Data Load 
+ Future<void> getAllMonthlyDebitData() async {
+
+
+    setState(() {
+      loading = true;
+    });
+
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('DebitInfo');
+
+    Query query = _collectionRef
+        .where("month", isEqualTo: "${DateTime.now().month}/${DateTime.now().year}");
+       
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+    AllMonthlyDebitData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+   
+
+    if (AllMonthlyDebitData.isEmpty) {
+      setState(() {
+        loading = false;
+      });
+
+      getAllMonthlyCreditData();
+   
+    } else {
+
+
+      for (var i = 0; i < AllMonthlyDebitData.length; i++) {
+
+        setState(() {
+          TotalMonthlyDebit = TotalMonthlyDebit + double.parse(AllMonthlyDebitData[i]["DebitAmount"]);
+        });
+        
+      }
+
+
+
+
+      setState(() {
+       AllMonthlyDebitData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+
+      getAllMonthlyCreditData();
+
+  
+    }
+  }
+
+
+
+
+
+
+  List AllMonthlyCreditData =[];
+  double TotalMonthlyCredit = 0;
+
+  // All Student Data Load 
+ Future<void> getAllMonthlyCreditData() async {
+
+
+    setState(() {
+      loading = true;
+    });
+
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('CreditInfo');
+
+    Query query = _collectionRef
+        .where("month", isEqualTo: "${DateTime.now().month}/${DateTime.now().year}");
+       
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Get data from docs and convert map to List
+    AllMonthlyCreditData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+   
+
+    if (AllMonthlyCreditData.isEmpty) {
+      setState(() {
+        loading = false;
+      });
+
+
+    getTotalMonthlyDebitCredit();
+   
+    } else {
+
+
+      for (var i = 0; i < AllMonthlyCreditData.length; i++) {
+
+        setState(() {
+          TotalMonthlyCredit = TotalMonthlyCredit + double.parse(AllMonthlyCreditData[i]["CreditAmount"]);
+        });
+        
+      }
+
+
+
+
+      setState(() {
+       AllMonthlyCreditData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+        loading = false;
+      });
+
+        getTotalMonthlyDebitCredit();
+
+
+  
+    }
+  }
+
+
+
+
+
+
+// Yeqarly Debit and Credit 
+
+  void getTotalYearlyDebitCredit(){
+
+
+    
+      setState(() {
+        DebitCreditYear={
+
+           "Yearly Debit": TotalDebit,
+           "Yearly Credit": TotalCredit,
+
+        };
+
+
+      });
+
+
+
+
+  }
+
+
+
+// Monthly Debit Credit 
+
+  void getTotalMonthlyDebitCredit(){
+
+
+    
+      setState(() {
+        DebitCreditMonth={
+
+           "Monthly Debit": TotalMonthlyDebit,
+           "Monthly Credit": TotalMonthlyCredit,
+
+        };
+
+
+      });
+
+
+
+
+  }
+
+
+
+
+
+
+
 
 
 
@@ -333,6 +757,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
 @override
   void initState() {
     getStudentPresenceData();
+
+    getAllStudentsData();
+
+    getAllTeachersData();
+
+    getAllExamFeeData();
+
+    getAllDebitData();
+
+    getAllMonthlyDebitData();
+
     super.initState();
   }
 
@@ -370,6 +805,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
     var DebitID = uuid.v4();
 
+
+    double width = MediaQuery.of(context).size.width;
+
+    double height = MediaQuery.of(context).size.height;
+
+
+
+
+
+
+
     return Row(
       children: [
         Drawer(
@@ -389,77 +835,84 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 thickness: 1,
               ),
               ListTile(
-                leading: Icon(Icons.favorite),
-                title: Text('All Students'),
+                leading: const Icon(Icons.person),
+                title: const Text('All Students'),
                 selected: _selectedDestination == 0,
                 onTap: (){
 
-                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllStudentsHomePage()));
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AllStudentsHomePage()));
 
                   selectDestination(0);
                 },
               ),
               ListTile(
-                leading: Icon(Icons.favorite),
-                title: Text('Student Attendance'),
+                leading: const Icon(Icons.fingerprint),
+                title: const Text('Student Attendance'),
                 selected: _selectedDestination == 1,
                 onTap: (){
 
-                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => AttendanceHomePage()));
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AttendanceHomePage()));
 
                   selectDestination(1);
                 },
               ),
               ListTile(
-                leading: Icon(Icons.favorite),
-                title: Text('All Teachers'),
+                leading: const Icon(Icons.person),
+                title: const Text('All Teachers'),
                 selected: _selectedDestination == 2,
                 onTap: (){
 
-                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllTeachers(indexNumber: "")));
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AllTeachers(indexNumber: "")));
 
                   selectDestination(2);
                 },
               ),
-              Divider(
+              const Divider(
                 height: 1,
                 thickness: 1,
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
                 child: Text(
                   'All Actions',
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.favorite),
+                leading: Icon(Icons.fingerprint),
                 title: Text('Teacher Attendance'),
                 selected: _selectedDestination == 3,
                 onTap: (){
 
-                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllTeacherAttendance(indexNumber: "")));
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AllTeacherAttendance(indexNumber: "")));
 
                   selectDestination(3);
                 },
               ),
 
-                 ListTile(
-                leading: Icon(Icons.bookmark),
-                title: Text('Item B'),
+                ListTile(
+                leading: const Icon(Icons.notification_add),
+                title: const Text('All Notices'),
                 selected: _selectedDestination == 4,
                 onTap: (){
-                 selectDestination(4);
+
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const NoticeUpload()));
+
+                  selectDestination(4);
                 },
               ),
 
-                 ListTile(
-                leading: Icon(Icons.bookmark),
-                title: Text('Item C'),
-                selected: _selectedDestination == 5,
+             ListTile(
+                leading: const Icon(Icons.payment),
+                title: const Text('Monthly Debit'),
+                selected: _selectedDestination == 4,
                 onTap: (){
-                 selectDestination(5);
+
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MonthlyDebit()));
+
+                  selectDestination(4);
                 },
               ),
+
             ],
           ),
         ),
@@ -887,8 +1340,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       ),
               title: Text("Dashboard"),
             ),
-            body: loading?LinearProgressIndicator(): GridView.count(
-              crossAxisCount: 3,
+            body: loading?LinearProgressIndicator():width<669?const Center(child: Text("This Screen size is not Allowed for this Admin panel", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),)): GridView.count(
+              crossAxisCount:width<969?1: width<=1300 && width>=969?2:3,
               crossAxisSpacing: 20,
               mainAxisSpacing: 20,
               padding: EdgeInsets.all(20),
@@ -905,7 +1358,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
                           SizedBox(height: 10,),
                           
-                          Text("Total Active Student: 100", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 27, color: Colors.white),),
+                          Text("Total Active Student: ${TotalStudents}", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 27, color: Colors.white),),
                         ],
                       ),
                     )),
@@ -947,7 +1400,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
 
 
-                          Text("Total Teacher: 100", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27, color: Colors.white),),
+                          Text("Total Teacher: ${TotalTeachers}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27, color: Colors.white),),
                         ],
                       ),
                     )),
@@ -984,7 +1437,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     
                             SizedBox(height: 10,),
                     
-                          Text("Total Fee Collection: 100 ৳", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),),
+                          Text("Total Fee Collection: ${TotalFee} ৳", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),),
                         ],
                       ),
                     )),
@@ -1024,7 +1477,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
                           SizedBox(height: 10,),
                           
-                          Text("Today Present Students: 100 ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),),
+                          Text("Today Present Students: ${AllStudentPresenceData.length}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),),
                         ],
                       ),
                     )),
@@ -1112,7 +1565,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                    // this year আয় ব্যয়
                   Container(
                     child:  Center(child: PieChart(
-                            dataMap: DebitCredit,
+                            dataMap: DebitCreditYear,
                             animationDuration: Duration(milliseconds: 800),
                             chartLegendSpacing: 32,
                             chartRadius: MediaQuery.of(context).size.width / 9.2,
@@ -1120,7 +1573,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             initialAngleInDegree: 0,
                             chartType: ChartType.ring,
                             ringStrokeWidth: 32,
-                            centerText: "আয় ব্যয়",
+                            centerText: "This Year",
                             legendOptions: LegendOptions(
                               showLegendsInRow: false,
                               legendPosition: LegendPosition.right,
@@ -1166,7 +1619,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                    // this year আয় ব্যয়
                   Container(
                     child:  Center(child: PieChart(
-                            dataMap: DebitCredit,
+                            dataMap: DebitCreditMonth,
                             animationDuration: Duration(milliseconds: 800),
                             chartLegendSpacing: 32,
                             chartRadius: MediaQuery.of(context).size.width / 9.2,
@@ -1174,7 +1627,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                             initialAngleInDegree: 0,
                             chartType: ChartType.ring,
                             ringStrokeWidth: 32,
-                            centerText: "আয় ব্যয়",
+                            centerText: "This Month",
                             legendOptions: LegendOptions(
                               showLegendsInRow: false,
                               legendPosition: LegendPosition.right,

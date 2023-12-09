@@ -1,4 +1,5 @@
 import 'package:dhuroil/Screens/AdminPanel/AdminHomePage.dart';
+import 'package:dhuroil/Screens/AdminPanel/NoticeUplaod.dart';
 import 'package:dhuroil/Screens/HomePage.dart';
 import 'package:dhuroil/Screens/Registration/AllRegistration.dart';
 import 'package:dhuroil/Screens/Registration/OtpPage.dart';
@@ -79,6 +80,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+// AdminHomePage()
 
 // MarksSheetPdfPreviewPage(CashInDate: "Hello", StudentEmail: "Hello", StudentCashIn: "Hello", StudentIDNo: "Hello", StudentName: "Hello", StudentPhoneNumber: "Hello")
 

@@ -226,7 +226,9 @@ var RegCodeTextField ="";
 
 
    
+    double width = MediaQuery.of(context).size.width;
 
+    double height = MediaQuery.of(context).size.height;
 
 
 
@@ -262,7 +264,7 @@ var RegCodeTextField ="";
 
               child:  loading?Padding(
                 padding: const EdgeInsets.only(top: 40),
-                child: Center(
+                child: width<669?const Center(child: Text("This Screen size is not Allowed for this Admin panel", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),)):Center(
                       child: LoadingAnimationWidget.discreteCircle(
                         color: const Color(0xFF1A1A3F),
                         secondRingColor: Theme.of(context).primaryColor,
