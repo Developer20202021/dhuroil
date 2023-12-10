@@ -74,7 +74,7 @@ Future<void> getData() async {
     FirebaseFirestore.instance.collection('StudentInfo');
 
   // all Due Query Count
-     Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("ClassName", isEqualTo: widget.ClassName).where("StudentStatus", isEqualTo: "new");
+     Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("ClassName", isEqualTo: widget.ClassName).where("StudentStatus", isEqualTo: "running");
 
      QuerySnapshot queryDueSnapshot = await _CustomerOrderHistoryCollectionRefDueQueryCount.get();
 
