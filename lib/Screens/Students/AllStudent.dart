@@ -7,6 +7,7 @@ import 'package:dhuroil/Screens/Students/EditStudent.dart';
 import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/MonthlyFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/OtherFeeHistory.dart';
+import 'package:dhuroil/Screens/Students/PIandBIExam/ClassWisePI.dart';
 import 'package:dhuroil/Screens/Students/Pay/AllPay.dart';
 import 'package:dhuroil/Screens/Students/PerClassRoutineView.dart';
 import 'package:dhuroil/Screens/Students/ShowAttendance.dart';
@@ -25,6 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:universal_html/html.dart' as html;
+import 'package:uuid/uuid.dart';
 
 
 
@@ -64,9 +66,11 @@ class _AllStudentsState extends State<AllStudents> {
 
   TextEditingController TriangleController = TextEditingController();
 
+  TextEditingController TeacherNameController = TextEditingController();
 
 
 
+    var uuid = Uuid();
 
 
 
@@ -371,6 +375,14 @@ class _AllStudentsState extends State<AllStudents> {
     double width = MediaQuery.of(context).size.width;
 
     double height = MediaQuery.of(context).size.height;
+
+
+
+
+    var PIID = uuid.v4();
+
+
+
 
     return Scaffold(
       bottomNavigationBar: Padding(
@@ -1075,6 +1087,42 @@ class _AllStudentsState extends State<AllStudents> {
                                                                   );
                                                                 },
                                                               ),
+              const SizedBox(height: 20,),
+
+
+
+                Container(
+                  width: 600,
+                  child: TextField(
+                    
+                    onChanged: (value) {},
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'শিক্ষকের নাম'.toBijoy,
+                      labelStyle: TextStyle(fontFamily: "SiyamRupali"),
+
+                      hintText: 'শিক্ষকের নাম'.toBijoy,
+                      hintStyle: TextStyle(fontFamily: "SiyamRupali"),
+
+                      //  enabledBorder: OutlineInputBorder(
+                      //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                      //     ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 3, color: Theme.of(context).primaryColor),
+                      ),
+                      errorBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 3, color: Color.fromARGB(255, 66, 125, 145)),
+                      ),
+                    ),
+                    controller: TeacherNameController,
+                  ),
+                ),
+
+
+
 
 
               const SizedBox(height: 20,),
@@ -1441,9 +1489,93 @@ class _AllStudentsState extends State<AllStudents> {
                                                             child:
                                                                 Text("Cancel"),
                                                           ),
-                                                         TextButton(
-                                                                  onPressed:
-                                                                      () async {
+
+
+
+                         ElevatedButton(
+                              onPressed:
+                                  () async {
+
+                      
+                      setState((){
+
+                        loading = true;
+                      });
+
+
+
+// PI Data Create from here
+      
+                 var SchoolPIData =
+                    {
+
+                      "PIID":PIID,
+                      "ExamName":SelectedExam.toBijoy,
+                      "ClassName":widget.ClassName,
+                      "SubjectName":SelectedSubject.toBijoy,
+                      "TeacherName":TeacherNameController.text.trim().toLowerCase(),
+                      "PIGrandFatherNo":PIGrandFatherNoController.text.trim().toBijoy,
+                      "PIGrandFatherNoDescription":PIGrandFatherNoDescriptionController.text.trim().toBijoy,
+                      "PIFatherNo":PIFatherNoController.text.trim().toBijoy,
+                      "PIFatherNoDescription":PIFatherNoDescriptionController.text.trim().toBijoy,
+                      "PINo":PINoController.text.trim().toBijoy,
+                      "PINoDescription":PINoDescriptionController.text.trim().toBijoy,
+                      "SquareDescription":SquareController.text.trim().toBijoy,
+                      "CircleDescription":CircleController.text.trim().toBijoy,
+                      "TriangleDescription":TriangleController.text.trim().toBijoy,
+                      "DateTime":DateTime.now().toIso8601String(),
+                      "year":"${DateTime.now().year}"
+
+                 
+                    };
+
+                  final SchoolPI = FirebaseFirestore.instance.collection('SchoolPIData').doc(PIID);
+                  
+                  SchoolPI.set(SchoolPIData).then((value) =>setState(() {
+                                          getData();
+
+                                        Navigator.pop(context);
+
+                                final snackBar = SnackBar(
+                                        elevation: 0,
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor: Colors.transparent,
+                                        content: AwesomeSnackbarContent(
+                                        title: 'PI Created Successfull',
+                                        message: 'Hey Thank You. Good Job',
+
+                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.success,
+                                                ),
+                                            );
+
+                    ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
+
+                       setState(() {
+                        loading = false;
+                             });
+                            }))
+                      .onError((error,stackTrace) =>setState(() {
+                        final snackBar = SnackBar(
+                  /// need to set following properties for best effect of awesome_snackbar_content
+                        elevation: 0,
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.transparent,
+                        content: AwesomeSnackbarContent(
+                        title: 'Something Wrong!!!!',
+                        message: 'Try again later...',
+
+            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                        contentType: ContentType.failure,
+                            ),
+                        );
+
+                ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
+
+                      setState(() {
+                            loading = false;
+                               });
+                      }));
 
                                                         
 
@@ -1853,6 +1985,12 @@ class _AllStudentsState extends State<AllStudents> {
                                       child: Text("Go"),
 
                                       onPressed: (){
+
+                              
+                               Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ClassWisePI(ClassName: widget.ClassName, ExamName: SelectedExam, SubjectName: SelectedSubject, RollNo: AllData[index]["RollNo"], StudentEmail: AllData[index]["StudentEmail"],)));
 
 
 
