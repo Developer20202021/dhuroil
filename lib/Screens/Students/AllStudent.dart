@@ -28,8 +28,6 @@ import 'package:path/path.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:uuid/uuid.dart';
 
-
-
 class AllStudents extends StatefulWidget {
   final indexNumber;
   final ClassName;
@@ -53,10 +51,12 @@ class _AllStudentsState extends State<AllStudents> {
   TextEditingController PIGrandFatherNoController = TextEditingController();
 
   TextEditingController PINoController = TextEditingController();
-  
-  TextEditingController PIFatherNoDescriptionController = TextEditingController();
 
-  TextEditingController PIGrandFatherNoDescriptionController = TextEditingController();
+  TextEditingController PIFatherNoDescriptionController =
+      TextEditingController();
+
+  TextEditingController PIGrandFatherNoDescriptionController =
+      TextEditingController();
 
   TextEditingController PINoDescriptionController = TextEditingController();
 
@@ -68,38 +68,7 @@ class _AllStudentsState extends State<AllStudents> {
 
   TextEditingController TeacherNameController = TextEditingController();
 
-
-
-    var uuid = Uuid();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
+  var uuid = Uuid();
 
   bool loading = false;
 
@@ -246,10 +215,6 @@ class _AllStudentsState extends State<AllStudents> {
 
 // Firebase All Customer Data Load
 
-
-
-
-
   List AllData = [];
 
   Future<void> getData() async {
@@ -259,8 +224,8 @@ class _AllStudentsState extends State<AllStudents> {
 
     Query _CustomerOrderHistoryCollectionRefDueQueryCount =
         _CustomerOrderHistoryCollectionRef.where("ClassName",
-                isEqualTo: widget.ClassName);
-            // .where("StudentStatus", isEqualTo: "new");
+            isEqualTo: widget.ClassName);
+    // .where("StudentStatus", isEqualTo: "new");
 
     // // all Due Query Count
     //    Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("Department", isEqualTo: widget.DepartmentName).where("Semister", isEqualTo: widget.SemisterName).where("StudentStatus", isEqualTo: "new");
@@ -286,15 +251,6 @@ class _AllStudentsState extends State<AllStudents> {
     print(AllData);
   }
 
-
-
-
-
-
-
-
-
-
   Future<void> getSpecificData(String Status, context) async {
     // Get docs from collection reference
     CollectionReference _CustomerOrderHistoryCollectionRef =
@@ -302,8 +258,9 @@ class _AllStudentsState extends State<AllStudents> {
 
     Query _CustomerOrderHistoryCollectionRefDueQueryCount =
         _CustomerOrderHistoryCollectionRef.where("ClassName",
-                isEqualTo: widget.ClassName).where("StudentStatus", isEqualTo: Status);
-            // .where("StudentStatus", isEqualTo: "new");
+                isEqualTo: widget.ClassName)
+            .where("StudentStatus", isEqualTo: Status);
+    // .where("StudentStatus", isEqualTo: "new");
 
     // // all Due Query Count
     //    Query _CustomerOrderHistoryCollectionRefDueQueryCount = _CustomerOrderHistoryCollectionRef.where("Department", isEqualTo: widget.DepartmentName).where("Semister", isEqualTo: widget.SemisterName).where("StudentStatus", isEqualTo: "new");
@@ -321,7 +278,6 @@ class _AllStudentsState extends State<AllStudents> {
       });
     } else {
       setState(() {
-
         Navigator.pop(context);
         DataLoad = "";
         AllData = queryDueSnapshot.docs.map((doc) => doc.data()).toList();
@@ -332,20 +288,6 @@ class _AllStudentsState extends State<AllStudents> {
 
     print(AllData);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Firebase All Customer Data Load
 
@@ -376,13 +318,7 @@ class _AllStudentsState extends State<AllStudents> {
 
     double height = MediaQuery.of(context).size.height;
 
-
-
-
     var PIID = uuid.v4();
-
-
-
 
     return Scaffold(
       bottomNavigationBar: Padding(
@@ -466,7 +402,6 @@ class _AllStudentsState extends State<AllStudents> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text("All Students class:${widget.ClassName}"),
-
                 Container(
                   width: 200,
                   child: TextField(
@@ -493,8 +428,6 @@ class _AllStudentsState extends State<AllStudents> {
                     controller: StudentRollNumberController,
                   ),
                 ),
-
-        
                 DropdownButtonHideUnderline(
                   child: DropdownButton2<String>(
                     isExpanded: true,
@@ -582,7 +515,6 @@ class _AllStudentsState extends State<AllStudents> {
                     ),
                   ),
                 ),
-
                 Container(
                   height: 50,
                   width: 160,
@@ -638,7 +570,6 @@ class _AllStudentsState extends State<AllStudents> {
                     ),
                   ),
                 ),
-
                 selectedValue == "" ||
                         StudentRollNumberController.text.isEmpty ||
                         SelectedYear == "Select Year" ||
@@ -752,12 +683,11 @@ class _AllStudentsState extends State<AllStudents> {
                   ),
                   padding: EdgeInsets.all(18.0),
                 ),
-
-
                 PopupMenuItem(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => PerClassRoutine(indexNumber: "", ClassName: widget.ClassName)));
+                        builder: (context) => PerClassRoutine(
+                            indexNumber: "", ClassName: widget.ClassName)));
                   },
                   child: ListTile(
                     title: Text("View Routine"),
@@ -765,844 +695,1153 @@ class _AllStudentsState extends State<AllStudents> {
                   ),
                   padding: EdgeInsets.all(18.0),
                 ),
-
-
-
                 PopupMenuItem(
-                  onTap: () {
-
-
-
-                 
-                  },
+                  onTap: () {},
                   child: ListTile(
                     title: Text("Change Class"),
                     trailing: Icon(Icons.arrow_forward),
                   ),
                   padding: EdgeInsets.all(18.0),
                 ),
-
-              PopupMenuItem(
+                PopupMenuItem(
                   child: Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: ListTile(
-                      
-                      trailing: Icon(Icons.arrow_forward),
-                      title: Text("Search By Status")),
+                        trailing: Icon(Icons.arrow_forward),
+                        title: Text("Search By Status")),
                   ),
-                                            value: '/about',
-                                            onTap: () async {
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  String SelectedStudentStatus =
-                                                      "";
+                  value: '/about',
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        String SelectedStudentStatus = "";
 
-                                                  return StatefulBuilder(
-                                                    builder:
-                                                        (context, setState) {
-                                                      return AlertDialog(
-                                                        title: const Text(
-                                                            "Please Select a Status."),
-                                                        content: Container(
-                                                          height: 70,
-                                                          child: Column(
-                                                            children: [
-                                          DropdownButton(
-                                           hint: SelectedStudentStatus ==
-                                                                        ""
-                                                                    ? const Text(
-                                                                        'Select Student Status')
-                                                                    : Text(
-                                                                        SelectedStudentStatus,
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                ColorName().appColor,
-                                                                            fontWeight: FontWeight.bold,
-                                                                            fontSize: 16),
-                                                                      ),
-                                                                isExpanded:
-                                                                    true,
-                                                                iconSize: 30.0,
-                                                                style: TextStyle(
-                                                                    color: ColorName()
-                                                                        .appColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        16),
-                                                                items: [
-                                                                  "New",
-                                                                  'Old',
-                                                                  "Running"
-                                                                ].map(
-                                                                  (val) {
-                                                                    return DropdownMenuItem<
-                                                                        String>(
-                                                                      value:
-                                                                          val,
-                                                                      child: Text(
-                                                                          val),
-                                                                    );
-                                                                  },
-                                                                ).toList(),
-                                                                onChanged:
-                                                                    (val) {
-                                                                  setState(
-                                                                    () {
-                                                                      SelectedStudentStatus =
-                                                                          val!;
+                        return StatefulBuilder(
+                          builder: (context, setState) {
+                            return AlertDialog(
+                              title: const Text("Please Select a Status."),
+                              content: Container(
+                                height: 70,
+                                child: Column(
+                                  children: [
+                                    DropdownButton(
+                                      hint: SelectedStudentStatus == ""
+                                          ? const Text('Select Student Status')
+                                          : Text(
+                                              SelectedStudentStatus,
+                                              style: TextStyle(
+                                                  color: ColorName().appColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16),
+                                            ),
+                                      isExpanded: true,
+                                      iconSize: 30.0,
+                                      style: TextStyle(
+                                          color: ColorName().appColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                      items: ["New", 'Old', "Running"].map(
+                                        (val) {
+                                          return DropdownMenuItem<String>(
+                                            value: val,
+                                            child: Text(val),
+                                          );
+                                        },
+                                      ).toList(),
+                                      onChanged: (val) {
+                                        setState(
+                                          () {
+                                            SelectedStudentStatus = val!;
 
-                                                                      print(
-                                                                          val);
-                                                                    },
-                                                                  );
-                                                                },
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 20,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        actions: <Widget>[
-                                                          TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    context),
-                                                            child:
-                                                                Text("Cancel"),
-                                                          ),
-                                                          SelectedStudentStatus ==
-                                                                  ""
-                                                              ? Text("")
-                                                              : TextButton(
-                                                                  onPressed:
-                                                                      () async {
+                                            print(val);
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("Cancel"),
+                                ),
+                                SelectedStudentStatus == ""
+                                    ? Text("")
+                                    : TextButton(
+                                        onPressed: () async {
+                                          getSpecificData(
+                                              SelectedStudentStatus.toString()
+                                                  .toLowerCase(),
+                                              context);
+                                        },
+                                        child: const Text("Find"),
+                                      ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+                PopupMenuItem(
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: ListTile(
+                        trailing: Icon(Icons.arrow_forward),
+                        title: Text("Create PI")),
+                  ),
+                  value: '/about',
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        String SelectedExam = "";
 
-                                                          getSpecificData(SelectedStudentStatus.toString().toLowerCase(), context);
+                        String SelectedSubject = "";
 
+                        String SubjectNameTitle = "বিষয় নির্বাচন করবেন";
 
-          
+                        String PIGrandFatherNoTextFieldTitle =
+                            "অভিজ্ঞতা নং / পারদর্শিতার ক্ষেত্র নং";
 
+                        String PIFatherNoTextFieldTitle = "একক যোগ্যতা নং";
 
+                        String PINoTextFieldTitle = "PI No";
 
-                                                                  },
-                                                                  child: const Text(
-                                                                      "Find"),
-                                                                ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                              );
-                                            },
+                        String PIGrandFatherNoTextFieldDescription =
+                            "অভিজ্ঞতা বর্ণনা / পারদর্শিতার ক্ষেত্র বর্ণনা";
+
+                        String PIFatherNoTextFieldDescription =
+                            "একক যোগ্যতা বর্ণনা";
+
+                        String PINoTextFieldDescription =
+                            "পারদর্শিতা নির্দেশক বর্ণনা";
+
+                        String AlertTitle =
+                            "আপনি নিচে প্রথমে মূল্যায়নের নাম এবং যে বিষয়ের মূল্যায়ন তৈরী করতে চান তা নির্বাচন করবেন";
+
+                        String ExamNameTitle = "মূল্যায়নের নাম নির্বাচন করবেন";
+
+                        return StatefulBuilder(
+                          builder: (context, setState) {
+                            return AlertDialog(
+                              title: Center(
+                                child: Text("${AlertTitle.toBijoy}",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "SiyamRupali")),
+                              ),
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    DropdownButton(
+                                      hint: SelectedExam == ""
+                                          ? Text("${ExamNameTitle.toBijoy}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "SiyamRupali"))
+                                          : Text("${SelectedExam.toBijoy}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "SiyamRupali")),
+                                      isExpanded: true,
+                                      iconSize: 30.0,
+                                      style: TextStyle(
+                                          color: ColorName().appColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                      items: [
+                                        "ষাণ্মাসিক শিখনকালীন মূল্যায়ন",
+                                        'ষাণ্মাসিক সামষ্টিক মূল্যায়ন',
+                                        "বাৎসরিক শিখনকালীন মূল্যায়ন",
+                                        "বাৎসরিক সামষ্টিক মূল্যায়ন"
+                                      ].map(
+                                        (val) {
+                                          return DropdownMenuItem<String>(
+                                            value: val,
+                                            child: Text(val),
+                                          );
+                                        },
+                                      ).toList(),
+                                      onChanged: (val) {
+                                        setState(
+                                          () {
+                                            SelectedExam = val!;
+
+                                            print(val);
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    DropdownButton(
+                                      hint: SelectedSubject == ""
+                                          ? Text("${SubjectNameTitle.toBijoy}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "SiyamRupali"))
+                                          : Text("${SelectedSubject.toBijoy}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "SiyamRupali")),
+                                      isExpanded: true,
+                                      iconSize: 30.0,
+                                      style: TextStyle(
+                                          color: ColorName().appColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                      items: [
+                                        "বাংলা",
+                                        'ইংরেজি',
+                                        "গণিত",
+                                        "বিজ্ঞান অনুসন্ধানী পাঠ",
+                                        "বিজ্ঞান অনুশীলন বই",
+                                        "ইতিহাস ও সামাজিক বিজ্ঞান অনুসন্ধানী পাঠ",
+                                        "ইতিহাস ও সামাজিক বিজ্ঞান অনুশীলন বই",
+                                        "ডিজিটাল প্রযুক্তি",
+                                        "স্বাস্থ্য সুরক্ষা",
+                                        "জীবন ও জীবিকা",
+                                        "শিল্প ও সংস্কৃতি",
+                                        "ইসলাম শিক্ষা",
+                                        "হিন্দুর্ধম শিক্ষা",
+                                        "খ্রিষ্টধর্ম শিক্ষা",
+                                        "বৌদ্ধধর্ম শিক্ষা",
+                                      ].map(
+                                        (val) {
+                                          return DropdownMenuItem<String>(
+                                            value: val,
+                                            child: Text(val),
+                                          );
+                                        },
+                                      ).toList(),
+                                      onChanged: (val) {
+                                        setState(
+                                          () {
+                                            SelectedSubject = val!;
+
+                                            print(val);
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 600,
+                                      child: TextField(
+                                        onChanged: (value) {},
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText: 'শিক্ষকের নাম'.toBijoy,
+                                          labelStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          hintText: 'শিক্ষকের নাম'.toBijoy,
+                                          hintStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          //  enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                          //     ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
                                           ),
-
-            PopupMenuItem(
-                  child: Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: ListTile(
-                      
-                      trailing: Icon(Icons.arrow_forward),
-                      title: Text("Create PI & BI")),
-                  ),
-                                            value: '/about',
-                                            onTap: () async {
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) {
-
-
-                                          String SelectedExam ="";
-
-                                            
-                                          String SelectedSubject ="";
-
-                                          String SubjectNameTitle ="বিষয় নির্বাচন করবেন";
-
-                                          String PIGrandFatherNoTextFieldTitle ="অভিজ্ঞতা নং / পারদর্শিতার ক্ষেত্র নং";
-
-                                          String PIFatherNoTextFieldTitle ="একক যোগ্যতা নং";
-
-                                          String PINoTextFieldTitle ="PI No";
-
-
-
-                                          String PIGrandFatherNoTextFieldDescription="অভিজ্ঞতা বর্ণনা / পারদর্শিতার ক্ষেত্র বর্ণনা";
-
-                                          String PIFatherNoTextFieldDescription ="একক যোগ্যতা বর্ণনা";
-
-                                          String PINoTextFieldDescription ="পারদর্শিতা নির্দেশক বর্ণনা";
-
-
-
-
-                                          String AlertTitle = "আপনি নিচে প্রথমে মূল্যায়নের নাম এবং যে বিষয়ের মূল্যায়ন তৈরী করতে চান তা নির্বাচন করবেন";
-
-                                          String ExamNameTitle ="মূল্যায়নের নাম নির্বাচন করবেন";
-
-                                                  return StatefulBuilder(
-                                                    builder:
-                                                        (context, setState) {
-                                                      return AlertDialog(
-                                                        title: Center(child: Text("${AlertTitle.toBijoy}", style:TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" )),),
-                                                        content: SingleChildScrollView(
-                                                          
-                                                          child: Column(
-                                                            children: [
-                                          DropdownButton(
-                                           hint: SelectedExam ==
-                                                                        ""
-                                                   ?  Text("${ExamNameTitle.toBijoy}", style:TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" ))
-
-
-                                                   :Text("${SelectedExam.toBijoy}", style:TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" )),
-
-
-                                                    isExpanded:
-                                                                    true,
-                                                                iconSize: 30.0,
-                                                                style: TextStyle(
-                                                                    color: ColorName()
-                                                                        .appColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        16),
-                                                                items: [
-                                                                  "ষাণ্মাসিক শিখনকালীন মূল্যায়ন",
-
-                                                                  'ষাণ্মাসিক সামষ্টিক মূল্যায়ন',
-
-                                                                  "বাৎসরিক শিখনকালীন মূল্যায়ন",
-
-                                                                  "বাৎসরিক সামষ্টিক মূল্যায়ন"
-
-                                                                ].map(
-                                                                  (val) {
-                                                                    return DropdownMenuItem<
-                                                                        String>(
-                                                                      value:
-                                                                          val,
-                                                                      child: Text(
-                                                                          val),
-                                                                    );
-                                                                  },
-                                                                ).toList(),
-                                                                onChanged:
-                                                                    (val) {
-                                                                  setState(
-                                                                    () {
-                                                                      SelectedExam =
-                                                                          val!;
-
-                                                                      print(
-                                                                          val);
-                                                                    },
-                                                                  );
-                                                                },
-                                                              ),
-
-
-                                  const SizedBox(height: 20,),
-
-                                  
-
-                                  DropdownButton(
-                                           hint: SelectedSubject ==
-                                                                        ""
-                                                   ?  Text("${SubjectNameTitle.toBijoy}", style:TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" ))
-
-
-                                                   :Text("${SelectedSubject.toBijoy}", style:TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" )),
-
-
-                                                    isExpanded:
-                                                                    true,
-                                                                iconSize: 30.0,
-                                                                style: TextStyle(
-                                                                    color: ColorName()
-                                                                        .appColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        16),
-                                                                items: [
-                                                                  "বাংলা",
-
-                                                                  'ইংরেজি',
-
-                                                                  "গণিত",
-
-                                                                  "বিজ্ঞান অনুসন্ধানী পাঠ",
-
-                                                                  "বিজ্ঞান অনুশীলন বই",
-
-                                                                  "ইতিহাস ও সামাজিক বিজ্ঞান অনুসন্ধানী পাঠ",
-
-                                                                  "ইতিহাস ও সামাজিক বিজ্ঞান অনুশীলন বই",
-
-                                                                  "ডিজিটাল প্রযুক্তি",
-
-                                                                  "স্বাস্থ্য সুরক্ষা",
-
-                                                                  "জীবন ও জীবিকা",
-
-                                                                  "শিল্প ও সংস্কৃতি",
-
-                                                                  "ইসলাম শিক্ষা",
-
-                                                                  "হিন্দুর্ধম শিক্ষা",
-
-                                                                  "খ্রিষ্টধর্ম শিক্ষা",
-
-                                                                  "বৌদ্ধধর্ম শিক্ষা",
-
-                                                                ].map(
-                                                                  (val) {
-                                                                    return DropdownMenuItem<
-                                                                        String>(
-                                                                      value:
-                                                                          val,
-                                                                      child: Text(
-                                                                          val),
-                                                                    );
-                                                                  },
-                                                                ).toList(),
-                                                                onChanged:
-                                                                    (val) {
-                                                                  setState(
-                                                                    () {
-                                                                     SelectedSubject =
-                                                                          val!;
-
-                                                                      print(
-                                                                          val);
-                                                                    },
-                                                                  );
-                                                                },
-                                                              ),
-              const SizedBox(height: 20,),
-
-
-
-                Container(
-                  width: 600,
-                  child: TextField(
-                    
-                    onChanged: (value) {},
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'শিক্ষকের নাম'.toBijoy,
-                      labelStyle: TextStyle(fontFamily: "SiyamRupali"),
-
-                      hintText: 'শিক্ষকের নাম'.toBijoy,
-                      hintStyle: TextStyle(fontFamily: "SiyamRupali"),
-
-                      //  enabledBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                      //     ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Theme.of(context).primaryColor),
-                      ),
-                      errorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                      ),
-                    ),
-                    controller: TeacherNameController,
-                  ),
-                ),
-
-
-
-
-
-              const SizedBox(height: 20,),
-
-
-              Container(
-                  width: 600,
-                  child: TextField(
-                    
-                    onChanged: (value) {},
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: '${PIGrandFatherNoTextFieldTitle.toBijoy}',
-                      labelStyle: TextStyle(fontFamily: "SiyamRupali"),
-                      hintText: '${PIGrandFatherNoTextFieldTitle.toBijoy}',
-                      hintStyle: TextStyle(fontFamily: "SiyamRupali"),
-
-                      //  enabledBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                      //     ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Theme.of(context).primaryColor),
-                      ),
-                      errorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                      ),
-                    ),
-                    controller: PIGrandFatherNoController,
-                  ),
-                ),
-
-
-
-              const SizedBox(height: 20,),
-
-
-              Container(
-                  width: 600,
-                  child: TextField(
-                    maxLength: 2000,
-                    onChanged: (value) {},
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: '${PIGrandFatherNoTextFieldDescription.toBijoy}',
-                      labelStyle: TextStyle(fontFamily: "SiyamRupali"),
-                      hintText: '${PIGrandFatherNoTextFieldDescription.toBijoy}',
-                      hintStyle: TextStyle(fontFamily: "SiyamRupali"),
-
-                      //  enabledBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                      //     ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Theme.of(context).primaryColor),
-                      ),
-                      errorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                      ),
-                    ),
-                    controller: PIGrandFatherNoDescriptionController,
-                  ),
-                ),
-
-            
-             const SizedBox(height: 20,),
-
-
-              Container(
-                  width: 600,
-                  child: TextField(
-                   
-                    onChanged: (value) {},
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: '${PIFatherNoTextFieldTitle.toBijoy}',
-                      labelStyle: TextStyle(fontFamily: "SiyamRupali"),
-
-                      hintText: '${PIFatherNoTextFieldTitle.toBijoy}',
-                      hintStyle: TextStyle(fontFamily: "SiyamRupali"),
-
-                      //  enabledBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                      //     ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Theme.of(context).primaryColor),
-                      ),
-                      errorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                      ),
-                    ),
-                    controller: PIFatherNoController,
-                  ),
-                ),
-
-
-
-
-                const SizedBox(height: 20,),
-
-
-
-                Container(
-                  width: 600,
-                  child: TextField(
-                    maxLength: 2000,
-                    onChanged: (value) {},
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: '${PIFatherNoTextFieldDescription.toBijoy}',
-                      labelStyle: TextStyle(fontFamily: "SiyamRupali"),
-
-                      hintText: '${PIFatherNoTextFieldDescription.toBijoy}',
-                      hintStyle: TextStyle(fontFamily: "SiyamRupali"),
-
-                      //  enabledBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                      //     ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Theme.of(context).primaryColor),
-                      ),
-                      errorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                      ),
-                    ),
-                    controller: PIFatherNoDescriptionController,
-                  ),
-                ),
-
-              const SizedBox(height: 20,),
-
-
-              Container(
-                  width: 600,
-                  child: TextField(
-                   
-                    onChanged: (value) {},
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: '${PINoTextFieldTitle}',
-               
-                      hintText: '${PINoTextFieldTitle}',
-                 
-
-                      //  enabledBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                      //     ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Theme.of(context).primaryColor),
-                      ),
-                      errorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                      ),
-                    ),
-                    controller: PINoController,
-                  ),
-                ),
-
-
-                const SizedBox(height: 20,),
-
-
-
-
-                Container(
-                  width: 600,
-                  child: TextField(
-                    maxLength: 2000,
-                    onChanged: (value) {},
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: '${PINoTextFieldDescription.toBijoy}',
-                      labelStyle: TextStyle(fontFamily: "SiyamRupali"),
-               
-                      hintText: '${PINoTextFieldDescription.toBijoy}',
-                      hintStyle: TextStyle(fontFamily: "SiyamRupali"),
-                 
-
-                      //  enabledBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                      //     ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Theme.of(context).primaryColor),
-                      ),
-                      errorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                      ),
-                    ),
-                    controller: PINoDescriptionController,
-                  ),
-                ),
-
-
-
-
-                SizedBox(height: 20,),
-
-                const Center(child: Text("পারদর্শিতার মাত্রার বর্ণনা লিখুন", style:TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" )),),
-
-
-
-
-                const SizedBox(
-                      height: 20,
-                    ),
-
-
-
-                    TextField(
-
-                  
-                  onChanged: (value) {},
-
-
-
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                      prefixIcon: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: FaIcon(FontAwesomeIcons.square),
-                      ), 
-                      helperStyle: TextStyle(color: Colors.red.shade400),
-                      border: const OutlineInputBorder(),
-                       labelText: 'বর্ণনা লিখুন',
-                       labelStyle: const TextStyle(fontFamily: "SiyamRupali"),
-                       hintText: 'বর্ণনা লিখুন',
-                       hintStyle: const TextStyle(fontFamily: "SiyamRupali"),
-                         
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                            ),
-                            errorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                            ),
-                          
-                          
-                          ),
-                      controller: SquareController,
-                    ),
-
-
-
-
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-
-
-
-
-                 TextField(
-
-                  
-                  onChanged: (value) {},
-
-
-
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                      prefixIcon: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: FaIcon(FontAwesomeIcons.circle),
-                      ), 
-                      helperStyle: TextStyle(color: Colors.red.shade400),
-                      border: const OutlineInputBorder(),
-                       labelText: 'বর্ণনা লিখুন',
-                       labelStyle: const TextStyle(fontFamily: "SiyamRupali"),
-                       hintText: 'বর্ণনা লিখুন',
-                       hintStyle: const TextStyle(fontFamily: "SiyamRupali"),
-                         
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                            ),
-                            errorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                            ),
-                          
-                          
-                          ),
-                      controller: CircleController,
-                    ),
-
-
-
-
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-
-
-                     TextField(
-
-                  
-                  onChanged: (value) {},
-
-
-
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                      prefixIcon: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: FaIcon(FontAwesomeIcons.caretUp, size: 40,),
-                      ), 
-                      helperStyle: TextStyle(color: Colors.red.shade400),
-                      border: const OutlineInputBorder(),
-                       labelText: 'বর্ণনা লিখুন',
-                       labelStyle: const TextStyle(fontFamily: "SiyamRupali"),
-                       hintText: 'বর্ণনা লিখুন',
-                       hintStyle: const TextStyle(fontFamily: "SiyamRupali"),
-                         
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(width: 3, color: Theme.of(context).primaryColor),
-                            ),
-                            errorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                            ),
-                          
-                          
-                          ),
-                      controller: TriangleController,
-                    ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        actions: <Widget>[
-                                                          TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    context),
-                                                            child:
-                                                                Text("Cancel"),
-                                                          ),
-
-
-
-                         ElevatedButton(
-                              onPressed:
-                                  () async {
-
-                      
-                      setState((){
-
-                        loading = true;
-                      });
-
-
+                                          errorBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Color.fromARGB(
+                                                    255, 66, 125, 145)),
+                                          ),
+                                        ),
+                                        controller: TeacherNameController,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 600,
+                                      child: TextField(
+                                        onChanged: (value) {},
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText:
+                                              '${PIGrandFatherNoTextFieldTitle.toBijoy}',
+                                          labelStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+                                          hintText:
+                                              '${PIGrandFatherNoTextFieldTitle.toBijoy}',
+                                          hintStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          //  enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                          //     ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          errorBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Color.fromARGB(
+                                                    255, 66, 125, 145)),
+                                          ),
+                                        ),
+                                        controller: PIGrandFatherNoController,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 600,
+                                      child: TextField(
+                                        maxLength: 2000,
+                                        onChanged: (value) {},
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText:
+                                              '${PIGrandFatherNoTextFieldDescription.toBijoy}',
+                                          labelStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+                                          hintText:
+                                              '${PIGrandFatherNoTextFieldDescription.toBijoy}',
+                                          hintStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          //  enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                          //     ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          errorBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Color.fromARGB(
+                                                    255, 66, 125, 145)),
+                                          ),
+                                        ),
+                                        controller:
+                                            PIGrandFatherNoDescriptionController,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 600,
+                                      child: TextField(
+                                        onChanged: (value) {},
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText:
+                                              '${PIFatherNoTextFieldTitle.toBijoy}',
+                                          labelStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          hintText:
+                                              '${PIFatherNoTextFieldTitle.toBijoy}',
+                                          hintStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          //  enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                          //     ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          errorBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Color.fromARGB(
+                                                    255, 66, 125, 145)),
+                                          ),
+                                        ),
+                                        controller: PIFatherNoController,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 600,
+                                      child: TextField(
+                                        maxLength: 2000,
+                                        onChanged: (value) {},
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText:
+                                              '${PIFatherNoTextFieldDescription.toBijoy}',
+                                          labelStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          hintText:
+                                              '${PIFatherNoTextFieldDescription.toBijoy}',
+                                          hintStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          //  enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                          //     ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          errorBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Color.fromARGB(
+                                                    255, 66, 125, 145)),
+                                          ),
+                                        ),
+                                        controller:
+                                            PIFatherNoDescriptionController,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 600,
+                                      child: TextField(
+                                        onChanged: (value) {},
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText: '${PINoTextFieldTitle}',
+
+                                          hintText: '${PINoTextFieldTitle}',
+
+                                          //  enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                          //     ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          errorBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Color.fromARGB(
+                                                    255, 66, 125, 145)),
+                                          ),
+                                        ),
+                                        controller: PINoController,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 600,
+                                      child: TextField(
+                                        maxLength: 2000,
+                                        onChanged: (value) {},
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText:
+                                              '${PINoTextFieldDescription.toBijoy}',
+                                          labelStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          hintText:
+                                              '${PINoTextFieldDescription.toBijoy}',
+                                          hintStyle: TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          //  enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                          //     ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          errorBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Color.fromARGB(
+                                                    255, 66, 125, 145)),
+                                          ),
+                                        ),
+                                        controller: PINoDescriptionController,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Center(
+                                      child: Text(
+                                          "পারদর্শিতার মাত্রার বর্ণনা লিখুন",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    TextField(
+                                      onChanged: (value) {},
+                                      keyboardType: TextInputType.phone,
+                                      decoration: InputDecoration(
+                                        prefixIcon: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child:
+                                              FaIcon(FontAwesomeIcons.square),
+                                        ),
+                                        helperStyle: TextStyle(
+                                            color: Colors.red.shade400),
+                                        border: const OutlineInputBorder(),
+                                        labelText: 'বর্ণনা লিখুন',
+                                        labelStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        hintText: 'বর্ণনা লিখুন',
+                                        hintStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        errorBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Color.fromARGB(
+                                                  255, 66, 125, 145)),
+                                        ),
+                                      ),
+                                      controller: SquareController,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    TextField(
+                                      onChanged: (value) {},
+                                      keyboardType: TextInputType.phone,
+                                      decoration: InputDecoration(
+                                        prefixIcon: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child:
+                                              FaIcon(FontAwesomeIcons.circle),
+                                        ),
+                                        helperStyle: TextStyle(
+                                            color: Colors.red.shade400),
+                                        border: const OutlineInputBorder(),
+                                        labelText: 'বর্ণনা লিখুন',
+                                        labelStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        hintText: 'বর্ণনা লিখুন',
+                                        hintStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        errorBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Color.fromARGB(
+                                                  255, 66, 125, 145)),
+                                        ),
+                                      ),
+                                      controller: CircleController,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    TextField(
+                                      onChanged: (value) {},
+                                      keyboardType: TextInputType.phone,
+                                      decoration: InputDecoration(
+                                        prefixIcon: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: FaIcon(
+                                            FontAwesomeIcons.caretUp,
+                                            size: 40,
+                                          ),
+                                        ),
+                                        helperStyle: TextStyle(
+                                            color: Colors.red.shade400),
+                                        border: const OutlineInputBorder(),
+                                        labelText: 'বর্ণনা লিখুন',
+                                        labelStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        hintText: 'বর্ণনা লিখুন',
+                                        hintStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        errorBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Color.fromARGB(
+                                                  255, 66, 125, 145)),
+                                        ),
+                                      ),
+                                      controller: TriangleController,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("Cancel"),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    setState(() {
+                                      loading = true;
+                                    });
 
 // PI Data Create from here
-      
-                 var SchoolPIData =
-                    {
 
-                      "PIID":PIID,
-                      "ExamName":SelectedExam.toBijoy,
-                      "ClassName":widget.ClassName,
-                      "SubjectName":SelectedSubject.toBijoy,
-                      "TeacherName":TeacherNameController.text.trim().toLowerCase(),
-                      "PIGrandFatherNo":PIGrandFatherNoController.text.trim().toBijoy,
-                      "PIGrandFatherNoDescription":PIGrandFatherNoDescriptionController.text.trim().toBijoy,
-                      "PIFatherNo":PIFatherNoController.text.trim().toBijoy,
-                      "PIFatherNoDescription":PIFatherNoDescriptionController.text.trim().toBijoy,
-                      "PINo":PINoController.text.trim().toBijoy,
-                      "PINoDescription":PINoDescriptionController.text.trim().toBijoy,
-                      "SquareDescription":SquareController.text.trim().toBijoy,
-                      "CircleDescription":CircleController.text.trim().toBijoy,
-                      "TriangleDescription":TriangleController.text.trim().toBijoy,
-                      "DateTime":DateTime.now().toIso8601String(),
-                      "year":"${DateTime.now().year}"
+                                    var SchoolPIData = {
+                                      "PIID": PIID,
+                                      "ExamName": SelectedExam.toBijoy,
+                                      "ClassName": widget.ClassName,
+                                      "SubjectName": SelectedSubject.toBijoy,
+                                      "TeacherName": TeacherNameController.text
+                                          .trim()
+                                          .toLowerCase(),
+                                      "PIGrandFatherNo":
+                                          PIGrandFatherNoController.text
+                                              .trim()
+                                              .toBijoy,
+                                      "PIGrandFatherNoDescription":
+                                          PIGrandFatherNoDescriptionController
+                                              .text
+                                              .trim()
+                                              .toBijoy,
+                                      "PIFatherNo": PIFatherNoController.text
+                                          .trim()
+                                          .toBijoy,
+                                      "PIFatherNoDescription":
+                                          PIFatherNoDescriptionController.text
+                                              .trim()
+                                              .toBijoy,
+                                      "PINo":
+                                          PINoController.text.trim().toBijoy,
+                                      "PINoDescription":
+                                          PINoDescriptionController.text
+                                              .trim()
+                                              .toBijoy,
+                                      "SquareDescription":
+                                          SquareController.text.trim().toBijoy,
+                                      "CircleDescription":
+                                          CircleController.text.trim().toBijoy,
+                                      "TriangleDescription": TriangleController
+                                          .text
+                                          .trim()
+                                          .toBijoy,
+                                      "DateTime":
+                                          DateTime.now().toIso8601String(),
+                                      "year": "${DateTime.now().year}"
+                                    };
 
-                 
-                    };
+                                    final SchoolPI = FirebaseFirestore.instance
+                                        .collection('SchoolPIData')
+                                        .doc(PIID);
 
-                  final SchoolPI = FirebaseFirestore.instance.collection('SchoolPIData').doc(PIID);
-                  
-                  SchoolPI.set(SchoolPIData).then((value) =>setState(() {
-                                          getData();
+                                    SchoolPI.set(SchoolPIData)
+                                        .then((value) => setState(() {
+                                              getData();
 
-                                        Navigator.pop(context);
+                                              Navigator.pop(context);
 
-                                final snackBar = SnackBar(
-                                        elevation: 0,
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor: Colors.transparent,
-                                        content: AwesomeSnackbarContent(
-                                        title: 'PI Created Successfull',
-                                        message: 'Hey Thank You. Good Job',
+                                              final snackBar = SnackBar(
+                                                elevation: 0,
+                                                behavior:
+                                                    SnackBarBehavior.floating,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                content: AwesomeSnackbarContent(
+                                                  title:
+                                                      'PI Created Successfull',
+                                                  message:
+                                                      'Hey Thank You. Good Job',
 
-                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                        contentType: ContentType.success,
+                                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                  contentType:
+                                                      ContentType.success,
                                                 ),
-                                            );
-
-                    ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
-
-                       setState(() {
-                        loading = false;
-                             });
-                            }))
-                      .onError((error,stackTrace) =>setState(() {
-                        final snackBar = SnackBar(
-                  /// need to set following properties for best effect of awesome_snackbar_content
-                        elevation: 0,
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: Colors.transparent,
-                        content: AwesomeSnackbarContent(
-                        title: 'Something Wrong!!!!',
-                        message: 'Try again later...',
-
-            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                        contentType: ContentType.failure,
-                            ),
-                        );
-
-                ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
-
-                      setState(() {
-                            loading = false;
-                               });
-                      }));
-
-                                                        
-
-
-          
-
-
-
-                                                                  },
-                                                                  child: const Text(
-                                                                      "Create"),
-                                                                ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  );
-                                                },
                                               );
-                                            },
-                                          ),
 
-            
-      
+                                              ScaffoldMessenger.of(context)
+                                                ..hideCurrentSnackBar()
+                                                ..showSnackBar(snackBar);
 
+                                              setState(() {
+                                                loading = false;
+                                              });
+                                            }))
+                                        .onError((error, stackTrace) =>
+                                            setState(() {
+                                              final snackBar = SnackBar(
+                                                /// need to set following properties for best effect of awesome_snackbar_content
+                                                elevation: 0,
+                                                behavior:
+                                                    SnackBarBehavior.floating,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                content: AwesomeSnackbarContent(
+                                                  title: 'Something Wrong!!!!',
+                                                  message: 'Try again later...',
 
+                                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                  contentType:
+                                                      ContentType.failure,
+                                                ),
+                                              );
 
+                                              ScaffoldMessenger.of(context)
+                                                ..hideCurrentSnackBar()
+                                                ..showSnackBar(snackBar);
 
+                                              setState(() {
+                                                loading = false;
+                                              });
+                                            }));
+                                  },
+                                  child: const Text("Create"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+                PopupMenuItem(
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: ListTile(
+                        trailing: Icon(Icons.arrow_forward),
+                        title: Text(
+                            "ফলাফল তৈরীর জন্য চূড়ান্ত পিআই প্রস্তুত করুন",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "SiyamRupali"))),
+                  ),
+                  value: '/about',
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        String SelectedSubject = "";
+
+                        String SubjectNameTitle = "বিষয় নির্বাচন করুন";
+
+                        bool? checkedValueOne = false;
+
+                        bool? checkedValueTwo = false;
+
+                        bool? checkedValueThree = false;
+
+                        bool? checkedValueFour = false;
+
+                        return StatefulBuilder(
+                          builder: (context, setState) {
+                            return AlertDialog(
+                              title: Text(
+                                  "চূড়ান্ত ফলাফল প্রস্তুতির জন্য বিষয় নির্বাচন করবেন এবং বছর নির্বাচন করবেন।"
+                                      .toBijoy,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "SiyamRupali")),
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    DropdownButton(
+                                      hint: SelectedSubject == ""
+                                          ? Text("${SubjectNameTitle.toBijoy}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "SiyamRupali"))
+                                          : Text("${SelectedSubject.toBijoy}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "SiyamRupali")),
+                                      isExpanded: true,
+                                      iconSize: 30.0,
+                                      style: TextStyle(
+                                          color: ColorName().appColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                      items: [
+                                        "বাংলা",
+                                        'ইংরেজি',
+                                        "গণিত",
+                                        "বিজ্ঞান অনুসন্ধানী পাঠ",
+                                        "বিজ্ঞান অনুশীলন বই",
+                                        "ইতিহাস ও সামাজিক বিজ্ঞান অনুসন্ধানী পাঠ",
+                                        "ইতিহাস ও সামাজিক বিজ্ঞান অনুশীলন বই",
+                                        "ডিজিটাল প্রযুক্তি",
+                                        "স্বাস্থ্য সুরক্ষা",
+                                        "জীবন ও জীবিকা",
+                                        "শিল্প ও সংস্কৃতি",
+                                        "ইসলাম শিক্ষা",
+                                        "হিন্দুর্ধম শিক্ষা",
+                                        "খ্রিষ্টধর্ম শিক্ষা",
+                                        "বৌদ্ধধর্ম শিক্ষা",
+                                      ].map(
+                                        (val) {
+                                          return DropdownMenuItem<String>(
+                                            value: val,
+                                            child: Text(val),
+                                          );
+                                        },
+                                      ).toList(),
+                                      onChanged: (val) {
+                                        setState(
+                                          () {
+                                            SelectedSubject = val!;
+
+                                            print(val);
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "ষাণ্মাসিক শিখনকালীন মূল্যায়ন"
+                                              .toBijoy,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueOne,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueOne = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "ষাণ্মাসিক সামষ্টিক মূল্যায়ন".toBijoy,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueTwo,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueTwo = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "বাৎসরিক শিখনকালীন মূল্যায়ন".toBijoy,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueThree,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueThree = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "বাৎসরিক সামষ্টিক মূল্যায়ন".toBijoy,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueFour,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueFour = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("Cancel"),
+                                ),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      setState(() {
+                                        loading = true;
+                                      });
+
+                                      List SelectedExamNameList = [
+                                        checkedValueOne,
+                                        checkedValueTwo,
+                                        checkedValueThree,
+                                        checkedValueFour
+                                      ];
+
+                                      List AllExamName = [
+                                        "ষাণ্মাসিক শিখনকালীন মূল্যায়ন",
+                                        'ষাণ্মাসিক সামষ্টিক মূল্যায়ন',
+                                        "বাৎসরিক শিখনকালীন মূল্যায়ন",
+                                        "বাৎসরিক সামষ্টিক মূল্যায়ন"
+                                      ];
+
+                                      List AllPINo = [];
+
+                                      for (int ExamNameIndex = 0;
+                                          ExamNameIndex <
+                                              SelectedExamNameList.length;
+                                          ExamNameIndex++) {
+                                        if (SelectedExamNameList[
+                                            ExamNameIndex]) {
+                                          // Get docs from collection reference
+                                          CollectionReference SchoolPIDataRef =
+                                              FirebaseFirestore.instance
+                                                  .collection('SchoolPIData');
+
+                                          Query SchoolPIDataRefCount =
+                                              SchoolPIDataRef.where("ClassName",
+                                                      isEqualTo:
+                                                          widget.ClassName)
+                                                  .where("SubjectName",
+                                                      isEqualTo: SelectedSubject
+                                                          .toBijoy)
+                                                  .where("ExamName",
+                                                      isEqualTo: AllExamName[
+                                                              ExamNameIndex]
+                                                          .toString()
+                                                          .toBijoy);
+
+                                          QuerySnapshot SchoolPIDataSnapshot =
+                                              await SchoolPIDataRefCount.get();
+
+                                          List SchoolPIData =
+                                              SchoolPIDataSnapshot.docs
+                                                  .map((doc) => doc.data())
+                                                  .toList();
+
+                                          if (SchoolPIData.length == 0) {
+                                            // setState(() {
+                                            //   DataLoad = "0";
+                                            //   loading = false;
+                                            // });
+
+                                            print(
+                                                "No ${AllExamName[ExamNameIndex]}");
+                                          } else {
+                                            setState(() {
+                                              SchoolPIData =
+                                                  SchoolPIDataSnapshot.docs
+                                                      .map((doc) => doc.data())
+                                                      .toList();
+
+                                              for (int i = 0;
+                                                  i < SchoolPIData.length;
+                                                  i++) {
+                                                AllPINo.insert(AllPINo.length,
+                                                    SchoolPIData[i]["PINo"]);
+                                              }
+
+                                              List nonMachedPINo =
+                                                  AllPINo.toSet().toList();
+
+                                              var ChurantoSchoolPIData = {
+                                                "ChurantoPIID": PIID,
+                                                "ExamName":
+                                                    SelectedExamNameList,
+                                                "ClassName": widget.ClassName,
+                                                "SubjectName":
+                                                    SelectedSubject.toBijoy,
+                                                "TeacherName":
+                                                    TeacherNameController.text
+                                                        .trim()
+                                                        .toLowerCase(),
+                                                "PINo": nonMachedPINo,
+                                                "DateTime": DateTime.now()
+                                                    .toIso8601String(),
+                                                "year": "${DateTime.now().year}"
+                                              };
+
+                                              final SchoolPI = FirebaseFirestore
+                                                  .instance
+                                                  .collection(
+                                                      'ChurantoSchoolPIData')
+                                                  .doc(PIID);
+
+                                              SchoolPI.set(ChurantoSchoolPIData)
+                                                  .then((value) => setState(() {
+                                                        getData();
+
+                                                        Navigator.pop(context);
+
+                                                        final snackBar =
+                                                            SnackBar(
+                                                          elevation: 0,
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          content:
+                                                              AwesomeSnackbarContent(
+                                                            title:
+                                                                'PI  Successfull',
+                                                            message:
+                                                                'Hey Thank You. Good Job',
+
+                                                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                            contentType:
+                                                                ContentType
+                                                                    .success,
+                                                          ),
+                                                        );
+
+                                                        ScaffoldMessenger.of(
+                                                            context)
+                                                          ..hideCurrentSnackBar()
+                                                          ..showSnackBar(
+                                                              snackBar);
+
+                                                        setState(() {
+                                                          loading = false;
+                                                        });
+                                                      }))
+                                                  .onError((error,
+                                                          stackTrace) =>
+                                                      setState(() {
+                                                        final snackBar =
+                                                            SnackBar(
+                                                          /// need to set following properties for best effect of awesome_snackbar_content
+                                                          elevation: 0,
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          content:
+                                                              AwesomeSnackbarContent(
+                                                            title:
+                                                                'Something Wrong!!!!',
+                                                            message:
+                                                                'Try again later...',
+
+                                                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                            contentType:
+                                                                ContentType
+                                                                    .failure,
+                                                          ),
+                                                        );
+
+                                                        ScaffoldMessenger.of(
+                                                            context)
+                                                          ..hideCurrentSnackBar()
+                                                          ..showSnackBar(
+                                                              snackBar);
+
+                                                        setState(() {
+                                                          loading = false;
+                                                        });
+                                                      }));
+
+                                              loading = false;
+                                            });
+                                          }
+                                        } else {
+                                          continue;
+                                        }
+
+                                        setState(() {
+                                          loading = false;
+                                        });
+                                      }
+                                    },
+                                    child: Text("নিশ্চিত করবেন".toBijoy,
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "SiyamRupali"))),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
               ];
             })
           ]),
@@ -1657,7 +1896,7 @@ class _AllStudentsState extends State<AllStudents> {
                           DataColumn(
                             label: Text('Father Phone No'),
                           ),
-                           DataColumn(
+                          DataColumn(
                             label: Text('Status'),
                           ),
                           DataColumn(
@@ -1695,11 +1934,19 @@ class _AllStudentsState extends State<AllStudents> {
                                       '${AllData[index]["StudentPhoneNumber"]}')),
                                   DataCell(Text(
                                       '${AllData[index]["FatherPhoneNo"]}')),
-
                                   DataCell(Text(
-                                      AllData[index]["StudentStatus"].toString().toUpperCase(), style: TextStyle(fontSize: 16, color:AllData[index]["StudentStatus"]=="new"?Colors.red:Colors.green, fontWeight: FontWeight.bold),)),
-
-
+                                    AllData[index]["StudentStatus"]
+                                        .toString()
+                                        .toUpperCase(),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: AllData[index]
+                                                    ["StudentStatus"] ==
+                                                "new"
+                                            ? Colors.red
+                                            : Colors.green,
+                                        fontWeight: FontWeight.bold),
+                                  )),
                                   DataCell(
                                     Text('Click Me'),
                                     onTap: () async {
@@ -1745,282 +1992,258 @@ class _AllStudentsState extends State<AllStudents> {
                                       },
                                       itemBuilder: (BuildContext bc) {
                                         return [
-
-                                           PopupMenuItem(
+                                          PopupMenuItem(
                                             onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  String SelectedExam = "";
 
-                                      
-                                      showDialog(context: context, 
-                                      
-                                      builder: (context) {
+                                                  String SelectedSubject = "";
 
-                                        String SelectedExam ="";
+                                                  String SelectedPIAndBI = "";
 
-                                        String SelectedSubject = "";
-
-                                        String SelectedPIAndBI ="";
-
-
-                                        return StatefulBuilder(builder: (context, setState){
-
-                                          return AlertDialog(
-
-                                            title: Text("মূল্যায়ন নির্বাচন করবেন".toBijoy, style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" )),
-
-                                            content: SingleChildScrollView(
-
-                                              child: Column(
-                                                children: [
-
-
-                                                           DropdownButton(
-                                           hint: SelectedExam ==
-                                                                        ""
-                                                   ?   Text("মূল্যায়ন নির্বাচন করবেন".toBijoy, style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" ))
-
-
-                                                   :Text("${SelectedExam.toBijoy}", style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" )),
-
-
-                                                    isExpanded:
-                                                                    true,
-                                                                iconSize: 30.0,
-                                                                style: TextStyle(
-                                                                    color: ColorName()
-                                                                        .appColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        16),
-                                                                items: [
-                                                                  "ষাণ্মাসিক শিখনকালীন মূল্যায়ন",
-
-                                                                  'ষাণ্মাসিক সামষ্টিক মূল্যায়ন',
-
-                                                                  "বাৎসরিক শিখনকালীন মূল্যায়ন",
-
-                                                                  "বাৎসরিক সামষ্টিক মূল্যায়ন"
-
-                                                                ].map(
-                                                                  (val) {
-                                                                    return DropdownMenuItem<
-                                                                        String>(
-                                                                      value:
-                                                                          val,
-                                                                      child: Text(
-                                                                          val),
-                                                                    );
-                                                                  },
-                                                                ).toList(),
-                                                                onChanged:
-                                                                    (val) {
-                                                                  setState(
-                                                                    () {
-                                                                      SelectedExam =
-                                                                          val!;
-
-                                                                      print(
-                                                                          val);
-                                                                    },
+                                                  return StatefulBuilder(
+                                                      builder:
+                                                          (context, setState) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          "মূল্যায়ন নির্বাচন করবেন"
+                                                              .toBijoy,
+                                                          style: const TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontFamily:
+                                                                  "SiyamRupali")),
+                                                      content:
+                                                          SingleChildScrollView(
+                                                        child: Column(
+                                                          children: [
+                                                            DropdownButton(
+                                                              hint: SelectedExam == ""
+                                                                  ? Text(
+                                                                      "মূল্যায়ন নির্বাচন করবেন"
+                                                                          .toBijoy,
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontFamily:
+                                                                              "SiyamRupali"))
+                                                                  : Text(
+                                                                      "${SelectedExam.toBijoy}",
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontFamily:
+                                                                              "SiyamRupali")),
+                                                              isExpanded: true,
+                                                              iconSize: 30.0,
+                                                              style: TextStyle(
+                                                                  color: ColorName()
+                                                                      .appColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 16),
+                                                              items: [
+                                                                "ষাণ্মাসিক শিখনকালীন মূল্যায়ন",
+                                                                'ষাণ্মাসিক সামষ্টিক মূল্যায়ন',
+                                                                "বাৎসরিক শিখনকালীন মূল্যায়ন",
+                                                                "বাৎসরিক সামষ্টিক মূল্যায়ন"
+                                                              ].map(
+                                                                (val) {
+                                                                  return DropdownMenuItem<
+                                                                      String>(
+                                                                    value: val,
+                                                                    child: Text(
+                                                                        val),
                                                                   );
                                                                 },
-                                                              ),
+                                                              ).toList(),
+                                                              onChanged: (val) {
+                                                                setState(
+                                                                  () {
+                                                                    SelectedExam =
+                                                                        val!;
 
-
-                                  const SizedBox(height: 20,),
-
-                                  
-
-                                  DropdownButton(
-                                           hint: SelectedSubject ==
-                                                                        ""
-                                                   ?  Text("বিষয় নির্বাচন করবেন".toBijoy, style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" ))
-
-
-                                                   :Text("${SelectedSubject.toBijoy}", style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" )),
-
-
-                                                    isExpanded:
-                                                                    true,
-                                                                iconSize: 30.0,
-                                                                style: TextStyle(
-                                                                    color: ColorName()
-                                                                        .appColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        16),
-                                                                items: [
-                                                                  "বাংলা",
-
-                                                                  'ইংরেজি',
-
-                                                                  "গণিত",
-
-                                                                  "বিজ্ঞান অনুসন্ধানী পাঠ",
-
-                                                                  "বিজ্ঞান অনুশীলন বই",
-
-                                                                  "ইতিহাস ও সামাজিক বিজ্ঞান অনুসন্ধানী পাঠ",
-
-                                                                  "ইতিহাস ও সামাজিক বিজ্ঞান অনুশীলন বই",
-
-                                                                  "ডিজিটাল প্রযুক্তি",
-
-                                                                  "স্বাস্থ্য সুরক্ষা",
-
-                                                                  "জীবন ও জীবিকা",
-
-                                                                  "শিল্প ও সংস্কৃতি",
-
-                                                                  "ইসলাম শিক্ষা",
-
-                                                                  "হিন্দুর্ধম শিক্ষা",
-
-                                                                  "খ্রিষ্টধর্ম শিক্ষা",
-
-                                                                  "বৌদ্ধধর্ম শিক্ষা",
-
-                                                                ].map(
-                                                                  (val) {
-                                                                    return DropdownMenuItem<
-                                                                        String>(
-                                                                      value:
-                                                                          val,
-                                                                      child: Text(
-                                                                          val),
-                                                                    );
+                                                                    print(val);
                                                                   },
-                                                                ).toList(),
-                                                                onChanged:
-                                                                    (val) {
-                                                                  setState(
-                                                                    () {
-                                                                     SelectedSubject =
-                                                                          val!;
-
-                                                                      print(
-                                                                          val);
-                                                                    },
+                                                                );
+                                                              },
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            DropdownButton(
+                                                              hint: SelectedSubject == ""
+                                                                  ? Text(
+                                                                      "বিষয় নির্বাচন করবেন"
+                                                                          .toBijoy,
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontFamily:
+                                                                              "SiyamRupali"))
+                                                                  : Text(
+                                                                      "${SelectedSubject.toBijoy}",
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontFamily:
+                                                                              "SiyamRupali")),
+                                                              isExpanded: true,
+                                                              iconSize: 30.0,
+                                                              style: TextStyle(
+                                                                  color: ColorName()
+                                                                      .appColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 16),
+                                                              items: [
+                                                                "বাংলা",
+                                                                'ইংরেজি',
+                                                                "গণিত",
+                                                                "বিজ্ঞান অনুসন্ধানী পাঠ",
+                                                                "বিজ্ঞান অনুশীলন বই",
+                                                                "ইতিহাস ও সামাজিক বিজ্ঞান অনুসন্ধানী পাঠ",
+                                                                "ইতিহাস ও সামাজিক বিজ্ঞান অনুশীলন বই",
+                                                                "ডিজিটাল প্রযুক্তি",
+                                                                "স্বাস্থ্য সুরক্ষা",
+                                                                "জীবন ও জীবিকা",
+                                                                "শিল্প ও সংস্কৃতি",
+                                                                "ইসলাম শিক্ষা",
+                                                                "হিন্দুর্ধম শিক্ষা",
+                                                                "খ্রিষ্টধর্ম শিক্ষা",
+                                                                "বৌদ্ধধর্ম শিক্ষা",
+                                                              ].map(
+                                                                (val) {
+                                                                  return DropdownMenuItem<
+                                                                      String>(
+                                                                    value: val,
+                                                                    child: Text(
+                                                                        val),
                                                                   );
                                                                 },
-                                                              ),
+                                                              ).toList(),
+                                                              onChanged: (val) {
+                                                                setState(
+                                                                  () {
+                                                                    SelectedSubject =
+                                                                        val!;
 
-
-              const SizedBox(height: 20,),
-
-
-
-
-              DropdownButton(
-                     hint: SelectedPIAndBI ==""
-                           ? Text('পিআই অথবা বিআই নির্বাচন করবেন'.toBijoy, style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" ))
-                              : Text(SelectedPIAndBI,style: TextStyle(
-                                      color:ColorName().appColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                        ),
-                                       isExpanded:true,
-                                       iconSize: 30.0,
-                                      style: TextStyle(
-                                        color: ColorName().appColor,
-                                        fontWeight:FontWeight.bold,
-                                         fontSize:16),
-
-
-
-                                        items: [
-                                          "PI",
-                                          "BI"
-                                        ].map(
-                                            (val) {
-                                             return DropdownMenuItem<String>(
-                                                          value:val,
-                                                          child: Text(val),
-                                                                    );
+                                                                    print(val);
                                                                   },
-                                                                ).toList(),
-                                                                onChanged:
-                                                                    (val) {
-                                                                  setState(
-                                                                    () {
-                                                                      SelectedPIAndBI =
-                                                                          val!;
-
-                                                                      print(
-                                                                          val);
-                                                                    },
+                                                                );
+                                                              },
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            DropdownButton(
+                                                              hint: SelectedPIAndBI ==
+                                                                      ""
+                                                                  ? Text(
+                                                                      'পিআই অথবা বিআই নির্বাচন করবেন'
+                                                                          .toBijoy,
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontFamily:
+                                                                              "SiyamRupali"))
+                                                                  : Text(
+                                                                      SelectedPIAndBI,
+                                                                      style: TextStyle(
+                                                                          color: ColorName()
+                                                                              .appColor,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontSize:
+                                                                              16),
+                                                                    ),
+                                                              isExpanded: true,
+                                                              iconSize: 30.0,
+                                                              style: TextStyle(
+                                                                  color: ColorName()
+                                                                      .appColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 16),
+                                                              items: [
+                                                                "PI",
+                                                                "BI"
+                                                              ].map(
+                                                                (val) {
+                                                                  return DropdownMenuItem<
+                                                                      String>(
+                                                                    value: val,
+                                                                    child: Text(
+                                                                        val),
                                                                   );
                                                                 },
-                                                              ),
+                                                              ).toList(),
+                                                              onChanged: (val) {
+                                                                setState(
+                                                                  () {
+                                                                    SelectedPIAndBI =
+                                                                        val!;
 
-
-
-                                                  
-
-
-
-
-                                                ],
-                                              ),
-
-                                              
-                                            ),
-
-                                    actions: [
-                                    
-                                     TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    context),
-                                                            child:
-                                                                Text("Cancel"),
-                                                          ),
-
-
-                                     ElevatedButton(
-
-                                      child: Text("Go"),
-
-                                      onPressed: (){
-
-                              
-                               Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ClassWisePI(ClassName: widget.ClassName, ExamName: SelectedExam, SubjectName: SelectedSubject, RollNo: AllData[index]["RollNo"], StudentEmail: AllData[index]["StudentEmail"],)));
-
-
-
-                                      },
-
-                                           ),
-
-
-                                    ],
-
-
-                                          );
-
-
-
-                                        });
-                                        
-
-
-                                      },
-                                      
-                                      );
-
-
-                                    
-                                              
+                                                                    print(val);
+                                                                  },
+                                                                );
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          child: Text("Cancel"),
+                                                        ),
+                                                        ElevatedButton(
+                                                          child: Text("Go"),
+                                                          onPressed: () {
+                                                            Navigator.of(context).push(
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            ClassWisePI(
+                                                                              ClassName: widget.ClassName,
+                                                                              ExamName: SelectedExam,
+                                                                              SubjectName: SelectedSubject,
+                                                                              RollNo: AllData[index]["RollNo"],
+                                                                              StudentEmail: AllData[index]["StudentEmail"],
+                                                                            )));
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  });
+                                                },
+                                              );
                                             },
-                                            child:Text("মূল্যায়ন".toBijoy, style:const TextStyle(fontSize: 14, fontWeight: FontWeight.bold,fontFamily: "SiyamRupali" )) ,),
-
-
+                                            child: Text("মূল্যায়ন".toBijoy,
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: "SiyamRupali")),
+                                          ),
 
                                           PopupMenuItem(
                                             child: Text("Change Class"),
@@ -2039,101 +2262,163 @@ class _AllStudentsState extends State<AllStudents> {
                                                       return AlertDialog(
                                                         title: const Text(
                                                             "Are You Sure? You Want to Change The Class."),
-                                                        content: SingleChildScrollView(
-                                                          
+                                                        content:
+                                                            SingleChildScrollView(
                                                           child: Column(
                                                             children: [
-                  
-                  
-                  Container(
-                  height: 50,
-                  width: 160,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Color.fromRGBO(255, 143, 158, 1),
-                          Color.fromRGBO(255, 188, 143, 1),
-                        ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(25.0),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white.withOpacity(0.2),
-                          spreadRadius: 4,
-                          blurRadius: 10,
-                          offset: Offset(0, 3),
-                        )
-                      ]),
-                  child: TextButton(
-                    onPressed: () {
-                      showDatePicker(
-                        context: context,
-                        initialDatePickerMode: DatePickerMode.year,
-                        initialDate: DateTime(2000, 1, 1),
-                        firstDate: DateTime(2000, 1, 1),
-                        lastDate: DateTime(2090, 1, 1),
-                      ).then((pickedDate) {
-                        print(pickedDate);
+                                                              Container(
+                                                                height: 50,
+                                                                width: 160,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                        gradient:
+                                                                            LinearGradient(
+                                                                          colors: [
+                                                                            Color.fromRGBO(
+                                                                                255,
+                                                                                143,
+                                                                                158,
+                                                                                1),
+                                                                            Color.fromRGBO(
+                                                                                255,
+                                                                                188,
+                                                                                143,
+                                                                                1),
+                                                                          ],
+                                                                          begin:
+                                                                              Alignment.centerLeft,
+                                                                          end: Alignment
+                                                                              .centerRight,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            const BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              25.0),
+                                                                        ),
+                                                                        boxShadow: [
+                                                                      BoxShadow(
+                                                                        color: Colors
+                                                                            .white
+                                                                            .withOpacity(0.2),
+                                                                        spreadRadius:
+                                                                            4,
+                                                                        blurRadius:
+                                                                            10,
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            3),
+                                                                      )
+                                                                    ]),
+                                                                child:
+                                                                    TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    showDatePicker(
+                                                                      context:
+                                                                          context,
+                                                                      initialDatePickerMode:
+                                                                          DatePickerMode
+                                                                              .year,
+                                                                      initialDate:
+                                                                          DateTime(
+                                                                              2000,
+                                                                              1,
+                                                                              1),
+                                                                      firstDate:
+                                                                          DateTime(
+                                                                              2000,
+                                                                              1,
+                                                                              1),
+                                                                      lastDate:
+                                                                          DateTime(
+                                                                              2090,
+                                                                              1,
+                                                                              1),
+                                                                    ).then(
+                                                                        (pickedDate) {
+                                                                      print(
+                                                                          pickedDate);
 
-                        setState(() {
-                          SelectedYear = "Year: ${pickedDate?.year}";
-                        });
+                                                                      setState(
+                                                                          () {
+                                                                        SelectedYear =
+                                                                            "Year: ${pickedDate?.year}";
+                                                                      });
 
-                        // SelectedDate = "${pickedDate}";
-                        // SelectedDate = SelectedDate.split(" ")[0];
+                                                                      // SelectedDate = "${pickedDate}";
+                                                                      // SelectedDate = SelectedDate.split(" ")[0];
 
-                        print(SelectedYear);
-                        // print(SelectedDate.split(" ")[0]);
-                      });
-                    },
-                    child: Text(
-                      "${SelectedYear}",
-                      style: TextStyle(color: Colors.white, fontSize: 15),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll<Color>(ColorName().appColor),
-                    ),
-                  ),
-                ), 
+                                                                      print(
+                                                                          SelectedYear);
+                                                                      // print(SelectedDate.split(" ")[0]);
+                                                                    });
+                                                                  },
+                                                                  child: Text(
+                                                                    "${SelectedYear}",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            15),
+                                                                  ),
+                                                                  style:
+                                                                      ButtonStyle(
+                                                                    backgroundColor: MaterialStatePropertyAll<
+                                                                            Color>(
+                                                                        ColorName()
+                                                                            .appColor),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 20,
+                                                              ),
+                                                              Container(
+                                                                width: 200,
+                                                                child:
+                                                                    TextField(
+                                                                  onChanged:
+                                                                      (value) {},
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    border:
+                                                                        OutlineInputBorder(),
+                                                                    labelText:
+                                                                        'Enter New Roll No',
 
-                SizedBox(height: 20,),                                            
+                                                                    hintText:
+                                                                        'Enter New Roll No',
 
-                      
-                Container(
-                  width: 200,
-                  child: TextField(
-                    onChanged: (value) {},
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Enter New Roll No',
-
-                      hintText: 'Enter New Roll No',
-
-                      //  enabledBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-                      //     ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Theme.of(context).primaryColor),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 3, color: Color.fromARGB(255, 66, 125, 145)),
-                      ),
-                    ),
-                    controller: StudentNewRollNoController,
-                  ),
-                ),
-
-
-
-
+                                                                    //  enabledBorder: OutlineInputBorder(
+                                                                    //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                                                    //     ),
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          width:
+                                                                              3,
+                                                                          color:
+                                                                              Theme.of(context).primaryColor),
+                                                                    ),
+                                                                    errorBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide: BorderSide(
+                                                                          width:
+                                                                              3,
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              66,
+                                                                              125,
+                                                                              145)),
+                                                                    ),
+                                                                  ),
+                                                                  controller:
+                                                                      StudentNewRollNoController,
+                                                                ),
+                                                              ),
                                                               DropdownButton(
                                                                 hint: SelectedClass ==
                                                                         ""
@@ -2266,108 +2551,109 @@ class _AllStudentsState extends State<AllStudents> {
                                                           SelectedClass == ""
                                                               ? Text("")
                                                               : TextButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    var updateData =
+                                                                        {
+                                                                      "ClassName":
+                                                                          SelectedClass.toString()
+                                                                              .toLowerCase(),
+                                                                      "RollNo": StudentNewRollNoController
+                                                                          .text
+                                                                          .trim()
+                                                                          .toLowerCase(),
+                                                                      "StudentStatus":
+                                                                          "new",
+                                                                      "AdmissionYear": SelectedYear.split(
+                                                                              ":")[1]
+                                                                          .trim()
+                                                                          .toString(),
+                                                                      "Department": SelectedClass == "9" ||
+                                                                              SelectedClass == "10" ||
+                                                                              SelectedClass == "ssc"
+                                                                          ? SelectedDepartment.toString().trim()
+                                                                          : "None"
+                                                                    };
 
-                                onPressed:
-                                      () async {
+                                                                    final StudentInfo = FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                            'StudentInfo')
+                                                                        .doc(AllData[index]
+                                                                            [
+                                                                            "StudentEmail"]);
 
+                                                                    StudentInfo.update(
+                                                                            updateData)
+                                                                        .then((value) =>
+                                                                            setState(
+                                                                                () {
+                                                                              var OldInfo = {
+                                                                                "StudentName": AllData[index]["StudentName"],
+                                                                                "StudentEmail": AllData[index]["StudentEmail"],
+                                                                                "OldClassName": AllData[index]["ClassName"],
+                                                                                "TransferedClassName": SelectedClass,
+                                                                                "OldClassRoll": AllData[index]["RollNo"],
+                                                                                "OldClassYear": AllData[index]["AdmissionYear"],
+                                                                                "NewClassRoll": StudentNewRollNoController.text.trim().toLowerCase()
+                                                                              };
 
-                        var updateData ={"ClassName":SelectedClass.toString().toLowerCase(),
-                        "RollNo":StudentNewRollNoController.text.trim().toLowerCase(),
-                        "StudentStatus":"new",
-                        "AdmissionYear":SelectedYear.split(":")[1].trim().toString(),
-                        "Department":SelectedClass == "9" ||
-                                                     SelectedClass == "10" ||
-                                                     SelectedClass == "ssc"? SelectedDepartment.toString().trim():"None"
-                                                              };
+                                                                              final StudentOldInfo = FirebaseFirestore.instance.collection('StudentOldInfo').doc();
 
-                      final StudentInfo = FirebaseFirestore.instance.collection('StudentInfo')
-                      .doc(AllData[index]
-                      ["StudentEmail"]);
+                                                                              StudentOldInfo.set(OldInfo).then((value) => setState(() {})).onError(
+                                                                                    (error, stackTrace) => setState(() {}),
+                                                                                  );
 
-                     StudentInfo.update(updateData).then((value) =>setState(
-                                                       () {
+                                                                              getData();
 
-                      var OldInfo ={
+                                                                              Navigator.pop(context);
 
-                        "StudentName":AllData[index]["StudentName"],
-                        "StudentEmail":AllData[index]["StudentEmail"],
-                        "OldClassName":AllData[index]["ClassName"],
-                        "TransferedClassName":SelectedClass,
-                        "OldClassRoll":AllData[index]["RollNo"],
-                        "OldClassYear":AllData[index]["AdmissionYear"],
-                        "NewClassRoll":StudentNewRollNoController.text.trim().toLowerCase()
-                      };
+                                                                              final snackBar = SnackBar(
+                                                                                elevation: 0,
+                                                                                behavior: SnackBarBehavior.floating,
+                                                                                backgroundColor: Colors.transparent,
+                                                                                content: AwesomeSnackbarContent(
+                                                                                  title: 'Student Class Change Successfull',
+                                                                                  message: 'Hey Thank You. Good Job',
 
-                        
-                      
-
-
-                      final StudentOldInfo = FirebaseFirestore.instance.collection('StudentOldInfo')
-                      .doc();
-
-
-                       StudentOldInfo.set(OldInfo).then((value) =>setState(
-                                                       () {})).onError((error, stackTrace) => setState((){
-
-
-
-                                                       }),);
-
-
-                                          
-
-
-
-                                              getData();
-
-                                                Navigator.pop(context);
-
-                                    final snackBar = SnackBar(
-                                           elevation: 0,
-                                           behavior: SnackBarBehavior.floating,
-                                           backgroundColor: Colors.transparent,
-                                           content: AwesomeSnackbarContent(
-                                           title: 'Student Class Change Successfull',
-                                           message: 'Hey Thank You. Good Job',
-
-                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                          contentType: ContentType.success,
-                                                       ),
-                                                        );
-
-                                               ScaffoldMessenger.of(context)
-                                                             ..hideCurrentSnackBar()
-                                                                ..showSnackBar(snackBar);
-
-                                                              setState(() {
-                                                                loading = false;
-                                                                              });
-                                                                            }))
-                                                        .onError((error,
-                                                                       stackTrace) =>
-                                                                  setState(() {
-                                                                    final snackBar = SnackBar(
-                                                   /// need to set following properties for best effect of awesome_snackbar_content
-                                                    elevation: 0,
-                                                  behavior: SnackBarBehavior.floating,
-                                                  backgroundColor: Colors.transparent,
-                                                  content: AwesomeSnackbarContent(
-                                                  title: 'Something Wrong!!!!',
-                                                  message: 'Try again later...',
-
-                                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                                  contentType: ContentType.failure,
+                                                                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                  contentType: ContentType.success,
                                                                                 ),
                                                                               );
 
-                                              ScaffoldMessenger.of(context)
-                                                     ..hideCurrentSnackBar()
-                                                     ..showSnackBar(snackBar);
+                                                                              ScaffoldMessenger.of(context)
+                                                                                ..hideCurrentSnackBar()
+                                                                                ..showSnackBar(snackBar);
 
-                                                   setState(() {
-                                                      loading = false;
-                                                               });
-                                                            }));
+                                                                              setState(() {
+                                                                                loading = false;
+                                                                              });
+                                                                            }))
+                                                                        .onError((error,
+                                                                                stackTrace) =>
+                                                                            setState(() {
+                                                                              final snackBar = SnackBar(
+                                                                                /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                elevation: 0,
+                                                                                behavior: SnackBarBehavior.floating,
+                                                                                backgroundColor: Colors.transparent,
+                                                                                content: AwesomeSnackbarContent(
+                                                                                  title: 'Something Wrong!!!!',
+                                                                                  message: 'Try again later...',
+
+                                                                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                  contentType: ContentType.failure,
+                                                                                ),
+                                                                              );
+
+                                                                              ScaffoldMessenger.of(context)
+                                                                                ..hideCurrentSnackBar()
+                                                                                ..showSnackBar(snackBar);
+
+                                                                              setState(() {
+                                                                                loading = false;
+                                                                              });
+                                                                            }));
                                                                   },
                                                                   child: Text(
                                                                       "Change"),
@@ -2473,64 +2759,77 @@ class _AllStudentsState extends State<AllStudents> {
                                                               : TextButton(
                                                                   onPressed:
                                                                       () async {
+                                                                    var updateData =
+                                                                        {
+                                                                      "StudentStatus": SelectedStudentStatus
+                                                                              .toString()
+                                                                          .toLowerCase()
+                                                                          .trim()
+                                                                    };
 
+                                                                    final StudentInfo = FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                            'StudentInfo')
+                                                                        .doc(AllData[index]
+                                                                            [
+                                                                            "StudentEmail"]);
 
-            var updateData =
-                      {
-                        "StudentStatus": SelectedStudentStatus.toString().toLowerCase().trim()
-                        };
+                                                                    StudentInfo.update(
+                                                                            updateData)
+                                                                        .then((value) =>
+                                                                            setState(
+                                                                                () {
+                                                                              getData();
 
-                  final StudentInfo = FirebaseFirestore.instance.collection('StudentInfo').doc(AllData[index]["StudentEmail"]);
-                  
-                  StudentInfo.update(updateData).then((value) =>setState(() {
-                                          getData();
+                                                                              Navigator.pop(context);
 
-                                        Navigator.pop(context);
+                                                                              final snackBar = SnackBar(
+                                                                                elevation: 0,
+                                                                                behavior: SnackBarBehavior.floating,
+                                                                                backgroundColor: Colors.transparent,
+                                                                                content: AwesomeSnackbarContent(
+                                                                                  title: 'Student Status Change Successfull',
+                                                                                  message: 'Hey Thank You. Good Job',
 
-                                final snackBar = SnackBar(
-                                        elevation: 0,
-                                        behavior: SnackBarBehavior.floating,
-                                        backgroundColor: Colors.transparent,
-                                        content: AwesomeSnackbarContent(
-                                        title: 'Student Status Change Successfull',
-                                        message: 'Hey Thank You. Good Job',
+                                                                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                  contentType: ContentType.success,
+                                                                                ),
+                                                                              );
 
-                          /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                        contentType: ContentType.success,
-                                                ),
-                                            );
+                                                                              ScaffoldMessenger.of(context)
+                                                                                ..hideCurrentSnackBar()
+                                                                                ..showSnackBar(snackBar);
 
-                    ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
+                                                                              setState(() {
+                                                                                loading = false;
+                                                                              });
+                                                                            }))
+                                                                        .onError((error,
+                                                                                stackTrace) =>
+                                                                            setState(() {
+                                                                              final snackBar = SnackBar(
+                                                                                /// need to set following properties for best effect of awesome_snackbar_content
+                                                                                elevation: 0,
+                                                                                behavior: SnackBarBehavior.floating,
+                                                                                backgroundColor: Colors.transparent,
+                                                                                content: AwesomeSnackbarContent(
+                                                                                  title: 'Something Wrong!!!!',
+                                                                                  message: 'Try again later...',
 
-                       setState(() {
-                        loading = false;
-                             });
-                            }))
-                      .onError((error,stackTrace) =>setState(() {
-                        final snackBar = SnackBar(
-                  /// need to set following properties for best effect of awesome_snackbar_content
-                        elevation: 0,
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: Colors.transparent,
-                        content: AwesomeSnackbarContent(
-                        title: 'Something Wrong!!!!',
-                        message: 'Try again later...',
+                                                                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                                                  contentType: ContentType.failure,
+                                                                                ),
+                                                                              );
 
-            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                        contentType: ContentType.failure,
-                            ),
-                        );
+                                                                              ScaffoldMessenger.of(context)
+                                                                                ..hideCurrentSnackBar()
+                                                                                ..showSnackBar(snackBar);
 
-                ScaffoldMessenger.of(context)..hideCurrentSnackBar()..showSnackBar(snackBar);
-
-                      setState(() {
-                            loading = false;
-                               });
-                      }));
-
-
-
-
+                                                                              setState(() {
+                                                                                loading = false;
+                                                                              });
+                                                                            }));
                                                                   },
                                                                   child: Text(
                                                                       "Change"),
@@ -2846,7 +3145,10 @@ class _AllStudentsState extends State<AllStudents> {
                                                           ExamDate: "",
                                                           ClassName:
                                                               widget.ClassName,
-                                                          ExamStarttingDate: "", ExamResultID: "", TotalExamFeeCollection: "",
+                                                          ExamStarttingDate: "",
+                                                          ExamResultID: "",
+                                                          TotalExamFeeCollection:
+                                                              "",
                                                         )),
                                               );
                                             },
@@ -2903,45 +3205,33 @@ class _AllStudentsState extends State<AllStudents> {
                                             },
                                           ),
 
-
-                    PopupMenuItem(
-                       child: Text("Upload File"),
-                       value: '/about',
-                       onTap: () async {
-
-
-                        Navigator.push(
+                                          PopupMenuItem(
+                                            child: Text("Upload File"),
+                                            value: '/about',
+                                            onTap: () async {
+                                              Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                       StudentFileAndFileUpload(StudentEmail: AllData[index]
-                                                              ["StudentEmail"],
-                                                              
-                                                               FatherPhoneNo: AllData[index]
-                                                              ["FatherPhoneNo"], 
-                                                              
-                                                              RollNumber:  AllData[index]
-                                                              ["RollNo"], StudentClassName: AllData[index]
-                                                              ["ClassName"],  StudentPhoneNumber: AllData[index]
-                                                              ["StudentPhoneNumber"])),
+                                                        StudentFileAndFileUpload(
+                                                            StudentEmail:
+                                                                AllData[index][
+                                                                    "StudentEmail"],
+                                                            FatherPhoneNo: AllData[
+                                                                    index][
+                                                                "FatherPhoneNo"],
+                                                            RollNumber:
+                                                                AllData[index]
+                                                                    ["RollNo"],
+                                                            StudentClassName:
+                                                                AllData[index][
+                                                                    "ClassName"],
+                                                            StudentPhoneNumber:
+                                                                AllData[index]
+                                                                    ["StudentPhoneNumber"])),
                                               );
-                    
                                             },
                                           ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                         ];
                                       },
                                     ),
@@ -2951,14 +3241,4 @@ class _AllStudentsState extends State<AllStudents> {
                 ),
     );
   }
-
-
-
-
-
-  
- 
-
-
-
 }
