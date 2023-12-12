@@ -1660,6 +1660,62 @@ class _AllStudentsState extends State<AllStudents> {
 
                                       List AllPINo = [];
 
+                                      Future closeChurantoPI(
+                                          List ExamName,
+                                          String SubjectName,
+                                          String year) async {
+                                        // Get docs from collection reference
+                                        CollectionReference
+                                            _ChurantoPICollectionRef =
+                                            FirebaseFirestore.instance
+                                                .collection(
+                                                    'ChurantoSchoolPIData');
+
+                                        Query _ChurantoPICollectionRefCount =
+                                            _ChurantoPICollectionRef.where(
+                                                    "ClassName",
+                                                    isEqualTo: widget.ClassName)
+                                                .where("SubjectName",
+                                                    isEqualTo:
+                                                        SubjectName.toBijoy)
+                                                .where("ExamName",
+                                                    isEqualTo: ExamName)
+                                                .where("year", isEqualTo: year);
+
+                                        QuerySnapshot ChurantoPISnapshot =
+                                            await _ChurantoPICollectionRefCount
+                                                .get();
+
+                                        List AllChurantoPI = ChurantoPISnapshot
+                                            .docs
+                                            .map((doc) => doc.data())
+                                            .toList();
+
+                                        if (AllChurantoPI.isEmpty) {
+
+
+                                        } else {
+                                          CollectionReference collectionRef =
+                                              FirebaseFirestore.instance
+                                                  .collection(
+                                                      'ChurantoSchoolPIData');
+                                          collectionRef
+                                              .doc(AllChurantoPI[0]["ChurantoPIID"])
+                                              .delete()
+                                              .then(
+                                                (doc) => setState(() {print("Delete Successfull");}),
+                                                onError: (e) => setState(() {}),
+                                              );
+                                        }
+                                      }
+
+                                      // close same churanto PI Function
+
+                                      closeChurantoPI(
+                                          SelectedExamNameList,
+                                          SelectedSubject.toBijoy,
+                                          "${DateTime.now().year}");
+
                                       for (int ExamNameIndex = 0;
                                           ExamNameIndex <
                                               SelectedExamNameList.length;
@@ -1817,16 +1873,15 @@ class _AllStudentsState extends State<AllStudents> {
                                                         });
                                                       }));
 
-                                              loading = false;
                                             });
                                           }
                                         } else {
                                           continue;
                                         }
 
-                                        setState(() {
-                                          loading = false;
-                                        });
+                                        // setState(() {
+                                        //   loading = false;
+                                        // });
                                       }
                                     },
                                     child: Text("নিশ্চিত করবেন".toBijoy,
@@ -2245,6 +2300,281 @@ class _AllStudentsState extends State<AllStudents> {
                                                     fontFamily: "SiyamRupali")),
                                           ),
 
+
+
+
+
+
+                                          PopupMenuItem(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  String SelectedExam = "";
+
+                                                  String SelectedSubject = "";
+
+                                                  String SelectedPIAndBI = "";
+
+                                                  return StatefulBuilder(
+                                                      builder:
+                                                          (context, setState) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          "মূল্যায়ন নির্বাচন করবেন"
+                                                              .toBijoy,
+                                                          style: const TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontFamily:
+                                                                  "SiyamRupali")),
+                                                      content:
+                                                          SingleChildScrollView(
+                                                        child: Column(
+                                                          children: [
+                                                            DropdownButton(
+                                                              hint: SelectedExam == ""
+                                                                  ? Text(
+                                                                      "মূল্যায়ন নির্বাচন করবেন"
+                                                                          .toBijoy,
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontFamily:
+                                                                              "SiyamRupali"))
+                                                                  : Text(
+                                                                      "${SelectedExam.toBijoy}",
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontFamily:
+                                                                              "SiyamRupali")),
+                                                              isExpanded: true,
+                                                              iconSize: 30.0,
+                                                              style: TextStyle(
+                                                                  color: ColorName()
+                                                                      .appColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 16),
+                                                              items: [
+                                                                "ষাণ্মাসিক শিখনকালীন মূল্যায়ন",
+                                                                'ষাণ্মাসিক সামষ্টিক মূল্যায়ন',
+                                                                "বাৎসরিক শিখনকালীন মূল্যায়ন",
+                                                                "বাৎসরিক সামষ্টিক মূল্যায়ন"
+                                                              ].map(
+                                                                (val) {
+                                                                  return DropdownMenuItem<
+                                                                      String>(
+                                                                    value: val,
+                                                                    child: Text(
+                                                                        val),
+                                                                  );
+                                                                },
+                                                              ).toList(),
+                                                              onChanged: (val) {
+                                                                setState(
+                                                                  () {
+                                                                    SelectedExam =
+                                                                        val!;
+
+                                                                    print(val);
+                                                                  },
+                                                                );
+                                                              },
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            DropdownButton(
+                                                              hint: SelectedSubject == ""
+                                                                  ? Text(
+                                                                      "বিষয় নির্বাচন করবেন"
+                                                                          .toBijoy,
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontFamily:
+                                                                              "SiyamRupali"))
+                                                                  : Text(
+                                                                      "${SelectedSubject.toBijoy}",
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontFamily:
+                                                                              "SiyamRupali")),
+                                                              isExpanded: true,
+                                                              iconSize: 30.0,
+                                                              style: TextStyle(
+                                                                  color: ColorName()
+                                                                      .appColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 16),
+                                                              items: [
+                                                                "বাংলা",
+                                                                'ইংরেজি',
+                                                                "গণিত",
+                                                                "বিজ্ঞান অনুসন্ধানী পাঠ",
+                                                                "বিজ্ঞান অনুশীলন বই",
+                                                                "ইতিহাস ও সামাজিক বিজ্ঞান অনুসন্ধানী পাঠ",
+                                                                "ইতিহাস ও সামাজিক বিজ্ঞান অনুশীলন বই",
+                                                                "ডিজিটাল প্রযুক্তি",
+                                                                "স্বাস্থ্য সুরক্ষা",
+                                                                "জীবন ও জীবিকা",
+                                                                "শিল্প ও সংস্কৃতি",
+                                                                "ইসলাম শিক্ষা",
+                                                                "হিন্দুর্ধম শিক্ষা",
+                                                                "খ্রিষ্টধর্ম শিক্ষা",
+                                                                "বৌদ্ধধর্ম শিক্ষা",
+                                                              ].map(
+                                                                (val) {
+                                                                  return DropdownMenuItem<
+                                                                      String>(
+                                                                    value: val,
+                                                                    child: Text(
+                                                                        val),
+                                                                  );
+                                                                },
+                                                              ).toList(),
+                                                              onChanged: (val) {
+                                                                setState(
+                                                                  () {
+                                                                    SelectedSubject =
+                                                                        val!;
+
+                                                                    print(val);
+                                                                  },
+                                                                );
+                                                              },
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            DropdownButton(
+                                                              hint: SelectedPIAndBI ==
+                                                                      ""
+                                                                  ? Text(
+                                                                      'পিআই অথবা বিআই নির্বাচন করবেন'
+                                                                          .toBijoy,
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontFamily:
+                                                                              "SiyamRupali"))
+                                                                  : Text(
+                                                                      SelectedPIAndBI,
+                                                                      style: TextStyle(
+                                                                          color: ColorName()
+                                                                              .appColor,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontSize:
+                                                                              16),
+                                                                    ),
+                                                              isExpanded: true,
+                                                              iconSize: 30.0,
+                                                              style: TextStyle(
+                                                                  color: ColorName()
+                                                                      .appColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 16),
+                                                              items: [
+                                                                "PI",
+                                                                "BI"
+                                                              ].map(
+                                                                (val) {
+                                                                  return DropdownMenuItem<
+                                                                      String>(
+                                                                    value: val,
+                                                                    child: Text(
+                                                                        val),
+                                                                  );
+                                                                },
+                                                              ).toList(),
+                                                              onChanged: (val) {
+                                                                setState(
+                                                                  () {
+                                                                    SelectedPIAndBI =
+                                                                        val!;
+
+                                                                    print(val);
+                                                                  },
+                                                                );
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          child: Text("Cancel"),
+                                                        ),
+                                                        ElevatedButton(
+                                                          child: Text("Go"),
+                                                          onPressed: () {
+                                                            Navigator.of(context).push(
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            ClassWisePI(
+                                                                              ClassName: widget.ClassName,
+                                                                              ExamName: SelectedExam,
+                                                                              SubjectName: SelectedSubject,
+                                                                              RollNo: AllData[index]["RollNo"],
+                                                                              StudentEmail: AllData[index]["StudentEmail"],
+                                                                            )));
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  });
+                                                },
+                                              );
+                                            },
+                                            child: Text("চূড়ান্ত ট্রান্সক্রিপ্ট".toBijoy,
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: "SiyamRupali")),
+                                          ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                           PopupMenuItem(
                                             child: Text("Change Class"),
                                             value: '/hello',
@@ -2272,7 +2602,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                                 decoration:
                                                                     BoxDecoration(
                                                                         gradient:
-                                                                            LinearGradient(
+                                                                            const LinearGradient(
                                                                           colors: [
                                                                             Color.fromRGBO(
                                                                                 255,
