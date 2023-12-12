@@ -8,6 +8,7 @@ import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/MonthlyFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/OtherFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/PIandBIExam/ClassWisePI.dart';
+import 'package:dhuroil/Screens/Students/PIandBIExam/TranscriptPI.dart';
 import 'package:dhuroil/Screens/Students/Pay/AllPay.dart';
 import 'package:dhuroil/Screens/Students/PerClassRoutineView.dart';
 import 'package:dhuroil/Screens/Students/ShowAttendance.dart';
@@ -2315,13 +2316,21 @@ class _AllStudentsState extends State<AllStudents> {
                                                   String SelectedSubject = "";
 
                                                   String SelectedPIAndBI = "";
+                                                  
+                                                  bool? checkedValueOne = false;
+
+                                                  bool? checkedValueTwo = false;
+
+                                                  bool? checkedValueThree = false;
+
+                                                  bool? checkedValueFour = false;
 
                                                   return StatefulBuilder(
                                                       builder:
                                                           (context, setState) {
                                                     return AlertDialog(
                                                       title: Text(
-                                                          "মূল্যায়ন নির্বাচন করবেন"
+                                                          "ট্রান্সক্রিপ্ট তৈরীর জন্য যে যে মূল্যায়ন নিয়ে তৈরী করতে চান তা অবশ্যই নির্বাচন করবেন।"
                                                               .toBijoy,
                                                           style: const TextStyle(
                                                               fontSize: 14,
@@ -2334,62 +2343,83 @@ class _AllStudentsState extends State<AllStudents> {
                                                           SingleChildScrollView(
                                                         child: Column(
                                                           children: [
-                                                            DropdownButton(
-                                                              hint: SelectedExam == ""
-                                                                  ? Text(
-                                                                      "মূল্যায়ন নির্বাচন করবেন"
-                                                                          .toBijoy,
-                                                                      style: const TextStyle(
-                                                                          fontSize:
-                                                                              14,
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          fontFamily:
-                                                                              "SiyamRupali"))
-                                                                  : Text(
-                                                                      "${SelectedExam.toBijoy}",
-                                                                      style: const TextStyle(
-                                                                          fontSize:
-                                                                              14,
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          fontFamily:
-                                                                              "SiyamRupali")),
-                                                              isExpanded: true,
-                                                              iconSize: 30.0,
-                                                              style: TextStyle(
-                                                                  color: ColorName()
-                                                                      .appColor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 16),
-                                                              items: [
-                                                                "ষাণ্মাসিক শিখনকালীন মূল্যায়ন",
-                                                                'ষাণ্মাসিক সামষ্টিক মূল্যায়ন',
-                                                                "বাৎসরিক শিখনকালীন মূল্যায়ন",
-                                                                "বাৎসরিক সামষ্টিক মূল্যায়ন"
-                                                              ].map(
-                                                                (val) {
-                                                                  return DropdownMenuItem<
-                                                                      String>(
-                                                                    value: val,
-                                                                    child: Text(
-                                                                        val),
-                                                                  );
-                                                                },
-                                                              ).toList(),
-                                                              onChanged: (val) {
-                                                                setState(
-                                                                  () {
-                                                                    SelectedExam =
-                                                                        val!;
 
-                                                                    print(val);
-                                                                  },
-                                                                );
-                                                              },
-                                                            ),
+                                    
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "ষাণ্মাসিক শিখনকালীন মূল্যায়ন"
+                                              .toBijoy,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueOne,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueOne = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "ষাণ্মাসিক সামষ্টিক মূল্যায়ন".toBijoy,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueTwo,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueTwo = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "বাৎসরিক শিখনকালীন মূল্যায়ন".toBijoy,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueThree,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueThree = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "বাৎসরিক সামষ্টিক মূল্যায়ন".toBijoy,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueFour,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueFour = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                                      
                                                             const SizedBox(
                                                               height: 20,
                                                             ),
@@ -2463,62 +2493,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                             const SizedBox(
                                                               height: 20,
                                                             ),
-                                                            DropdownButton(
-                                                              hint: SelectedPIAndBI ==
-                                                                      ""
-                                                                  ? Text(
-                                                                      'পিআই অথবা বিআই নির্বাচন করবেন'
-                                                                          .toBijoy,
-                                                                      style: const TextStyle(
-                                                                          fontSize:
-                                                                              14,
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          fontFamily:
-                                                                              "SiyamRupali"))
-                                                                  : Text(
-                                                                      SelectedPIAndBI,
-                                                                      style: TextStyle(
-                                                                          color: ColorName()
-                                                                              .appColor,
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          fontSize:
-                                                                              16),
-                                                                    ),
-                                                              isExpanded: true,
-                                                              iconSize: 30.0,
-                                                              style: TextStyle(
-                                                                  color: ColorName()
-                                                                      .appColor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 16),
-                                                              items: [
-                                                                "PI",
-                                                                "BI"
-                                                              ].map(
-                                                                (val) {
-                                                                  return DropdownMenuItem<
-                                                                      String>(
-                                                                    value: val,
-                                                                    child: Text(
-                                                                        val),
-                                                                  );
-                                                                },
-                                                              ).toList(),
-                                                              onChanged: (val) {
-                                                                setState(
-                                                                  () {
-                                                                    SelectedPIAndBI =
-                                                                        val!;
-
-                                                                    print(val);
-                                                                  },
-                                                                );
-                                                              },
-                                                            ),
+                                                    
                                                           ],
                                                         ),
                                                       ),
@@ -2536,13 +2511,23 @@ class _AllStudentsState extends State<AllStudents> {
                                                                 MaterialPageRoute(
                                                                     builder:
                                                                         (context) =>
-                                                                            ClassWisePI(
+                                                                            TranscriptPI(
                                                                               ClassName: widget.ClassName,
                                                                               ExamName: SelectedExam,
                                                                               SubjectName: SelectedSubject,
                                                                               RollNo: AllData[index]["RollNo"],
-                                                                              StudentEmail: AllData[index]["StudentEmail"],
+                                                                              StudentEmail: AllData[index]["StudentEmail"], SelectedExam:[
+                                                                                                 checkedValueOne,
+                                                                                                checkedValueTwo,
+                                                                                                checkedValueThree,
+                                                                                                checkedValueFour
+                                                                                                            ],
                                                                             )));
+
+                                 
+
+
+
                                                           },
                                                         ),
                                                       ],
@@ -2551,7 +2536,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                 },
                                               );
                                             },
-                                            child: Text("চূড়ান্ত ট্রান্সক্রিপ্ট".toBijoy,
+                                            child: Text("ট্রান্সক্রিপ্ট".toBijoy,
                                                 style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.bold,
