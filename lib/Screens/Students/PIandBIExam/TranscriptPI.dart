@@ -55,76 +55,6 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
 
   String SelectedPIID = "";
 
-  Future updateData(String FileID, BuildContext context) async {
-    setState(() {
-      loading = true;
-    });
-
-    final docUser =
-        FirebaseFirestore.instance.collection("NoticeInfo").doc(FileID);
-
-    final UpadateData = {
-      "Date": DateTime.now().toIso8601String(),
-      "month": "${DateTime.now().month}/${DateTime.now().year}",
-      "year": "${DateTime.now().year}",
-    };
-
-    // user Data Update and show snackbar
-
-    docUser
-        .set(UpadateData)
-        .then((value) => setState(() {
-              getData();
-
-              setState(() {
-                loading = false;
-              });
-
-              print("Done");
-
-              final snackBar = SnackBar(
-                /// need to set following properties for best effect of awesome_snackbar_content
-                elevation: 0,
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                content: AwesomeSnackbarContent(
-                  title: 'Your Image Upload Successfull',
-                  message: 'Your Image Upload Successfull',
-
-                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                  contentType: ContentType.success,
-                ),
-              );
-
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(snackBar);
-            }))
-        .onError((error, stackTrace) => setState(() {
-              loading = false;
-
-              final snackBar = SnackBar(
-                /// need to set following properties for best effect of awesome_snackbar_content
-                elevation: 0,
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                content: AwesomeSnackbarContent(
-                  title: 'Image Upload Failed',
-                  message: 'Image Upload Failed',
-
-                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                  contentType: ContentType.failure,
-                ),
-              );
-
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(snackBar);
-
-              print(error);
-            }));
-  }
-
   // Firebase All Customer Data Load
 
   List AllData = [];
@@ -154,14 +84,14 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
 
       loading = false;
 
-      getStudentPIData();
+      // getStudentPIData();
     });
 
     print(AllData);
   }
 
   List TranscriptData = [];
-
+  List PIFatherNoReportCard = [];
   List ChurantoSchoolPIDataList = [];
 
   List AllExamName = [
@@ -285,56 +215,66 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
             continue;
           }
         }
-
-        print("________________________________________${TranscriptData}");
       }
-
-      // print(SamePIAllExamAnswer);
-
-      // var maximumValue;
-
-      // for (int index = 0; index < SamePIAllExamAnswer.length; index++) {
-      //   if (SamePIAllExamAnswer[index] == Allvalue) {
-      //     setState(() {
-      //       maximumValue = SamePIAllExam[index];
-      //     });
-      //   } else {
-      //     continue;
-      //   }
-      // }
-
-      // print("___________________________${maximumValue}");
     }
+
+    // getReportCardData();
   }
 
-  List AllStudentPIData = [];
+  // Transcript report card Function
 
-  Future getStudentPIData() async {
-    setState(() {
-      loading = true;
-    });
+  Future getReportCardData() async {
+    print("________________________________________${TranscriptData}");
 
-    CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection('SchoolPIDataAnswer');
+    for (var i = 0; i < TranscriptData.length; i++) {
+      List SamePIFather = [];
+      int triangle = 0;
+      int square = 0;
+      int circle = 0;
 
-    Query query = _collectionRef
-        .where("ClassName", isEqualTo: widget.ClassName)
-        .where("ExamName", isEqualTo: widget.ExamName.toString().toBijoy)
-        .where("SubjectName", isEqualTo: widget.SubjectName.toString().toBijoy)
-        .where("StudentEmail", isEqualTo: widget.StudentEmail)
-        .where("RollNo", isEqualTo: widget.RollNo);
-    QuerySnapshot querySnapshot = await query.get();
+      for (var j = 0; j < TranscriptData.length; j++) {
+        if (TranscriptData[j]["PIFatherNo"] ==
+            TranscriptData[i]["PIFatherNo"]) {
+          SamePIFather.insert(SamePIFather.length, TranscriptData[j]);
+        }
+      }
 
-    // Get data from docs and convert map to List
-    AllStudentPIData = querySnapshot.docs.map((doc) => doc.data()).toList();
+      // print("___________________mahadi_________${SamePIFather}");
 
-    setState(() {
-      AllStudentPIData = querySnapshot.docs.map((doc) => doc.data()).toList();
+      for (var x = 0; x < SamePIFather.length; i++) {
+        print(SamePIFather[x]["PIAnswer"]);
+        // if (SamePIFather[x]["PIAnswer"] == "0") {
+        //   square = square + 1;
+        // } else if (SamePIFather[x]["PIAnswer"] == "1") {
+        //   circle = circle + 1;
+        // } else if (SamePIFather[x]["PIAnswer"] == "2") {
+        //   triangle = triangle + 1;
+        // } else {
+        //   continue;
+        // }
+      }
 
-      loading = false;
-    });
+      print("${triangle}, ${circle}, ${square}");
 
-    print(AllStudentPIData);
+      // double PerformanceReport =
+      //     ((triangle - square) / (triangle + square + circle)) * 100;
+
+      // setState(() {
+      //   PIFatherNoReportCard.insert(PIFatherNoReportCard.length,{
+      //     "PIFatherNo": SamePIFather[0]["PIFatherNo"],
+      //     "PIFatherNoDescription": SamePIFather[0]["PIFatherNoDescription"],
+      //     "triangle": triangle,
+      //     "circle": circle,
+      //     "square": square,
+      //     "PINoDescription": SamePIFather[0]["PINoDescription"],
+      //     "Performance": PerformanceReport
+      //   });
+
+      //   triangle = 0;
+      //   square = 0;
+      //   circle = 0;
+      // });
+    }
   }
 
   @override
@@ -343,6 +283,10 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
 
     // getData();
     getTranscriptData();
+
+    Future.delayed(Duration(seconds: 5), () {
+      getReportCardData();
+    });
 
     super.initState();
   }
@@ -481,624 +425,6 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                           children: [
                             SizedBox(
                               height: 20,
-                            ),
-
-                            Center(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.75,
-                                child: Table(
-                                  border: const TableBorder(
-                                      horizontalInside: BorderSide(
-                                          color: Colors.white, width: 10.0)),
-                                  textBaseline: TextBaseline.ideographic,
-                                  children: [
-                                    TableRow(
-                                        decoration: BoxDecoration(
-                                            color: Colors.pink.shade300),
-                                        children: [
-                                          Container(
-                                              child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "PI No",
-                                              style: TextStyle(
-                                                  fontSize: 17.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          )),
-                                          Container(
-                                              child: Padding(
-                                            padding: EdgeInsets.only(top: 25),
-                                            child: Text(
-                                                "পারদর্শিতার নির্দেশক".toBijoy,
-                                                style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: "SiyamRupali",
-                                                    color: Colors.white)),
-                                          )),
-                                          Container(
-                                              child: Padding(
-                                            padding: EdgeInsets.only(top: 15),
-                                            child: Column(
-                                              children: [
-                                                const FaIcon(
-                                                  FontAwesomeIcons.square,
-                                                  size: 20,
-                                                  color: Colors.white,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 10, top: 14),
-                                                  child: Text(
-                                                      "পারদর্শিতার মাত্রা"
-                                                          .toBijoy,
-                                                      style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily:
-                                                              "SiyamRupali",
-                                                          color: Colors.white)),
-                                                ),
-                                              ],
-                                            ),
-                                          )),
-                                          Container(
-                                              child: Padding(
-                                            padding: EdgeInsets.only(top: 15),
-                                            child: Column(
-                                              children: [
-                                                const FaIcon(
-                                                  FontAwesomeIcons.circle,
-                                                  size: 20,
-                                                  color: Colors.white,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 10, top: 14),
-                                                  child: Text(
-                                                      "পারদর্শিতার মাত্রা"
-                                                          .toBijoy,
-                                                      style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily:
-                                                              "SiyamRupali",
-                                                          color: Colors.white)),
-                                                ),
-                                              ],
-                                            ),
-                                          )),
-                                          Container(
-                                              child: Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Column(
-                                              children: [
-                                                const FaIcon(
-                                                  FontAwesomeIcons.caretUp,
-                                                  size: 40,
-                                                  color: Colors.white,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 10),
-                                                  child: Text(
-                                                      "পারদর্শিতার মাত্রা"
-                                                          .toBijoy,
-                                                      style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily:
-                                                              "SiyamRupali",
-                                                          color: Colors.white)),
-                                                ),
-                                              ],
-                                            ),
-                                          )),
-                                          Container(
-                                              child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Center(
-                                                child: Text(
-                                              "Submit",
-                                              style: TextStyle(
-                                                  fontSize: 17.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            )),
-                                          )),
-                                          Container(
-                                              child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Center(
-                                                child: Text(
-                                              "Delete",
-                                              style: TextStyle(
-                                                  fontSize: 17.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            )),
-                                          )),
-                                        ]),
-                                    for (int i = 0; i < AllData.length; i++)
-                                      TableRow(
-                                          decoration: BoxDecoration(
-                                              color: Colors.grey[100]),
-                                          children: [
-                                            Container(
-                                                child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "${AllData[i]["PINo"].toString().toBijoy}",
-                                                style: const TextStyle(
-                                                    fontSize: 12.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: "SiyamRupali"),
-                                              ),
-                                            )),
-                                            Container(
-                                                child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "${AllData[i]["PINoDescription"].toString().toBijoy}",
-                                                style: const TextStyle(
-                                                    fontSize: 12.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: "SiyamRupali"),
-                                              ),
-                                            )),
-                                            Container(
-                                                child: Padding(
-                                              padding: EdgeInsets.only(top: 15),
-                                              child: Column(
-                                                children: [
-                                                  SelectedPIID ==
-                                                          "${AllData[i]["PIID"]}+0"
-                                                      ? IconButton(
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              SelectedPIID = "";
-                                                            });
-                                                          },
-                                                          icon: const FaIcon(
-                                                            FontAwesomeIcons
-                                                                .squareCheck,
-                                                            size: 30,
-                                                            color: Colors.green,
-                                                          ),
-                                                        )
-                                                      : IconButton(
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              SelectedPIID =
-                                                                  "${AllData[i]["PIID"]}+0";
-                                                            });
-                                                          },
-                                                          icon: const FaIcon(
-                                                            FontAwesomeIcons
-                                                                .square,
-                                                            size: 20,
-                                                          ),
-                                                        ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 10,
-                                                            top: 14),
-                                                    child: Text(
-                                                      "${AllData[i]["SquareDescription"].toString().toBijoy}",
-                                                      style: const TextStyle(
-                                                          fontSize: 12.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily:
-                                                              "SiyamRupali"),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )),
-                                            Container(
-                                                child: Padding(
-                                              padding: EdgeInsets.only(top: 15),
-                                              child: Column(
-                                                children: [
-                                                  SelectedPIID ==
-                                                          "${AllData[i]["PIID"]}+1"
-                                                      ? IconButton(
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              SelectedPIID = "";
-                                                            });
-                                                          },
-                                                          icon: const Icon(
-                                                            Icons.circle,
-                                                            color: Colors.green,
-                                                            size: 30,
-                                                          ),
-                                                        )
-                                                      : IconButton(
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              SelectedPIID =
-                                                                  "${AllData[i]["PIID"]}+1";
-                                                            });
-                                                          },
-                                                          icon: const FaIcon(
-                                                            FontAwesomeIcons
-                                                                .circle,
-                                                            size: 20,
-                                                          ),
-                                                        ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 10,
-                                                            top: 14),
-                                                    child: Text(
-                                                      "${AllData[i]["CircleDescription"].toString().toBijoy}",
-                                                      style: const TextStyle(
-                                                          fontSize: 12.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily:
-                                                              "SiyamRupali"),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )),
-                                            Container(
-                                                child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Column(
-                                                children: [
-                                                  SelectedPIID ==
-                                                          "${AllData[i]["PIID"]}+2"
-                                                      ? IconButton(
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              SelectedPIID = "";
-                                                            });
-                                                          },
-                                                          icon: const FaIcon(
-                                                            FontAwesomeIcons
-                                                                .caretUp,
-                                                            size: 45,
-                                                            color: Colors.green,
-                                                          ),
-                                                        )
-                                                      : IconButton(
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              SelectedPIID =
-                                                                  "${AllData[i]["PIID"]}+2";
-                                                            });
-                                                          },
-                                                          icon: const FaIcon(
-                                                            FontAwesomeIcons
-                                                                .caretUp,
-                                                            size: 40,
-                                                          ),
-                                                        ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 10),
-                                                    child: Text(
-                                                      "${AllData[i]["TriangleDescription"].toString().toBijoy}",
-                                                      style: const TextStyle(
-                                                          fontSize: 12.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontFamily:
-                                                              "SiyamRupali"),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )),
-                                            Container(
-                                                child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 10),
-                                                child: SelectedPIID ==
-                                                            "${AllData[i]["PIID"]}+0" ||
-                                                        SelectedPIID ==
-                                                            "${AllData[i]["PIID"]}+1" ||
-                                                        SelectedPIID ==
-                                                            "${AllData[i]["PIID"]}+2"
-                                                    ? ElevatedButton(
-                                                        onPressed: () async {
-                                                          setState(() {
-                                                            loading = true;
-                                                          });
-
-// PI Data Create from here
-
-                                                          var SchoolPIData = {
-                                                            "PIID": AllData[i]
-                                                                ["PIID"],
-                                                            "ExamName": AllData[
-                                                                i]["ExamName"],
-                                                            "ClassName": AllData[
-                                                                i]["ClassName"],
-                                                            "SubjectName": AllData[
-                                                                    i]
-                                                                ["SubjectName"],
-                                                            "TeacherName": AllData[
-                                                                    i]
-                                                                ["TeacherName"],
-                                                            "PIGrandFatherNo":
-                                                                AllData[i][
-                                                                    "PIGrandFatherNo"],
-                                                            "PIGrandFatherNoDescription":
-                                                                AllData[i][
-                                                                    "PIGrandFatherNoDescription"],
-                                                            "PIFatherNo": AllData[
-                                                                    i]
-                                                                ["PIFatherNo"],
-                                                            "PIFatherNoDescription":
-                                                                AllData[i][
-                                                                    "PIFatherNoDescription"],
-                                                            "PINo": AllData[i]
-                                                                ["PINo"],
-                                                            "PINoDescription":
-                                                                AllData[i][
-                                                                    "PINoDescription"],
-                                                            "SquareDescription":
-                                                                AllData[i][
-                                                                    "SquareDescription"],
-                                                            "CircleDescription":
-                                                                AllData[i][
-                                                                    "CircleDescription"],
-                                                            "TriangleDescription":
-                                                                AllData[i][
-                                                                    "TriangleDescription"],
-                                                            "DateTime": DateTime
-                                                                    .now()
-                                                                .toIso8601String(),
-                                                            "year":
-                                                                "${DateTime.now().year}",
-                                                            "PIAnswer":
-                                                                SelectedPIID
-                                                                    .split(
-                                                                        "+")[1],
-                                                            "RollNo":
-                                                                widget.RollNo,
-                                                            "StudentEmail":
-                                                                widget
-                                                                    .StudentEmail
-                                                          };
-
-                                                          final SchoolPI =
-                                                              FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      'SchoolPIDataAnswer')
-                                                                  .doc();
-
-                                                          SchoolPI.set(
-                                                                  SchoolPIData)
-                                                              .then((value) =>
-                                                                  setState(() {
-                                                                    getData();
-
-                                                                    getStudentPIData();
-
-                                                                    // Navigator.pop(context);
-
-                                                                    final snackBar =
-                                                                        SnackBar(
-                                                                      elevation:
-                                                                          0,
-                                                                      behavior:
-                                                                          SnackBarBehavior
-                                                                              .floating,
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      content:
-                                                                          AwesomeSnackbarContent(
-                                                                        title:
-                                                                            'PI Answer Successfull',
-                                                                        message:
-                                                                            'Hey Thank You. Good Job',
-
-                                                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                                                        contentType:
-                                                                            ContentType.success,
-                                                                      ),
-                                                                    );
-
-                                                                    ScaffoldMessenger.of(
-                                                                        context)
-                                                                      ..hideCurrentSnackBar()
-                                                                      ..showSnackBar(
-                                                                          snackBar);
-
-                                                                    setState(
-                                                                        () {
-                                                                      loading =
-                                                                          false;
-                                                                    });
-                                                                  }))
-                                                              .onError((error,
-                                                                      stackTrace) =>
-                                                                  setState(() {
-                                                                    final snackBar =
-                                                                        SnackBar(
-                                                                      /// need to set following properties for best effect of awesome_snackbar_content
-                                                                      elevation:
-                                                                          0,
-                                                                      behavior:
-                                                                          SnackBarBehavior
-                                                                              .floating,
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      content:
-                                                                          AwesomeSnackbarContent(
-                                                                        title:
-                                                                            'Something Wrong!!!!',
-                                                                        message:
-                                                                            'Try again later...',
-
-                                                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                                                        contentType:
-                                                                            ContentType.failure,
-                                                                      ),
-                                                                    );
-
-                                                                    ScaffoldMessenger.of(
-                                                                        context)
-                                                                      ..hideCurrentSnackBar()
-                                                                      ..showSnackBar(
-                                                                          snackBar);
-
-                                                                    setState(
-                                                                        () {
-                                                                      loading =
-                                                                          false;
-                                                                    });
-                                                                  }));
-                                                        },
-                                                        child: Text("Submit"))
-                                                    : Text(""),
-                                              ),
-                                            )),
-                                            Container(
-                                                child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return StatefulBuilder(
-                                                              builder: (context,
-                                                                  setState) {
-                                                            return AlertDialog(
-                                                              title: const Text(
-                                                                  'Delete'),
-                                                              content: const Text(
-                                                                  'Are you Sure You want to Delete it?'),
-                                                              actions: [
-                                                                ElevatedButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                      'CANCEL'),
-                                                                ),
-                                                                ElevatedButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    setState(
-                                                                      () {
-                                                                        loading =
-                                                                            true;
-                                                                      },
-                                                                    );
-
-                                                                    CollectionReference
-                                                                        collectionRef =
-                                                                        FirebaseFirestore
-                                                                            .instance
-                                                                            .collection('NoticeInfo');
-                                                                    collectionRef
-                                                                        .doc(AllData[i]
-                                                                            [
-                                                                            "FileID"])
-                                                                        .delete()
-                                                                        .then(
-                                                                          (doc) =>
-                                                                              setState(() {
-                                                                            getData();
-
-                                                                            Navigator.pop(context);
-
-                                                                            final snackBar =
-                                                                                SnackBar(
-                                                                              elevation: 0,
-                                                                              behavior: SnackBarBehavior.floating,
-                                                                              backgroundColor: Colors.transparent,
-                                                                              content: AwesomeSnackbarContent(
-                                                                                title: 'Delete Successfull',
-                                                                                message: 'Hey Thank You. Good Job',
-
-                                                                                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                                                                contentType: ContentType.success,
-                                                                              ),
-                                                                            );
-
-                                                                            ScaffoldMessenger.of(context)
-                                                                              ..hideCurrentSnackBar()
-                                                                              ..showSnackBar(snackBar);
-
-                                                                            setState(() {
-                                                                              loading = false;
-                                                                            });
-                                                                          }),
-                                                                          onError: (e) =>
-                                                                              setState(() {
-                                                                            Navigator.pop(context);
-
-                                                                            final snackBar =
-                                                                                SnackBar(
-                                                                              elevation: 0,
-                                                                              behavior: SnackBarBehavior.floating,
-                                                                              backgroundColor: Colors.transparent,
-                                                                              content: AwesomeSnackbarContent(
-                                                                                title: 'Something Wrong!!!',
-                                                                                message: 'Try again later...',
-
-                                                                                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                                                                contentType: ContentType.failure,
-                                                                              ),
-                                                                            );
-
-                                                                            ScaffoldMessenger.of(context)
-                                                                              ..hideCurrentSnackBar()
-                                                                              ..showSnackBar(snackBar);
-
-                                                                            setState(() {
-                                                                              loading = false;
-                                                                            });
-                                                                          }),
-                                                                        );
-                                                                  },
-                                                                  child: const Text(
-                                                                      'DELETE'),
-                                                                ),
-                                                              ],
-                                                            );
-                                                          });
-                                                        });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.delete,
-                                                    color: Colors.red.shade400,
-                                                  )),
-                                            )),
-                                          ]),
-                                  ],
-                                ),
-                              ),
                             ),
 
                             const SizedBox(
@@ -1242,21 +568,9 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                                               ],
                                             ),
                                           )),
-                                          Container(
-                                              child: const Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Center(
-                                                child: Text(
-                                              "Delete",
-                                              style: TextStyle(
-                                                  fontSize: 17.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            )),
-                                          )),
                                         ]),
                                     for (int i = 0;
-                                        i < AllStudentPIData.length;
+                                        i < TranscriptData.length;
                                         i++)
                                       TableRow(
                                           decoration: BoxDecoration(
@@ -1267,7 +581,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                "${AllStudentPIData[i]["PINo"].toString().toBijoy}",
+                                                "${TranscriptData.length}     ${TranscriptData[i]["PINo"].toString().toBijoy}",
                                                 style: const TextStyle(
                                                     fontSize: 12.0,
                                                     fontWeight: FontWeight.bold,
@@ -1279,7 +593,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                "${AllStudentPIData[i]["PINoDescription"].toString().toBijoy}",
+                                                "${TranscriptData[i]["PINoDescription"].toString().toBijoy}",
                                                 style: const TextStyle(
                                                     fontSize: 12.0,
                                                     fontWeight: FontWeight.bold,
@@ -1293,7 +607,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                                                 children: [
 // AllData[i]["PIID"]
 
-                                                  AllStudentPIData[i]
+                                                  TranscriptData[i]
                                                               ["PIAnswer"] ==
                                                           "0"
                                                       ? Image.asset(
@@ -1313,7 +627,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                                                             bottom: 10,
                                                             top: 14),
                                                     child: Text(
-                                                      "${AllStudentPIData[i]["SquareDescription"].toString().toBijoy}",
+                                                      "${TranscriptData[i]["SquareDescription"].toString().toBijoy}",
                                                       style: const TextStyle(
                                                           fontSize: 12.0,
                                                           fontWeight:
@@ -1330,7 +644,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                                               padding: EdgeInsets.only(top: 15),
                                               child: Column(
                                                 children: [
-                                                  AllStudentPIData[i]
+                                                  TranscriptData[i]
                                                               ["PIAnswer"] ==
                                                           "1"
                                                       ? Image.asset(
@@ -1349,7 +663,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                                                             bottom: 10,
                                                             top: 14),
                                                     child: Text(
-                                                      "${AllStudentPIData[i]["CircleDescription"].toString().toBijoy}",
+                                                      "${TranscriptData[i]["CircleDescription"].toString().toBijoy}",
                                                       style: const TextStyle(
                                                           fontSize: 12.0,
                                                           fontWeight:
@@ -1366,7 +680,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                                               padding: EdgeInsets.all(8.0),
                                               child: Column(
                                                 children: [
-                                                  AllStudentPIData[i]
+                                                  TranscriptData[i]
                                                               ["PIAnswer"] ==
                                                           "2"
                                                       ? Image.asset(
@@ -1385,7 +699,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                                                             bottom: 10,
                                                             top: 14),
                                                     child: Text(
-                                                      "${AllStudentPIData[i]["TriangleDescription"].toString().toBijoy}",
+                                                      "${TranscriptData[i]["TriangleDescription"].toString().toBijoy}",
                                                       style: const TextStyle(
                                                           fontSize: 12.0,
                                                           fontWeight:
@@ -1396,123 +710,6 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                                                   ),
                                                 ],
                                               ),
-                                            )),
-                                            Container(
-                                                child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return StatefulBuilder(
-                                                              builder: (context,
-                                                                  setState) {
-                                                            return AlertDialog(
-                                                              title: const Text(
-                                                                  'Delete'),
-                                                              content: const Text(
-                                                                  'Are you Sure You want to Delete it?'),
-                                                              actions: [
-                                                                ElevatedButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                      'CANCEL'),
-                                                                ),
-                                                                ElevatedButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    setState(
-                                                                      () {
-                                                                        loading =
-                                                                            true;
-                                                                      },
-                                                                    );
-
-                                                                    CollectionReference
-                                                                        collectionRef =
-                                                                        FirebaseFirestore
-                                                                            .instance
-                                                                            .collection('NoticeInfo');
-                                                                    collectionRef
-                                                                        .doc(AllData[i]
-                                                                            [
-                                                                            "FileID"])
-                                                                        .delete()
-                                                                        .then(
-                                                                          (doc) =>
-                                                                              setState(() {
-                                                                            getData();
-
-                                                                            Navigator.pop(context);
-
-                                                                            final snackBar =
-                                                                                SnackBar(
-                                                                              elevation: 0,
-                                                                              behavior: SnackBarBehavior.floating,
-                                                                              backgroundColor: Colors.transparent,
-                                                                              content: AwesomeSnackbarContent(
-                                                                                title: 'Delete Successfull',
-                                                                                message: 'Hey Thank You. Good Job',
-
-                                                                                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                                                                contentType: ContentType.success,
-                                                                              ),
-                                                                            );
-
-                                                                            ScaffoldMessenger.of(context)
-                                                                              ..hideCurrentSnackBar()
-                                                                              ..showSnackBar(snackBar);
-
-                                                                            setState(() {
-                                                                              loading = false;
-                                                                            });
-                                                                          }),
-                                                                          onError: (e) =>
-                                                                              setState(() {
-                                                                            Navigator.pop(context);
-
-                                                                            final snackBar =
-                                                                                SnackBar(
-                                                                              elevation: 0,
-                                                                              behavior: SnackBarBehavior.floating,
-                                                                              backgroundColor: Colors.transparent,
-                                                                              content: AwesomeSnackbarContent(
-                                                                                title: 'Something Wrong!!!',
-                                                                                message: 'Try again later...',
-
-                                                                                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                                                                contentType: ContentType.failure,
-                                                                              ),
-                                                                            );
-
-                                                                            ScaffoldMessenger.of(context)
-                                                                              ..hideCurrentSnackBar()
-                                                                              ..showSnackBar(snackBar);
-
-                                                                            setState(() {
-                                                                              loading = false;
-                                                                            });
-                                                                          }),
-                                                                        );
-                                                                  },
-                                                                  child: const Text(
-                                                                      'DELETE'),
-                                                                ),
-                                                              ],
-                                                            );
-                                                          });
-                                                        });
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.delete,
-                                                    color: Colors.red.shade400,
-                                                  )),
                                             )),
                                           ]),
                                   ],
