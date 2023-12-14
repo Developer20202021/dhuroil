@@ -93,6 +93,9 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
   List TranscriptData = [];
   List PIFatherNoReportCard = [];
   List ChurantoSchoolPIDataList = [];
+  List PIGrandFatherReportCardWithoutDuplicate=[];
+
+
 
   List AllExamName = [
     "ষাণ্মাসিক শিখনকালীন মূল্যায়ন",
@@ -238,8 +241,8 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
       int circle = 0;
 
       for (var j = 0; j < TranscriptData.length; j++) {
-        if (TranscriptData[j]["PIFatherNo"] ==
-            TranscriptData[i]["PIFatherNo"]) {
+        if (TranscriptData[j]["PIGrandFatherNo"] ==
+            TranscriptData[i]["PIGrandFatherNo"]) {
           SamePIFather.insert(SamePIFather.length, TranscriptData[j]);
         }
         else{
@@ -275,6 +278,8 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
           "circle": circle,
           "square": square,
           "PINoDescription": SamePIFather[0]["PINoDescription"],
+          "PIGrandFatherNo": SamePIFather[0]["PIGrandFatherNo"],
+          "PIGrandFatherNoDescription":SamePIFather[0]["PIGrandFatherNoDescription"],
           "Performance": PerformanceReport
         });
 
@@ -286,6 +291,25 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
 
 
     print("__________________Inan________${PIFatherNoReportCard}");
+
+
+
+
+  // convert each item to a string by using JSON encoding
+  final jsonList = PIFatherNoReportCard.map((item) => jsonEncode(item)).toList();
+  
+  // using toSet - toList strategy
+  final uniqueJsonList = jsonList.toSet().toList();
+  
+  // convert each item back to the original form using JSON decoding
+  final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+  
+  print("______unique__${result.runtimeType}"); 
+
+  setState(() {
+    PIGrandFatherReportCardWithoutDuplicate = result;
+  });
+  
   }
 
   @override
@@ -405,7 +429,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.chevron_left)),
         title: Text(
-          "শ্রেণীঃ (${widget.ClassName.toString()})  রোলঃ (${widget.RollNo})   বিষয়ঃ (${widget.SubjectName})    মূল্যায়নঃ (${widget.SelectedExam[0]==true?"ষাণ্মাসিক শিখনকালীন মূল্যায়ন, ":""} ${widget.SelectedExam[1]==true?"ষাণ্মাসিক সামষ্টিক মূল্যায়ন, ":""} ${widget.SelectedExam[2]==true?"বাৎসরিক শিখনকালীন মূল্যায়ন, ":""} ${widget.SelectedExam[3]==true?"বাৎসরিক সামষ্টিক মূল্যায়ন, ":""}) ট্রান্সক্রিপ্ট"
+          "শ্রেণীঃ (${widget.ClassName.toString()})  রোলঃ (${widget.RollNo})   বিষয়ঃ (${widget.SubjectName})    মূল্যায়নঃ (${widget.SelectedExam[0]==true?"ষাণ্মাসিক শিখনকালীন মূল্যায়ন, ":""} ${widget.SelectedExam[1]==true?"ষাণ্মাসিক সামষ্টিক মূল্যায়ন, ":""} ${widget.SelectedExam[2]==true?"বাৎসরিক শিখনকালীন মূল্যায়ন, ":""} ${widget.SelectedExam[3]==true?"বাৎসরিক সামষ্টিক মূল্যায়ন, ":""}) ট্রান্সক্রিপ্ট "
               .toBijoy,
           style: const TextStyle(
               color: Colors.black,
@@ -442,16 +466,796 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                               height: 20,
                             ),
 
+                          
+
+                            SizedBox(
+                              height: 20,
+                            ),
+
                              SingleChildScrollView(
                               child: GridView.count(
                               primary: true,
                               shrinkWrap: true,
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 40.0,
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 10.0,
                               mainAxisSpacing: 40.0,
-                              padding: const EdgeInsets.all(20.0),
-                              children: [
-                                Text("Text")
+                              padding: const EdgeInsets.all(10.0),
+                              children:  [
+
+                              
+                              for(int i =0; i<PIGrandFatherReportCardWithoutDuplicate.length; i++)
+
+                              Container(
+                                    height:70,
+                                    width:300,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: Column(
+                                      children: [
+
+                                  Container(
+                                    height:40,
+                                    width:700,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: Center(
+                                      child: Text("${PIGrandFatherReportCardWithoutDuplicate[i]["PIGrandFatherNoDescription"]}", style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17,
+                                        fontFamily: "SiyamRupali"),),
+                                    ),  
+                                ),
+
+                                Container(
+                                    height:100,
+                                    width:700,
+                                    child: Center(
+                                      child: Text("${PIGrandFatherReportCardWithoutDuplicate[i]["PINoDescription"]} ", style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17,
+                                        fontFamily: "SiyamRupali"),),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      borderRadius: BorderRadius.circular(5)
+                                    ),  
+                                ),
+
+                              SizedBox(height: 20,),
+
+
+
+                           PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]==100 ? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+
+
+
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                            PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]>=50 &&  PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]<100 ? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                           PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]>=25 &&  PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]<50? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                           PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]>=0 &&  PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]<25? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                           PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]>=-25 &&  PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]<0? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                     
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                     
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                           PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]>=-50 &&  PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]<-25? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                    
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                    
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                           PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]>=-100 &&  PIGrandFatherReportCardWithoutDuplicate[i]["Performance"]<-50? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                     
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                   
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                     
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+
+
+
+
+                                      ],
+                                    ),  
+                                )
+
+                                  
+
+
+
+                                
                               ],
                             ),
                             ),
@@ -462,7 +1266,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
 
                             Center(
                               child: Text(
-                                "শ্রেণীঃ (${widget.ClassName.toString()})  রোলঃ (${widget.RollNo})   বিষয়ঃ (${widget.SubjectName})    মূল্যায়নঃ (${widget.ExamName}) ট্রান্সক্রিপ্ট"
+                                "শ্রেণীঃ (${widget.ClassName.toString()})  রোলঃ (${widget.RollNo})   বিষয়ঃ (${widget.SubjectName})    মূল্যায়নঃ (${widget.SelectedExam[0]==true?"ষাণ্মাসিক শিখনকালীন মূল্যায়ন, ":""} ${widget.SelectedExam[1]==true?"ষাণ্মাসিক সামষ্টিক মূল্যায়ন, ":""} ${widget.SelectedExam[2]==true?"বাৎসরিক শিখনকালীন মূল্যায়ন, ":""} ${widget.SelectedExam[3]==true?"বাৎসরিক সামষ্টিক মূল্যায়ন, ":""}) ট্রান্সক্রিপ্ট"
                                     .toBijoy,
                                 style: const TextStyle(
                                     color: Colors.black,
