@@ -1460,6 +1460,540 @@ class _AllStudentsState extends State<AllStudents> {
                     );
                   },
                 ),
+
+
+
+
+
+                 PopupMenuItem(
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: ListTile(
+                        trailing: Icon(Icons.arrow_forward),
+                        title: Text("Create BI")),
+                  ),
+                  value: '/about',
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        String SelectedExam = "";
+
+                       
+
+                     
+
+                        String BIFatherNoTextFieldTitle =
+                            "আচরণিক ক্ষেত্র নং";
+
+                        
+
+                        String BINoTextFieldTitle = "BI No";
+
+                        String BIFatherNoTextFieldDescription =
+                            "আচরণিক ক্ষেত্র বর্ণনা";
+
+
+                        String BINoTextFieldDescription =
+                            "আচরণিক নির্দেশক বর্ণনা";
+
+                        String AlertTitle =
+                            "আপনি নিচে মূল্যায়নের নাম নির্বাচন করবেন";
+
+                        String ExamNameTitle = "মূল্যায়নের নাম নির্বাচন করবেন";
+
+                        return StatefulBuilder(
+                          builder: (context, setState) {
+                            return AlertDialog(
+                              title: Center(
+                                child: Text("${AlertTitle.toBijoy}",
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "SiyamRupali")),
+                              ),
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    DropdownButton(
+                                      hint: SelectedExam == ""
+                                          ? Text("${ExamNameTitle.toBijoy}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "SiyamRupali"))
+                                          : Text("${SelectedExam.toBijoy}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "SiyamRupali")),
+                                      isExpanded: true,
+                                      iconSize: 30.0,
+                                      style: TextStyle(
+                                          color: ColorName().appColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                      items: [
+                                        "ষাণ্মাসিক শিখনকালীন মূল্যায়ন",
+                                        'ষাণ্মাসিক সামষ্টিক মূল্যায়ন',
+                                        "বাৎসরিক শিখনকালীন মূল্যায়ন",
+                                        "বাৎসরিক সামষ্টিক মূল্যায়ন"
+                                      ].map(
+                                        (val) {
+                                          return DropdownMenuItem<String>(
+                                            value: val,
+                                            child: Text(val),
+                                          );
+                                        },
+                                      ).toList(),
+                                      onChanged: (val) {
+                                        setState(
+                                          () {
+                                            SelectedExam = val!;
+
+                                            print(val);
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                
+                             
+                                    Container(
+                                      width: 600,
+                                      child: TextField(
+                                        onChanged: (value) {},
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText:
+                                              '${BIFatherNoTextFieldTitle.toBijoy}',
+                                          labelStyle: const TextStyle(
+                                              fontFamily: "SiyamRupali"),
+                                          hintText:
+                                              '${BIFatherNoTextFieldTitle.toBijoy}',
+                                          hintStyle: const TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          //  enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                          //     ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          errorBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Color.fromARGB(
+                                                    255, 66, 125, 145)),
+                                          ),
+                                        ),
+                                        controller: PIGrandFatherNoController,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 600,
+                                      child: TextField(
+                                        maxLength: 2000,
+                                        onChanged: (value) {},
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText:
+                                              BIFatherNoTextFieldDescription.toBijoy,
+                                          labelStyle: const TextStyle(
+                                              fontFamily: "SiyamRupali"),
+                                          hintText:
+                                              BIFatherNoTextFieldDescription.toBijoy,
+                                          hintStyle: const TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          //  enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                          //     ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          errorBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Color.fromARGB(
+                                                    255, 66, 125, 145)),
+                                          ),
+                                        ),
+                                        controller:
+                                            PIGrandFatherNoDescriptionController,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                   
+                                 
+                                    Container(
+                                      width: 600,
+                                      child: TextField(
+                                        onChanged: (value) {},
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText: '${BINoTextFieldTitle}',
+
+                                          hintText: '${BINoTextFieldTitle}',
+
+                                          //  enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                          //     ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          errorBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Color.fromARGB(
+                                                    255, 66, 125, 145)),
+                                          ),
+                                        ),
+                                        controller: PINoController,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      width: 600,
+                                      child: TextField(
+                                        maxLength: 2000,
+                                        onChanged: (value) {},
+                                        keyboardType: TextInputType.text,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText:
+                                              '${BINoTextFieldDescription.toBijoy}',
+                                          labelStyle: const TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          hintText:
+                                              BINoTextFieldDescription.toBijoy,
+                                          hintStyle: const TextStyle(
+                                              fontFamily: "SiyamRupali"),
+
+                                          //  enabledBorder: OutlineInputBorder(
+                                          //       borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+                                          //     ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          errorBorder: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 3,
+                                                color: Color.fromARGB(
+                                                    255, 66, 125, 145)),
+                                          ),
+                                        ),
+                                        controller: PINoDescriptionController,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Center(
+                                      child: Text(
+                                          "আচরণিক মাত্রার বর্ণনা লিখুন",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    TextField(
+                                      onChanged: (value) {},
+                                      keyboardType: TextInputType.phone,
+                                      decoration: InputDecoration(
+                                        prefixIcon: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child:
+                                              FaIcon(FontAwesomeIcons.square),
+                                        ),
+                                        helperStyle: TextStyle(
+                                            color: Colors.red.shade400),
+                                        border: const OutlineInputBorder(),
+                                        labelText: 'বর্ণনা লিখুন',
+                                        labelStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        hintText: 'বর্ণনা লিখুন',
+                                        hintStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        errorBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Color.fromARGB(
+                                                  255, 66, 125, 145)),
+                                        ),
+                                      ),
+                                      controller: SquareController,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    TextField(
+                                      onChanged: (value) {},
+                                      keyboardType: TextInputType.phone,
+                                      decoration: InputDecoration(
+                                        prefixIcon: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child:
+                                              FaIcon(FontAwesomeIcons.circle),
+                                        ),
+                                        helperStyle: TextStyle(
+                                            color: Colors.red.shade400),
+                                        border: const OutlineInputBorder(),
+                                        labelText: 'বর্ণনা লিখুন',
+                                        labelStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        hintText: 'বর্ণনা লিখুন',
+                                        hintStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        errorBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Color.fromARGB(
+                                                  255, 66, 125, 145)),
+                                        ),
+                                      ),
+                                      controller: CircleController,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    TextField(
+                                      onChanged: (value) {},
+                                      keyboardType: TextInputType.phone,
+                                      decoration: InputDecoration(
+                                        prefixIcon: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: FaIcon(
+                                            FontAwesomeIcons.caretUp,
+                                            size: 40,
+                                          ),
+                                        ),
+                                        helperStyle: TextStyle(
+                                            color: Colors.red.shade400),
+                                        border: const OutlineInputBorder(),
+                                        labelText: 'বর্ণনা লিখুন',
+                                        labelStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        hintText: 'বর্ণনা লিখুন',
+                                        hintStyle: const TextStyle(
+                                            fontFamily: "SiyamRupali"),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        errorBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 3,
+                                              color: Color.fromARGB(
+                                                  255, 66, 125, 145)),
+                                        ),
+                                      ),
+                                      controller: TriangleController,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("Cancel"),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    setState(() {
+                                      loading = true;
+                                    });
+
+// PI Data Create from here
+
+                                    var SchoolPIData = {
+                                      "BIID": PIID,
+                                      "ExamName": SelectedExam.toBijoy,
+                                      "ClassName": widget.ClassName,
+                                      
+                                  
+                                      "PIGrandFatherNo":
+                                          PIGrandFatherNoController.text
+                                              .trim()
+                                              .toBijoy,
+                                      "PIGrandFatherNoDescription":
+                                          PIGrandFatherNoDescriptionController
+                                              .text
+                                              .trim()
+                                              .toBijoy,
+                                      "PIFatherNo": PIFatherNoController.text
+                                          .trim()
+                                          .toBijoy,
+                                      "PIFatherNoDescription":
+                                          PIFatherNoDescriptionController.text
+                                              .trim()
+                                              .toBijoy,
+                                      "PINo":
+                                          PINoController.text.trim().toBijoy,
+                                      "PINoDescription":
+                                          PINoDescriptionController.text
+                                              .trim()
+                                              .toBijoy,
+                                      "SquareDescription":
+                                          SquareController.text.trim().toBijoy,
+                                      "CircleDescription":
+                                          CircleController.text.trim().toBijoy,
+                                      "TriangleDescription": TriangleController
+                                          .text
+                                          .trim()
+                                          .toBijoy,
+                                      "DateTime":
+                                          DateTime.now().toIso8601String(),
+                                      "year": "${DateTime.now().year}"
+                                    };
+
+                                    final SchoolPI = FirebaseFirestore.instance
+                                        .collection('SchoolBIData')
+                                        .doc(PIID);
+
+                                    SchoolPI.set(SchoolPIData)
+                                        .then((value) => setState(() {
+                                              getData();
+
+                                              Navigator.pop(context);
+
+                                              final snackBar = SnackBar(
+                                                elevation: 0,
+                                                behavior:
+                                                    SnackBarBehavior.floating,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                content: AwesomeSnackbarContent(
+                                                  title:
+                                                      'PI Created Successfull',
+                                                  message:
+                                                      'Hey Thank You. Good Job',
+
+                                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                  contentType:
+                                                      ContentType.success,
+                                                ),
+                                              );
+
+                                              ScaffoldMessenger.of(context)
+                                                ..hideCurrentSnackBar()
+                                                ..showSnackBar(snackBar);
+
+                                              setState(() {
+                                                loading = false;
+                                              });
+                                            }))
+                                        .onError((error, stackTrace) =>
+                                            setState(() {
+                                              final snackBar = SnackBar(
+                                                /// need to set following properties for best effect of awesome_snackbar_content
+                                                elevation: 0,
+                                                behavior:
+                                                    SnackBarBehavior.floating,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                content: AwesomeSnackbarContent(
+                                                  title: 'Something Wrong!!!!',
+                                                  message: 'Try again later...',
+
+                                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                  contentType:
+                                                      ContentType.failure,
+                                                ),
+                                              );
+
+                                              ScaffoldMessenger.of(context)
+                                                ..hideCurrentSnackBar()
+                                                ..showSnackBar(snackBar);
+
+                                              setState(() {
+                                                loading = false;
+                                              });
+                                            }));
+                                  },
+                                  child: const Text("Create"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 PopupMenuItem(
                   child: Padding(
                     padding: const EdgeInsets.all(18.0),
@@ -2517,10 +3051,10 @@ class _AllStudentsState extends State<AllStudents> {
                                                                               SubjectName: SelectedSubject,
                                                                               RollNo: AllData[index]["RollNo"],
                                                                               StudentEmail: AllData[index]["StudentEmail"], SelectedExam:[
-                                                                                                 checkedValueOne,
-                                                                                                checkedValueTwo,
-                                                                                                checkedValueThree,
-                                                                                                checkedValueFour
+                                                                                                                                                        checkedValueOne,
+                                                                                                                                                        checkedValueTwo,
+                                                                                                                                                        checkedValueThree,
+                                                                                                                                                        checkedValueFour
                                                                                                             ],
                                                                             )));
 
