@@ -391,6 +391,10 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                 ),
               ),
             ),
+
+
+
+
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
           // Navigation bar
@@ -401,7 +405,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.chevron_left)),
         title: Text(
-          "শ্রেণীঃ (${widget.ClassName.toString()})  রোলঃ (${widget.RollNo})   বিষয়ঃ (${widget.SubjectName})    মূল্যায়নঃ (${widget.ExamName}) নিচে উত্তর নিশ্চত করুন"
+          "শ্রেণীঃ (${widget.ClassName.toString()})  রোলঃ (${widget.RollNo})   বিষয়ঃ (${widget.SubjectName})    মূল্যায়নঃ (${widget.SelectedExam[0]==true?"ষাণ্মাসিক শিখনকালীন মূল্যায়ন, ":""} ${widget.SelectedExam[1]==true?"ষাণ্মাসিক সামষ্টিক মূল্যায়ন, ":""} ${widget.SelectedExam[2]==true?"বাৎসরিক শিখনকালীন মূল্যায়ন, ":""} ${widget.SelectedExam[3]==true?"বাৎসরিক সামষ্টিক মূল্যায়ন, ":""}) ট্রান্সক্রিপ্ট"
               .toBijoy,
           style: const TextStyle(
               color: Colors.black,
@@ -438,6 +442,20 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                               height: 20,
                             ),
 
+                             SingleChildScrollView(
+                              child: GridView.count(
+                              primary: true,
+                              shrinkWrap: true,
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 40.0,
+                              mainAxisSpacing: 40.0,
+                              padding: const EdgeInsets.all(20.0),
+                              children: [
+                                Text("Text")
+                              ],
+                            ),
+                            ),
+
                             const SizedBox(
                               height: 175,
                             ),
@@ -457,6 +475,9 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
                             const SizedBox(
                               height: 15,
                             ),
+
+
+                       
 
                             // Student PI answer table
 
