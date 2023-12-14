@@ -132,6 +132,7 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
     });
 
     for (var i = 0; i < ChurantoSchoolPIDataList.length; i++) {
+
       for (var a = 0; a < ChurantoSchoolPIDataList[i]["PINo"].length; a++) {
         List SamePIAllExam = [];
         List SamePIAllExamAnswer = [];
@@ -218,13 +219,17 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
       }
     }
 
-    // getReportCardData();
+    getReportCardData();
   }
+
+
+
+
 
   // Transcript report card Function
 
-  Future getReportCardData() async {
-    print("________________________________________${TranscriptData}");
+  void getReportCardData() {
+    // print("_____________Mahadi___________________________${TranscriptData}");
 
     for (var i = 0; i < TranscriptData.length; i++) {
       List SamePIFather = [];
@@ -237,44 +242,50 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
             TranscriptData[i]["PIFatherNo"]) {
           SamePIFather.insert(SamePIFather.length, TranscriptData[j]);
         }
+        else{
+          continue;
+        }
       }
 
-      // print("___________________mahadi_________${SamePIFather}");
+      print("___________________mahadi_________${SamePIFather}");
 
-      for (var x = 0; x < SamePIFather.length; i++) {
+      for (int x = 0; x < SamePIFather.length; x++) {
         print(SamePIFather[x]["PIAnswer"]);
-        // if (SamePIFather[x]["PIAnswer"] == "0") {
-        //   square = square + 1;
-        // } else if (SamePIFather[x]["PIAnswer"] == "1") {
-        //   circle = circle + 1;
-        // } else if (SamePIFather[x]["PIAnswer"] == "2") {
-        //   triangle = triangle + 1;
-        // } else {
-        //   continue;
-        // }
+        if (SamePIFather[x]["PIAnswer"] == "0") {
+          square = square + 1;
+        } else if (SamePIFather[x]["PIAnswer"] == "1") {
+          circle = circle + 1;
+        } else if (SamePIFather[x]["PIAnswer"] == "2") {
+          triangle = triangle + 1;
+        } else {
+          continue;
+        }
       }
 
       print("${triangle}, ${circle}, ${square}");
 
-      // double PerformanceReport =
-      //     ((triangle - square) / (triangle + square + circle)) * 100;
+      double PerformanceReport =
+          ((triangle - square) / (SamePIFather.length)) * 100;
 
-      // setState(() {
-      //   PIFatherNoReportCard.insert(PIFatherNoReportCard.length,{
-      //     "PIFatherNo": SamePIFather[0]["PIFatherNo"],
-      //     "PIFatherNoDescription": SamePIFather[0]["PIFatherNoDescription"],
-      //     "triangle": triangle,
-      //     "circle": circle,
-      //     "square": square,
-      //     "PINoDescription": SamePIFather[0]["PINoDescription"],
-      //     "Performance": PerformanceReport
-      //   });
+      setState(() {
+        PIFatherNoReportCard.insert(PIFatherNoReportCard.length,{
+          "PIFatherNo": SamePIFather[0]["PIFatherNo"],
+          "PIFatherNoDescription": SamePIFather[0]["PIFatherNoDescription"],
+          "triangle": triangle,
+          "circle": circle,
+          "square": square,
+          "PINoDescription": SamePIFather[0]["PINoDescription"],
+          "Performance": PerformanceReport
+        });
 
-      //   triangle = 0;
-      //   square = 0;
-      //   circle = 0;
-      // });
+        triangle = 0;
+        square = 0;
+        circle = 0;
+      });
     }
+
+
+    print("__________________Inan________${PIFatherNoReportCard}");
   }
 
   @override
@@ -284,9 +295,9 @@ class _EditCustomerInfoState extends State<TranscriptPI> {
     // getData();
     getTranscriptData();
 
-    Future.delayed(Duration(seconds: 5), () {
-      getReportCardData();
-    });
+
+   
+
 
     super.initState();
   }
