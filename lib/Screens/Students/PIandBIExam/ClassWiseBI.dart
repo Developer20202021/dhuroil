@@ -22,7 +22,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
-class ClassWisePI extends StatefulWidget {
+class ClassWiseBI extends StatefulWidget {
   final ClassName;
 
   final ExamName;
@@ -33,7 +33,7 @@ class ClassWisePI extends StatefulWidget {
 
   final StudentEmail;
 
-  const ClassWisePI(
+  const ClassWiseBI(
       {super.key,
       required this.ClassName,
       required this.ExamName,
@@ -42,10 +42,10 @@ class ClassWisePI extends StatefulWidget {
       required this.StudentEmail});
 
   @override
-  State<ClassWisePI> createState() => _EditCustomerInfoState();
+  State<ClassWiseBI> createState() => _EditCustomerInfoState();
 }
 
-class _EditCustomerInfoState extends State<ClassWisePI> {
+class _EditCustomerInfoState extends State<ClassWiseBI> {
   bool loading = false;
 
   var uuid = Uuid();
@@ -146,76 +146,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      bottomNavigationBar: width < 669
-          ? const Center(
-              child: Text(
-              "This Screen size is not Allowed for this Admin panel",
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
-            ))
-          : Padding(
-              padding: const EdgeInsets.only(left: 200, right: 200, bottom: 9),
-              child: Container(
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    IconButton(
-                      enableFeedback: false,
-                      onPressed: () {
-                        // Navigator.of(context).push(MaterialPageRoute(builder: (context) =>AdminDashboard(indexNumber: "1")));
-                      },
-                      icon: const Icon(
-                        Icons.home_sharp,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                    ),
-                    IconButton(
-                      enableFeedback: false,
-                      onPressed: () {
-                        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllNotice(indexNumber: "2")));
-                      },
-                      icon: const Icon(
-                        Icons.notifications,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                    ),
-                    IconButton(
-                      enableFeedback: false,
-                      onPressed: () {
-                        //  Navigator.of(context).push(MaterialPageRoute(builder: (context) =>MonthlyCourseFeeCollection()));
-                      },
-                      icon: const Icon(
-                        Icons.account_balance,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                    ),
-                    IconButton(
-                      enableFeedback: false,
-                      onPressed: () {
-                        //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllDepartment()));
-                      },
-                      icon: const Icon(
-                        Icons.person_outline,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+    
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
           // Navigation bar
@@ -226,12 +157,12 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.chevron_left)),
         title: Text(
-          "শ্রেণীঃ (${widget.ClassName.toString()})  রোলঃ (${widget.RollNo})   বিষয়ঃ (${widget.SubjectName})    মূল্যায়নঃ (${widget.ExamName}) নিচে উত্তর নিশ্চত করুন"
+          "শ্রেণীঃ (${widget.ClassName.toString()})  রোলঃ (${widget.RollNo})   বিষয়ঃ (${widget.SubjectName})    মূল্যায়নঃ (${widget.ExamName}) আচরণিক ট্রান্সক্রিপ্ট নিচে উত্তর নিশ্চত করুন"
               .toBijoy,
           style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
-              fontSize: 17,
+              fontSize: 13,
               fontFamily: "SiyamRupali"),
         ),
         backgroundColor: Colors.transparent,
@@ -438,7 +369,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                             )),
                                             Container(
                                                 child: Padding(
-                                              padding: EdgeInsets.only(top: 15),
+                                              padding:const EdgeInsets.only(top: 15),
                                               child: Column(
                                                 children: [
                                                   SelectedPIID ==
@@ -475,7 +406,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                             bottom: 10,
                                                             top: 14),
                                                     child: Text(
-                                                      "${AllData[i]["SquareDescription"].toString().toBijoy}",
+                                                      AllData[i]["SquareDescription"].toString().toBijoy,
                                                       style: const TextStyle(
                                                           fontSize: 12.0,
                                                           fontWeight:
@@ -489,7 +420,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                             )),
                                             Container(
                                                 child: Padding(
-                                              padding: EdgeInsets.only(top: 15),
+                                              padding: const EdgeInsets.only(top: 15),
                                               child: Column(
                                                 children: [
                                                   SelectedPIID ==
@@ -525,7 +456,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                             bottom: 10,
                                                             top: 14),
                                                     child: Text(
-                                                      "${AllData[i]["CircleDescription"].toString().toBijoy}",
+                                                      AllData[i]["CircleDescription"].toString().toBijoy,
                                                       style: const TextStyle(
                                                           fontSize: 12.0,
                                                           fontWeight:
@@ -575,7 +506,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                         const EdgeInsets.only(
                                                             bottom: 10),
                                                     child: Text(
-                                                      "${AllData[i]["TriangleDescription"].toString().toBijoy}",
+                                                      AllData[i]["TriangleDescription"].toString().toBijoy,
                                                       style: const TextStyle(
                                                           fontSize: 12.0,
                                                           fontWeight:
@@ -605,38 +536,29 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                             loading = true;
                                                           });
 
-// PI Data Create from here
+// BI Data Create from here
 
                                                           var SchoolPIData = {
-                                                            "PIID": AllData[i]
-                                                                ["PIID"],
+                                                            "BIID": AllData[i]
+                                                                ["BIID"],
                                                             "ExamName": AllData[
                                                                 i]["ExamName"],
                                                             "ClassName": AllData[
                                                                 i]["ClassName"],
-                                                            "SubjectName": AllData[
-                                                                    i]
-                                                                ["SubjectName"],
-                                                            "TeacherName": AllData[
-                                                                    i]
-                                                                ["TeacherName"],
-                                                            "PIGrandFatherNo":
+                                                            "SubjectName": widget.SubjectName.toString().toBijoy,
+
+                                                            "BIFatherNo":
                                                                 AllData[i][
-                                                                    "PIGrandFatherNo"],
-                                                            "PIGrandFatherNoDescription":
+                                                                    "BIFatherNo"],
+                                                            "BIFatherNoDescription":
                                                                 AllData[i][
-                                                                    "PIGrandFatherNoDescription"],
-                                                            "PIFatherNo": AllData[
-                                                                    i]
-                                                                ["PIFatherNo"],
-                                                            "PIFatherNoDescription":
+                                                                    "BIFatherNoDescription"],
+                                                        
+                                                            "BINo": AllData[i]
+                                                                ["BINo"],
+                                                            "BINoDescription":
                                                                 AllData[i][
-                                                                    "PIFatherNoDescription"],
-                                                            "PINo": AllData[i]
-                                                                ["PINo"],
-                                                            "PINoDescription":
-                                                                AllData[i][
-                                                                    "PINoDescription"],
+                                                                    "BINoDescription"],
                                                             "SquareDescription":
                                                                 AllData[i][
                                                                     "SquareDescription"],
@@ -651,7 +573,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                                 .toIso8601String(),
                                                             "year":
                                                                 "${DateTime.now().year}",
-                                                            "PIAnswer":
+                                                            "BIAnswer":
                                                                 SelectedPIID
                                                                     .split(
                                                                         "+")[1],
@@ -666,7 +588,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                               FirebaseFirestore
                                                                   .instance
                                                                   .collection(
-                                                                      'SchoolPIDataAnswer')
+                                                                      'SchoolBIDataAnswer')
                                                                   .doc();
 
                                                           SchoolPI.set(
@@ -692,7 +614,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                                       content:
                                                                           AwesomeSnackbarContent(
                                                                         title:
-                                                                            'PI Answer Successfull',
+                                                                            'BI Answer Successfull',
                                                                         message:
                                                                             'Hey Thank You. Good Job',
 
@@ -782,7 +704,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                                     Navigator.pop(
                                                                         context);
                                                                   },
-                                                                  child: Text(
+                                                                  child: const Text(
                                                                       'CANCEL'),
                                                                 ),
                                                                 ElevatedButton(
@@ -887,7 +809,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
 
                             Center(
                               child: Text(
-                                "শ্রেণীঃ (${widget.ClassName.toString()})  রোলঃ (${widget.RollNo})   বিষয়ঃ (${widget.SubjectName})    মূল্যায়নঃ (${widget.ExamName}) ট্রান্সক্রিপ্ট"
+                                "শ্রেণীঃ (${widget.ClassName.toString()})  রোলঃ (${widget.RollNo})   বিষয়ঃ (${widget.SubjectName})    মূল্যায়নঃ (${widget.ExamName}) আচরণিক ট্রান্সক্রিপ্ট"
                                     .toBijoy,
                                 style: const TextStyle(
                                     color: Colors.black,
@@ -920,7 +842,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                               child: const Padding(
                                             padding: EdgeInsets.all(8.0),
                                             child: Text(
-                                              "PI No",
+                                              "BI No",
                                               style: TextStyle(
                                                   fontSize: 17.0,
                                                   fontWeight: FontWeight.bold,
@@ -931,7 +853,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                               child: Padding(
                                             padding: EdgeInsets.only(top: 25),
                                             child: Text(
-                                                "পারদর্শিতার নির্দেশক".toBijoy,
+                                                "আচরণিক নির্দেশক".toBijoy,
                                                 style: const TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.bold,
@@ -953,7 +875,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                       const EdgeInsets.only(
                                                           bottom: 10, top: 14),
                                                   child: Text(
-                                                      "পারদর্শিতার মাত্রা"
+                                                      "আচরণিক মাত্রা"
                                                           .toBijoy,
                                                       style: const TextStyle(
                                                           fontSize: 14,
@@ -981,7 +903,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                       const EdgeInsets.only(
                                                           bottom: 10, top: 14),
                                                   child: Text(
-                                                      "পারদর্শিতার মাত্রা"
+                                                      "আচরণিক মাত্রা"
                                                           .toBijoy,
                                                       style: const TextStyle(
                                                           fontSize: 14,
@@ -1009,7 +931,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                       const EdgeInsets.only(
                                                           bottom: 10),
                                                   child: Text(
-                                                      "পারদর্শিতার মাত্রা"
+                                                      "আচরণিক মাত্রা"
                                                           .toBijoy,
                                                       style: const TextStyle(
                                                           fontSize: 14,
@@ -1047,7 +969,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                "${AllStudentPIData[i]["PINo"].toString().toBijoy}",
+                                                AllStudentPIData[i]["BINo"].toString().toBijoy,
                                                 style: const TextStyle(
                                                     fontSize: 12.0,
                                                     fontWeight: FontWeight.bold,
@@ -1059,7 +981,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                "${AllStudentPIData[i]["PINoDescription"].toString().toBijoy}",
+                                                AllStudentPIData[i]["BINoDescription"].toString().toBijoy,
                                                 style: const TextStyle(
                                                     fontSize: 12.0,
                                                     fontWeight: FontWeight.bold,
@@ -1074,7 +996,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
 // AllData[i]["PIID"]
 
                                                   AllStudentPIData[i]
-                                                              ["PIAnswer"] ==
+                                                              ["BIAnswer"] ==
                                                           "0"
                                                       ? Image.asset(
                                                           "square_fill.png",
@@ -1093,7 +1015,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                             bottom: 10,
                                                             top: 14),
                                                     child: Text(
-                                                      "${AllStudentPIData[i]["SquareDescription"].toString().toBijoy}",
+                                                      AllStudentPIData[i]["SquareDescription"].toString().toBijoy,
                                                       style: const TextStyle(
                                                           fontSize: 12.0,
                                                           fontWeight:
@@ -1111,7 +1033,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                               child: Column(
                                                 children: [
                                                   AllStudentPIData[i]
-                                                              ["PIAnswer"] ==
+                                                              ["BIAnswer"] ==
                                                           "1"
                                                       ? Image.asset(
                                                           "circle_fill.png",
@@ -1129,7 +1051,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                             bottom: 10,
                                                             top: 14),
                                                     child: Text(
-                                                      "${AllStudentPIData[i]["CircleDescription"].toString().toBijoy}",
+                                                      AllStudentPIData[i]["CircleDescription"].toString().toBijoy,
                                                       style: const TextStyle(
                                                           fontSize: 12.0,
                                                           fontWeight:
@@ -1147,7 +1069,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                               child: Column(
                                                 children: [
                                                   AllStudentPIData[i]
-                                                              ["PIAnswer"] ==
+                                                              ["BIAnswer"] ==
                                                           "2"
                                                       ? Image.asset(
                                                           "triangle_fill.png",
@@ -1165,7 +1087,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                             bottom: 10,
                                                             top: 14),
                                                     child: Text(
-                                                      "${AllStudentPIData[i]["TriangleDescription"].toString().toBijoy}",
+                                                      AllStudentPIData[i]["TriangleDescription"].toString().toBijoy,
                                                       style: const TextStyle(
                                                           fontSize: 12.0,
                                                           fontWeight:
@@ -1201,7 +1123,7 @@ class _EditCustomerInfoState extends State<ClassWisePI> {
                                                                     Navigator.pop(
                                                                         context);
                                                                   },
-                                                                  child: Text(
+                                                                  child: const Text(
                                                                       'CANCEL'),
                                                                 ),
                                                                 ElevatedButton(

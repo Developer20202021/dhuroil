@@ -7,7 +7,9 @@ import 'package:dhuroil/Screens/Students/EditStudent.dart';
 import 'package:dhuroil/Screens/Students/ExamFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/MonthlyFeeHistory.dart';
 import 'package:dhuroil/Screens/Students/OtherFeeHistory.dart';
+import 'package:dhuroil/Screens/Students/PIandBIExam/ClassWiseBI.dart';
 import 'package:dhuroil/Screens/Students/PIandBIExam/ClassWisePI.dart';
+import 'package:dhuroil/Screens/Students/PIandBIExam/TranscriptBI.dart';
 import 'package:dhuroil/Screens/Students/PIandBIExam/TranscriptPI.dart';
 import 'package:dhuroil/Screens/Students/Pay/AllPay.dart';
 import 'package:dhuroil/Screens/Students/PerClassRoutineView.dart';
@@ -2433,17 +2435,6 @@ class _AllStudentsState extends State<AllStudents> {
 
 
                 PopupMenuItem(
-                  child: Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: ListTile(
-                        trailing: Icon(Icons.arrow_forward),
-                        title: Text(
-                            "ফলাফল তৈরীর জন্য চূড়ান্ত বিআই প্রস্তুত করুন",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "SiyamRupali"))),
-                  ),
                   value: '/about',
                   onTap: () async {
                     showDialog(
@@ -2773,6 +2764,17 @@ class _AllStudentsState extends State<AllStudents> {
                       },
                     );
                   },
+                  child: const Padding(
+                    padding: EdgeInsets.all(18.0),
+                    child: ListTile(
+                        trailing: Icon(Icons.arrow_forward),
+                        title: Text(
+                            "ফলাফল তৈরীর জন্য চূড়ান্ত বিআই প্রস্তুত করুন",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "SiyamRupali"))),
+                  ),
                 ),
 
 
@@ -2926,15 +2928,15 @@ class _AllStudentsState extends State<AllStudents> {
                                                                 index]
                                                             ["StudentEmail"])));
                                       },
-                                      child: Text(
-                                        "Profile",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
-                                      ),
                                       style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStatePropertyAll<Color>(
                                                 ColorName().appColor),
+                                      ),
+                                      child: const Text(
+                                        "Profile",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 12),
                                       ),
                                     ),
                                   ),
@@ -2988,7 +2990,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                                           fontFamily:
                                                                               "SiyamRupali"))
                                                                   : Text(
-                                                                      "${SelectedExam.toBijoy}",
+                                                                      SelectedExam.toBijoy,
                                                                       style: const TextStyle(
                                                                           fontSize:
                                                                               14,
@@ -3047,7 +3049,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                                           fontFamily:
                                                                               "SiyamRupali"))
                                                                   : Text(
-                                                                      "${SelectedSubject.toBijoy}",
+                                                                      SelectedSubject.toBijoy,
                                                                       style: const TextStyle(
                                                                           fontSize:
                                                                               14,
@@ -3173,11 +3175,23 @@ class _AllStudentsState extends State<AllStudents> {
                                                         ElevatedButton(
                                                           child: Text("Go"),
                                                           onPressed: () {
-                                                            Navigator.of(context).push(
+
+
+                                                         SelectedPIAndBI=="PI"?  Navigator.of(context).push(
                                                                 MaterialPageRoute(
                                                                     builder:
                                                                         (context) =>
                                                                             ClassWisePI(
+                                                                              ClassName: widget.ClassName,
+                                                                              ExamName: SelectedExam,
+                                                                              SubjectName: SelectedSubject,
+                                                                              RollNo: AllData[index]["RollNo"],
+                                                                              StudentEmail: AllData[index]["StudentEmail"],
+                                                                            ))):Navigator.of(context).push(
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            ClassWiseBI(
                                                                               ClassName: widget.ClassName,
                                                                               ExamName: SelectedExam,
                                                                               SubjectName: SelectedSubject,
@@ -3440,6 +3454,138 @@ class _AllStudentsState extends State<AllStudents> {
                                                     fontWeight: FontWeight.bold,
                                                     fontFamily: "SiyamRupali")),
                                           ),
+
+
+
+                                      
+
+
+                                       PopupMenuItem(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  String SelectedExam = "";
+
+                                                  String SelectedSubject = "";
+
+                                                  String SelectedPIAndBI = "";
+                                                  
+                                                  bool? checkedValueOne = false;
+
+                                                  bool? checkedValueTwo = false;
+
+                                                  bool? checkedValueThree = false;
+
+                                                  bool? checkedValueFour = false;
+
+                                                  return StatefulBuilder(
+                                                      builder:
+                                                          (context, setState) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          "আচরণিক ট্রান্সক্রিপ্ট তৈরীর জন্য যে যে মূল্যায়ন নিয়ে তৈরী করতে চান তা অবশ্যই নির্বাচন করবেন।"
+                                                              .toBijoy,
+                                                          style: const TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontFamily:
+                                                                  "SiyamRupali")),
+                                                      content:
+                                                          SingleChildScrollView(
+                                                        child: Column(
+                                                          children: [
+
+                                    
+                                   
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "ষাণ্মাসিক সামষ্টিক মূল্যায়ন".toBijoy,
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueTwo,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueTwo = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "বাৎসরিক সামষ্টিক মূল্যায়ন".toBijoy,
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueFour,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueFour = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                                      
+                                                            const SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            
+                                                    
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          child: Text("Cancel"),
+                                                        ),
+                                                        ElevatedButton(
+                                                          child: Text("Go"),
+                                                          onPressed: () {
+                                                            Navigator.of(context).push(
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            TranscriptBI(
+                                                                              ClassName: widget.ClassName,
+                                                                              RollNo: AllData[index]["RollNo"],
+                                                                              StudentEmail: AllData[index]["StudentEmail"], 
+                                                                              SelectedExamName:[                                                     checkedValueTwo,
+                                                                              checkedValueFour],
+                                                                            )));
+
+                                 
+
+
+
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  });
+                                                },
+                                              );
+                                            },
+                                            child: Text("আচরণিক ট্রান্সক্রিপ্ট".toBijoy,
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: "SiyamRupali")),
+                                          ),
+
 
 
 
