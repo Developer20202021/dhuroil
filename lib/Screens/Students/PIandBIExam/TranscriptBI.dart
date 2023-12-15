@@ -176,27 +176,27 @@ class _EditCustomerInfoState extends State<TranscriptBI> {
 
 
 
-    if (SquareCount>CircleCount && CircleCount>TriangleCount) {
+    // if (SquareCount>CircleCount && CircleCount>TriangleCount) {
 
-      BigAnswer = 0;
+    //   BigAnswer = 0;
       
-    } 
+    // } 
     
-    else if(CircleCount>SquareCount && SquareCount>TriangleCount){
+    // else if(CircleCount>SquareCount && SquareCount>TriangleCount){
 
-      BigAnswer = 1;
+    //   BigAnswer = 1;
       
-    }
+    // }
 
-    else {
+    // else {
 
-      BigAnswer = 2;
+    //   BigAnswer = 2;
       
-    }
+    // }
 
 
 
-    List<int> threeValue =[TriangleCount, CircleCount, SquareCount];
+    List<int> threeValue =[SquareCount, CircleCount, TriangleCount];
 
 
 
@@ -231,42 +231,19 @@ class _EditCustomerInfoState extends State<TranscriptBI> {
       CircleCount =0;
       TriangleCount = 0;
       SquareCount =0;
-      BigAnswer =0;
+      // BigAnswer =0;
     });
 
 
-
-
-
-
-
-
-
+      
+    }
 
 
       
     }
 
 
-
-
-
-
-
-      
-    }
-
-
-
-
-  
-
-
-
-
-   
-
-    print("___________BILast______________${LastBIData}");
+    // print("___________BILast______________${LastBIData}");
 
 
     setState(() {
@@ -274,11 +251,125 @@ class _EditCustomerInfoState extends State<TranscriptBI> {
     });
 
 
+getBIReportCard();
 
 
   }
 
 
+
+
+
+
+List BIReportCardData =[];
+
+
+
+void getBIReportCard(){
+
+
+  for (var i = 0; i < LastBIData.length; i++) {
+
+
+
+    List SameBIFtaherNoData =[];
+
+    List SameBINoAnswer =[];
+
+    int SquareCount = 0;
+
+    int CircleCount = 0;
+
+    int TriangleCount = 0;
+
+
+    for (var j = 0; j < LastBIData.length; j++) {
+
+
+      if (LastBIData[i]["BIFatherNo"]==LastBIData[j]["BIFatherNo"]) {
+
+        SameBIFtaherNoData.add(LastBIData[j]);
+        SameBINoAnswer.add(LastBIData[j]["BIAnswer"]);
+        
+      } else {
+
+        continue;
+        
+      }
+      
+    }
+
+
+    for (int x = 0; x < SameBINoAnswer.length; x++) {
+
+      if (SameBINoAnswer[x]==1) {
+
+        CircleCount = CircleCount + 1;
+        
+      } 
+      
+      else if (SameBINoAnswer[x]==2){
+
+        TriangleCount = TriangleCount + 1;
+        
+      }
+
+      else if (SameBINoAnswer[x]==0){
+
+        SquareCount = SquareCount + 1;
+        
+      }
+      else{
+        continue;
+      }
+      
+    }
+
+
+    double BIReport = ((TriangleCount - SquareCount)/SameBIFtaherNoData.length)*100;
+
+    // print("______Count________${TriangleCount}, ${SquareCount}, ${CircleCount} ${SameBINoAnswer}");
+
+
+  setState(() {
+        BIReportCardData.add({
+
+        "BINo":SameBIFtaherNoData[0]["BINo"],
+        "BINoDescription":SameBIFtaherNoData[0]["BINoDescription"],
+        "BIFatherNo":SameBIFtaherNoData[0]["BIFatherNo"],
+        "BIFatherNoDescription":SameBIFtaherNoData[0]["BIFatherNoDescription"],
+        "Performance":BIReport
+
+
+    });
+  });
+
+
+
+    
+  }
+
+
+
+// print("_____ReportCard_______${BIReportCardData}");
+
+
+  // convert each item to a string by using JSON encoding
+  final jsonList = BIReportCardData.map((item) => jsonEncode(item)).toList();
+  
+  // using toSet - toList strategy
+  final uniqueJsonList = jsonList.toSet().toList();
+  
+  // convert each item back to the original form using JSON decoding
+  final result = uniqueJsonList.map((item) => jsonDecode(item)).toList();
+
+  setState(() {
+    BIReportCardData = result;
+  });
+  
+  // print("______unique__${result.runtimeType}"); 
+
+}
 
 
 
@@ -368,6 +459,804 @@ class _EditCustomerInfoState extends State<TranscriptBI> {
                             SizedBox(
                               height: 20,
                             ),
+
+
+                            SingleChildScrollView(
+                              child: GridView.count(
+                              primary: true,
+                              shrinkWrap: true,
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 10.0,
+                              mainAxisSpacing: 40.0,
+                              padding: const EdgeInsets.all(10.0),
+                              children:  [
+
+                              
+                              for(int i =0; i<BIReportCardData.length; i++)
+
+                              Container(
+                                    height:70,
+                                    width:300,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: Column(
+                                      children: [
+
+                                  Container(
+                                    height:40,
+                                    width:700,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: Center(
+                                      child: Text("${BIReportCardData[i]["BIFatherNoDescription"]}", style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17,
+                                        fontFamily: "SiyamRupali", overflow: TextOverflow.ellipsis),),
+                                    ),  
+                                ),
+
+                                Container(
+                                    height:100,
+                                    width:700,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: Center(
+                                      child: Text("${BIReportCardData[i]["BINoDescription"]} ", style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17,
+                                        fontFamily: "SiyamRupali", overflow: TextOverflow.ellipsis),),
+                                    ),  
+                                ),
+
+                              SizedBox(height: 20,),
+
+
+
+                           BIReportCardData[i]["Performance"]==100 ? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+
+
+
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                            BIReportCardData[i]["Performance"]>=50 &&  BIReportCardData[i]["Performance"]<100 ? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                           BIReportCardData[i]["Performance"]>=25 &&  BIReportCardData[i]["Performance"]<50? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                           BIReportCardData[i]["Performance"]>=0 &&  BIReportCardData[i]["Performance"]<25? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                           BIReportCardData[i]["Performance"]>=-25 &&  BIReportCardData[i]["Performance"]<0? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                     
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                     
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                           BIReportCardData[i]["Performance"]>=-50 &&  BIReportCardData[i]["Performance"]<-25? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                    
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                    
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+                                SizedBox(height: 20,),
+
+
+
+                           BIReportCardData[i]["Performance"]>=-100 &&  BIReportCardData[i]["Performance"]<-50? Row(
+                                  children: [
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                     
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                   
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                   
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                     
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                    
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                      
+                                    ),),
+
+
+                                    Container(
+                                      height:50,
+                                      width:50,
+                                      decoration: BoxDecoration(
+                                      
+                                      border: Border.all(
+                                          color: Colors.black, //color of border
+                                          width: 2, //width of border
+                                        ),
+                                     
+                                    ),),
+
+
+                                  ],
+                                ):Text(""),
+
+
+
+
+
+
+
+
+
+                                      ],
+                                    ),  
+                                )
+
+                                  
+
+
+
+                                
+                              ],
+                            ),
+                            ),
+
+
+
+
+
+
+
+
+                            SizedBox(height: 50,),
 
 
                            

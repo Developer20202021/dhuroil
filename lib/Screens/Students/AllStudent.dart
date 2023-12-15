@@ -2536,6 +2536,7 @@ class _AllStudentsState extends State<AllStudents> {
                                       ];
 
                                       List AllPINo = [];
+                                      List AllFatherPINo =[];
 
                                       Future closeChurantoBI(
                                           List ExamName,
@@ -2631,6 +2632,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                 "No ${AllExamName[ExamNameIndex]}");
                                           } else {
                                             setState(() {
+
                                               SchoolPIData =
                                                   SchoolPIDataSnapshot.docs
                                                       .map((doc) => doc.data())
@@ -2641,10 +2643,14 @@ class _AllStudentsState extends State<AllStudents> {
                                                   i++) {
                                                 AllPINo.insert(AllPINo.length,
                                                     SchoolPIData[i]["BINo"]);
+                                                
+                                                AllFatherPINo.insert(AllFatherPINo.length,SchoolPIData[i]["BIFatherNo"]);
                                               }
 
                                               List nonMachedPINo =
                                                   AllPINo.toSet().toList();
+
+                                              List nonMachedBIFatherNo = AllFatherPINo.toSet().toList();
 
                                               var ChurantoSchoolPIData = {
                                                 "ChurantoBIID": PIID,
@@ -2653,6 +2659,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                 "ClassName": widget.ClassName,
 
                                                 "BINo": nonMachedPINo,
+                                                "BIFatherNo":nonMachedBIFatherNo,
                                                 "DateTime": DateTime.now()
                                                     .toIso8601String(),
                                                 "year": "${DateTime.now().year}"
@@ -3261,7 +3268,7 @@ class _AllStudentsState extends State<AllStudents> {
                                       title: Text(
                                           "ষাণ্মাসিক শিখনকালীন মূল্যায়ন"
                                               .toBijoy,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "SiyamRupali")),
@@ -3280,7 +3287,7 @@ class _AllStudentsState extends State<AllStudents> {
                                     CheckboxListTile(
                                       title: Text(
                                           "ষাণ্মাসিক সামষ্টিক মূল্যায়ন".toBijoy,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: "SiyamRupali")),
