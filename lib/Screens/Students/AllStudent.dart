@@ -69,6 +69,18 @@ class _AllStudentsState extends State<AllStudents> {
 
   TextEditingController TeacherNameController = TextEditingController();
 
+
+  TextEditingController BINoTextFieldDescriptionController = TextEditingController();
+
+  TextEditingController BINoTextFieldController = TextEditingController();
+
+  TextEditingController BIFatherNoTextFieldDescriptionController = TextEditingController();
+
+  TextEditingController BIFatherNoTextFieldController = TextEditingController();
+
+
+
+
   var uuid = Uuid();
 
   bool loading = false;
@@ -1498,7 +1510,7 @@ class _AllStudentsState extends State<AllStudents> {
                             "আচরণিক নির্দেশক বর্ণনা";
 
                         String AlertTitle =
-                            "আপনি নিচে মূল্যায়নের নাম নির্বাচন করবেন";
+                            "আপনি আচরণিক নির্দেশক তৈরী করবেন";
 
                         String ExamNameTitle = "মূল্যায়নের নাম নির্বাচন করবেন";
 
@@ -1593,7 +1605,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                     255, 66, 125, 145)),
                                           ),
                                         ),
-                                        controller: PIGrandFatherNoController,
+                                        controller: BIFatherNoTextFieldController,
                                       ),
                                     ),
                                     const SizedBox(
@@ -1633,12 +1645,14 @@ class _AllStudentsState extends State<AllStudents> {
                                           ),
                                         ),
                                         controller:
-                                            PIGrandFatherNoDescriptionController,
+                                            BIFatherNoTextFieldDescriptionController,
                                       ),
                                     ),
                                     const SizedBox(
                                       height: 20,
                                     ),
+                                   
+
                                    
                                  
                                     Container(
@@ -1668,7 +1682,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                     255, 66, 125, 145)),
                                           ),
                                         ),
-                                        controller: PINoController,
+                                        controller: BINoTextFieldController,
                                       ),
                                     ),
                                     const SizedBox(
@@ -1708,7 +1722,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                     255, 66, 125, 145)),
                                           ),
                                         ),
-                                        controller: PINoDescriptionController,
+                                        controller: BINoTextFieldDescriptionController,
                                       ),
                                     ),
                                     const SizedBox(
@@ -1846,34 +1860,24 @@ class _AllStudentsState extends State<AllStudents> {
                                       loading = true;
                                     });
 
-// PI Data Create from here
+// BI Data Create from here
 
                                     var SchoolPIData = {
                                       "BIID": PIID,
                                       "ExamName": SelectedExam.toBijoy,
                                       "ClassName": widget.ClassName,
-                                      
-                                  
-                                      "PIGrandFatherNo":
-                                          PIGrandFatherNoController.text
-                                              .trim()
-                                              .toBijoy,
-                                      "PIGrandFatherNoDescription":
-                                          PIGrandFatherNoDescriptionController
-                                              .text
-                                              .trim()
-                                              .toBijoy,
-                                      "PIFatherNo": PIFatherNoController.text
+
+                                      "BIFatherNo": BIFatherNoTextFieldController.text
                                           .trim()
                                           .toBijoy,
-                                      "PIFatherNoDescription":
-                                          PIFatherNoDescriptionController.text
+                                      "BIFatherNoDescription":
+                                          BIFatherNoTextFieldDescriptionController.text
                                               .trim()
                                               .toBijoy,
-                                      "PINo":
-                                          PINoController.text.trim().toBijoy,
-                                      "PINoDescription":
-                                          PINoDescriptionController.text
+                                      "BINo":
+                                          BINoTextFieldController.text.trim().toBijoy,
+                                      "BINoDescription":
+                                          BINoTextFieldDescriptionController.text
                                               .trim()
                                               .toBijoy,
                                       "SquareDescription":
@@ -1907,7 +1911,7 @@ class _AllStudentsState extends State<AllStudents> {
                                                     Colors.transparent,
                                                 content: AwesomeSnackbarContent(
                                                   title:
-                                                      'PI Created Successfull',
+                                                      'BI Created Successfull',
                                                   message:
                                                       'Hey Thank You. Good Job',
 
@@ -1963,22 +1967,6 @@ class _AllStudentsState extends State<AllStudents> {
                     );
                   },
                 ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2432,6 +2420,382 @@ class _AllStudentsState extends State<AllStudents> {
                     );
                   },
                 ),
+
+
+
+
+
+
+
+
+
+
+
+
+                PopupMenuItem(
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: ListTile(
+                        trailing: Icon(Icons.arrow_forward),
+                        title: Text(
+                            "ফলাফল তৈরীর জন্য চূড়ান্ত বিআই প্রস্তুত করুন",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "SiyamRupali"))),
+                  ),
+                  value: '/about',
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        String SelectedSubject = "";
+
+                        String SubjectNameTitle = "বিষয় নির্বাচন করুন";
+
+                        bool? checkedValueOne = false;
+
+                        bool? checkedValueTwo = false;
+
+                        bool? checkedValueThree = false;
+
+                        bool? checkedValueFour = false;
+
+                        return StatefulBuilder(
+                          builder: (context, setState) {
+                            return AlertDialog(
+                              title: Text(
+                                  "চূড়ান্ত ফলাফল প্রস্তুতির জন্য বিষয় নির্বাচন করবেন এবং বছর নির্বাচন করবেন।"
+                                      .toBijoy,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "SiyamRupali")),
+                              content: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "ষাণ্মাসিক সামষ্টিক মূল্যায়ন".toBijoy,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueTwo,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueTwo = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                  
+                                    
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    CheckboxListTile(
+                                      title: Text(
+                                          "বাৎসরিক সামষ্টিক মূল্যায়ন".toBijoy,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "SiyamRupali")),
+                                      value: checkedValueFour,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          checkedValueFour = newValue;
+                                        });
+                                      },
+                                      controlAffinity: ListTileControlAffinity
+                                          .leading, //  <-- leading Checkbox
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("Cancel"),
+                                ),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      setState(() {
+                                        loading = true;
+                                      });
+
+                                      List SelectedExamNameList = [
+                                      
+                                        checkedValueTwo,
+                                       
+                                        checkedValueFour
+                                      ];
+
+                                      List AllExamName = [
+                                        
+                                        'ষাণ্মাসিক সামষ্টিক মূল্যায়ন',
+                                        
+                                        "বাৎসরিক সামষ্টিক মূল্যায়ন"
+                                      ];
+
+                                      List AllPINo = [];
+
+                                      Future closeChurantoBI(
+                                          List ExamName,
+                                         
+                                          String year) async {
+                                        // Get docs from collection reference
+                                        CollectionReference
+                                            _ChurantoPICollectionRef =
+                                            FirebaseFirestore.instance
+                                                .collection(
+                                                    'ChurantoSchoolBIData');
+
+                                        Query _ChurantoPICollectionRefCount =
+                                            _ChurantoPICollectionRef.where(
+                                                    "ClassName",
+                                                    isEqualTo: widget.ClassName)
+                                            
+                                                .where("ExamName",
+                                                    isEqualTo: ExamName)
+                                                .where("year", isEqualTo: year);
+
+                                        QuerySnapshot ChurantoPISnapshot =
+                                            await _ChurantoPICollectionRefCount
+                                                .get();
+
+                                        List AllChurantoPI = ChurantoPISnapshot
+                                            .docs
+                                            .map((doc) => doc.data())
+                                            .toList();
+
+                                        if (AllChurantoPI.isEmpty) {
+
+
+                                        } else {
+                                          CollectionReference collectionRef =
+                                              FirebaseFirestore.instance
+                                                  .collection(
+                                                      'ChurantoSchoolBIData');
+                                          collectionRef
+                                              .doc(AllChurantoPI[0]["ChurantoBIID"])
+                                              .delete()
+                                              .then(
+                                                (doc) => setState(() {print("Delete Successfull");}),
+                                                onError: (e) => setState(() {}),
+                                              );
+                                        }
+                                      }
+
+                                      // close same churanto PI Function
+
+                                      closeChurantoBI(
+                                          SelectedExamNameList,
+                                          
+                                          "${DateTime.now().year}");
+
+                                      for (int ExamNameIndex = 0;
+                                          ExamNameIndex <
+                                              SelectedExamNameList.length;
+                                          ExamNameIndex++) {
+                                        if (SelectedExamNameList[
+                                            ExamNameIndex]) {
+                                          // Get docs from collection reference
+                                          CollectionReference SchoolPIDataRef =
+                                              FirebaseFirestore.instance
+                                                  .collection('SchoolBIData');
+
+                                          Query SchoolPIDataRefCount =
+                                              SchoolPIDataRef.where("ClassName",
+                                                      isEqualTo:
+                                                          widget.ClassName)
+                                                 
+                                                  .where("ExamName",
+                                                      isEqualTo: AllExamName[
+                                                              ExamNameIndex]
+                                                          .toString()
+                                                          .toBijoy);
+
+                                          QuerySnapshot SchoolPIDataSnapshot =
+                                              await SchoolPIDataRefCount.get();
+
+                                          List SchoolPIData =
+                                              SchoolPIDataSnapshot.docs
+                                                  .map((doc) => doc.data())
+                                                  .toList();
+
+                                          if (SchoolPIData.length == 0) {
+                                            // setState(() {
+                                            //   DataLoad = "0";
+                                            //   loading = false;
+                                            // });
+
+                                            print(
+                                                "No ${AllExamName[ExamNameIndex]}");
+                                          } else {
+                                            setState(() {
+                                              SchoolPIData =
+                                                  SchoolPIDataSnapshot.docs
+                                                      .map((doc) => doc.data())
+                                                      .toList();
+
+                                              for (int i = 0;
+                                                  i < SchoolPIData.length;
+                                                  i++) {
+                                                AllPINo.insert(AllPINo.length,
+                                                    SchoolPIData[i]["BINo"]);
+                                              }
+
+                                              List nonMachedPINo =
+                                                  AllPINo.toSet().toList();
+
+                                              var ChurantoSchoolPIData = {
+                                                "ChurantoBIID": PIID,
+                                                "ExamName":
+                                                    SelectedExamNameList,
+                                                "ClassName": widget.ClassName,
+
+                                                "BINo": nonMachedPINo,
+                                                "DateTime": DateTime.now()
+                                                    .toIso8601String(),
+                                                "year": "${DateTime.now().year}"
+                                              };
+
+                                              final SchoolPI = FirebaseFirestore
+                                                  .instance
+                                                  .collection(
+                                                      'ChurantoSchoolBIData')
+                                                  .doc(PIID);
+
+                                              SchoolPI.set(ChurantoSchoolPIData)
+                                                  .then((value) => setState(() {
+                                                        getData();
+
+                                                        Navigator.pop(context);
+
+                                                        final snackBar =
+                                                            SnackBar(
+                                                          elevation: 0,
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          content:
+                                                              AwesomeSnackbarContent(
+                                                            title:
+                                                                'BI  Successfull',
+                                                            message:
+                                                                'Hey Thank You. Good Job',
+
+                                                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                            contentType:
+                                                                ContentType
+                                                                    .success,
+                                                          ),
+                                                        );
+
+                                                        ScaffoldMessenger.of(
+                                                            context)
+                                                          ..hideCurrentSnackBar()
+                                                          ..showSnackBar(
+                                                              snackBar);
+
+                                                        setState(() {
+                                                          loading = false;
+                                                        });
+                                                      }))
+                                                  .onError((error,
+                                                          stackTrace) =>
+                                                      setState(() {
+                                                        final snackBar =
+                                                            SnackBar(
+                                                          /// need to set following properties for best effect of awesome_snackbar_content
+                                                          elevation: 0,
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          content:
+                                                              AwesomeSnackbarContent(
+                                                            title:
+                                                                'Something Wrong!!!!',
+                                                            message:
+                                                                'Try again later...',
+
+                                                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                                            contentType:
+                                                                ContentType
+                                                                    .failure,
+                                                          ),
+                                                        );
+
+                                                        ScaffoldMessenger.of(
+                                                            context)
+                                                          ..hideCurrentSnackBar()
+                                                          ..showSnackBar(
+                                                              snackBar);
+
+                                                        setState(() {
+                                                          loading = false;
+                                                        });
+                                                      }));
+
+                                            });
+                                          }
+                                        } else {
+                                          continue;
+                                        }
+
+                                        // setState(() {
+                                        //   loading = false;
+                                        // });
+                                      }
+                                    },
+                                    child: Text("নিশ্চিত করবেন".toBijoy,
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "SiyamRupali"))),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               ];
             })
           ]),
